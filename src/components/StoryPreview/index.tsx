@@ -12,14 +12,35 @@ import type {
 } from '../StoryDetailItem';
 
 export type StoryPreviewProps = {
+  /**
+   * An array of stories to be rendered
+   */
   stories: Story[];
+  /**
+   * Styles for FlatList mini stories container
+   */
   style?: ViewStyle;
+  /**
+   * Callback fired when drag to next item
+   */
   onStoryDetailItemNext?: (story: Story, idx: number) => any;
+  /**
+   * Callback fired when on back button press
+   */
   onStoryDetailBackPress?: (story: Story, idx: number) => any;
+  /**
+   * Callback fired when performed click on preview
+   */
   onStoryPreviewItemPress?: (story: Story, idx: number) => any;
+  /**
+   * Component for Header in Story Detail Item
+   */
   StoryDetailItemHeader?: (
     props?: StoryDetailHeaderProps
   ) => React.ReactElement | null;
+  /**
+   * Component for Footer in Story Detail Item
+   */
   StoryDetailItemFooter?: (
     props?: StoryDetailFooterProps
   ) => React.ReactElement | null;
