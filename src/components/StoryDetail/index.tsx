@@ -1,26 +1,38 @@
-import React, { useEffect, useRef } from 'react';
+import { Dimensions } from 'react-native';
 import { Overlay } from 'react-native-elements';
+import React, { useEffect, useRef } from 'react';
 import Carousel from 'react-native-snap-carousel';
 
-import { StoryDetailItem } from '../StoryDetailItem';
+import {
+  StoryDetailFooterProps,
+  StoryDetailHeaderProps,
+  StoryDetailItem,
+} from '../StoryDetailItem';
 
-import { useStoryDetail } from './hook';
 import { styles } from './styles';
 
 export type Story = {
-  id?: string;
-  video?: string;
-  viewed?: boolean;
+  id: string | number | any;
+  video: string;
   preview: string;
+  viewed: boolean;
 };
 
 export type StoreDetailProps = {
   initial: number;
   stories: Story[];
-  onBackPress: any;
   isVisible: boolean;
-  onMoveToNextStory: any;
+  onBackPress: (idx: number) => any;
+  onMoveToNextStory: (idx: number) => any;
+  StoryDetailItemHeader?: (
+    props?: StoryDetailHeaderProps
+  ) => React.ReactElement | null;
+  StoryDetailItemFooter?: (
+    props?: StoryDetailFooterProps
+  ) => React.ReactElement | null;
 };
+
+const { width } = Dimensions.get('screen');
 
 export const StoryDetail: React.FC<StoreDetailProps> = ({
   initial,
@@ -28,10 +40,10 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
   isVisible,
   onBackPress,
   onMoveToNextStory,
+  StoryDetailItemFooter,
+  StoryDetailItemHeader,
 }) => {
   const carouselRef: any = useRef(null);
-
-  const { width } = useStoryDetail(carouselRef);
 
   useEffect(() => {
     let timeoutId: any = null;
@@ -54,8 +66,8 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
     <Overlay
       fullScreen
       isVisible={isVisible}
-      onBackdropPress={onBackPress}
       overlayStyle={styles.overlayContainer}
+      onBackdropPress={() => onBackPress(initial)}
     >
       <Carousel
         data={stories}
@@ -65,7 +77,13 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
         initialScrollIndex={initial}
         onSnapToItem={(idx) => onMoveToNextStory(idx)}
         renderItem={({ item: story, index: idx }) => (
-          <StoryDetailItem {...story} isCurrentStory={initial === idx} />
+          <StoryDetailItem
+            {...story}
+            isCurrentStory={initial === idx}
+            onBackPress={() => onBackPress(idx)}
+            StoryDetailItemFooter={StoryDetailItemFooter}
+            StoryDetailItemHeader={StoryDetailItemHeader}
+          />
         )}
       />
     </Overlay>

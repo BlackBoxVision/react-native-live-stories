@@ -5,8 +5,6 @@ import { ActivityIndicator } from 'react-native';
 import { styles } from './styles';
 
 export type StoryPreviewItemProps = {
-  id: string;
-  size: string;
   onPress: any;
   preview: string;
   viewed: boolean;
@@ -26,7 +24,6 @@ const colors = {
 };
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
-  id,
   viewed,
   onPress,
   preview,
@@ -41,11 +38,7 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
         ...styles.container,
         borderColor: viewed ? colors.storyBorder : colors.red,
       }}
-      onPress={() => {
-        if (typeof onPress === 'function') {
-          onPress(id);
-        }
-      }}
+      onPress={() => onPress && onPress()}
       renderPlaceholderContent={<ActivityIndicator color={colors.white} />}
       placeholderStyle={styles.placeholder}
       rounded
