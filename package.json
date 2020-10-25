@@ -49,6 +49,7 @@
     "@types/jest": "^26.0.0",
     "@types/react": "^16.9.19",
     "@types/react-native": "0.62.13",
+    "@types/react-native-snap-carousel": "^3.8.2",
     "commitlint": "^8.3.5",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -61,7 +62,7 @@
     "react-native": "0.62.2",
     "react-native-elements": "^2.3.2",
     "react-native-reanimated": "^1.13.1",
-    "react-native-video": "^5.1.0-alpha8",
+    "react-native-video": "^5.0.2",
     "release-it": "^13.5.8",
     "typescript": "^3.8.3"
   },
@@ -146,6 +147,8 @@
     ]
   },
   "dependencies": {
-    "react-native-vector-icons": "^7.1.0"
+    "react-native-snap-carousel": "^3.9.1",
+    "react-native-vector-icons": "^7.1.0",
+    "rn-fetch-blob": "^0.12.0"
   }
 }

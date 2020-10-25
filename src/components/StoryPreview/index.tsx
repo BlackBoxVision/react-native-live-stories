@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 
-import { Story, StoryDetail } from '../StoryDetail';
 import { StoryPreviewItem } from '../StoryPreviewItem';
+import { Story, StoryDetail } from '../StoryDetail';
 
 import { styles } from './styles';
 
@@ -11,32 +11,41 @@ export type StoryPreviewProps = {
 };
 
 export const StoryPreview = ({ stories }) => {
-  const [showDetail, setShowDetail] = useState(false);
-
-  const onPress = async () => {
-    // TODO: define additional logic to set idx to show in stories
-    // TODO: define logic to mark as viewed
-    // TODO: pass an additional onPress for user
-    setShowDetail(true);
-  };
+  const [isVisible, setIsVisible] = useState(false);
+  const [index, setIndex] = useState<any>(null);
 
   return (
     <>
-      {!showDetail && (
-        <FlatList
-          horizontal
-          data={stories}
-          keyExtractor={({ id }) => `${id}`}
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.container}
-          renderItem={({ item: story }) => (
-            <StoryPreviewItem {...story} onPress={onPress} />
-          )}
-        />
-      )}
-      <StoryDetail stories={stories} visible={showDetail} />
+      <FlatList
+        horizontal
+        data={stories}
+        keyExtractor={(story) => `${story.id}`}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+        renderItem={({ item: story, index: idx }) => (
+          <StoryPreviewItem
+            {...story}
+            onPress={() => {
+              // TODO: define additional logic to set idx to show in stories
+              // TODO: define logic to mark as viewed
+              // TODO: pass an additional onPress for user
+
+              setIsVisible(true);
+              setIndex(idx);
+            }}
+          />
+        )}
+      />
+      <StoryDetail
+        initial={index}
+        stories={stories}
+        isVisible={isVisible}
+        onMoveToNextStory={(idx) => setIndex(idx)}
+        onBackPress={() => {
+          setIsVisible(false);
+          setIndex(null);
+        }}
+      />
     </>
   );
 };
-
-StoryPreview.displayName = 'StoryPreview';

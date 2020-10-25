@@ -1,38 +1,41 @@
-import React, { useRef } from 'react';
-import type { ImageURISource } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Video from 'react-native-video';
+import type { ImageURISource } from 'react-native';
 
 import { styles } from './styles';
 
 export type StoryDetailItemProps = {
-  next: any;
+  next?: any;
   id?: string;
-  idx: number;
   video?: string;
   viewed?: boolean;
+  onVideoEnd?: any;
+  isCurrentStory: boolean;
   preview?: string | ImageURISource;
 };
 
 export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
-  idx,
-  next,
   video,
+  isCurrentStory,
 }) => {
-  const videoRef = useRef(null);
+  const [paused, setPaused] = useState(true);
+
+  useEffect(() => {
+    if (isCurrentStory) {
+      setPaused(false);
+    } else {
+      setPaused(true);
+    }
+  }, [isCurrentStory]);
 
   return (
     <Video
-      muted={true}
-      paused={false}
-      ref={videoRef}
+      controls
+      muted={false}
+      paused={paused}
       resizeMode="cover"
       source={{ uri: video }}
       style={styles.container}
-      onEnd={() => {
-        if (typeof next === 'function') {
-          next(idx);
-        }
-      }}
     />
   );
 };

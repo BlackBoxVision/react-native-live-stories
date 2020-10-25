@@ -7,9 +7,9 @@ import { styles } from './styles';
 export type StoryPreviewItemProps = {
   id: string;
   size: string;
+  onPress: any;
   preview: string;
   viewed: boolean;
-  onPress: any;
 };
 
 // TODO: extract to props
@@ -27,9 +27,9 @@ const colors = {
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   id,
-  preview,
   viewed,
   onPress,
+  preview,
 }) => {
   return (
     <Avatar
