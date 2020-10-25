@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "react": "16.11.0",
-    "react-native": "0.62.2"
+    "react-native": "0.62.2",
+    "react-native-elements": "^2.3.2",
+    "react-native-reanimated": "^1.13.1",
+    "react-native-vector-icons": "^7.1.0",
+    "react-native-video": "^5.1.0-alpha8"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
