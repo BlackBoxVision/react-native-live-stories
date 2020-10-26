@@ -9,6 +9,8 @@ import {
   StoryDetailItem,
 } from '../StoryDetailItem';
 
+import * as instaEffect from './animations';
+
 import { styles } from './styles';
 
 export type Story = {
@@ -70,11 +72,14 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
       onBackdropPress={() => onBackPress(initial)}
     >
       <Carousel
+        useScrollView
         data={stories}
         ref={carouselRef}
         itemWidth={width}
         sliderWidth={width}
         initialScrollIndex={initial}
+        scrollInterpolator={instaEffect.scrollInterpolator}
+        slideInterpolatedStyle={instaEffect.animatedStyles}
         onSnapToItem={(idx) => onMoveToNextStory(idx)}
         renderItem={({ item: story, index: idx }) => (
           <StoryDetailItem

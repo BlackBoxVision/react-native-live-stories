@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StoryPreview } from 'react-native-live-stories';
+import { StoryPreview } from '@blackbox-vision/react-native-live-stories';
 
 export default function App() {
   return (
