@@ -1,8 +1,9 @@
 import Video from 'react-native-video';
-import React, { useEffect, useState } from 'react';
+import { Overlay } from 'react-native-elements';
+import { ActivityIndicator } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { styles } from './styles';
-import { useRef } from 'react';
 
 export type StoryDetailHeaderProps = {
   /**
@@ -71,6 +72,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
 }) => {
   const videoRef: any = useRef(null);
 
+  const [visible, setVisible] = useState(false);
   const [paused, setPaused] = useState(true);
   const [muted, setMuted] = useState(false);
 
@@ -87,6 +89,17 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
 
   return (
     <>
+      <Overlay
+        fullScreen
+        isVisible={visible && isCurrentStory}
+        overlayStyle={{ backgroundColor: '#000000' }}
+      >
+        <ActivityIndicator
+          animating={true}
+          color="#FFFFFF"
+          style={{ height: '100%' }}
+        />
+      </Overlay>
       <StoryDetailItemHeader
         muted={muted}
         goBack={() => onBackPress()}
@@ -100,6 +113,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         resizeMode="cover"
         source={{ uri: video }}
         style={styles.container}
+        onLoadStart={() => setVisible(true)}
+        onReadyForDisplay={() => setVisible(false)}
         onLoad={(nativeEvent: any) => {
           setProgress(nativeEvent.currentPosition);
           setDuration(nativeEvent.duration);
