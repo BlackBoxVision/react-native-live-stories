@@ -121,7 +121,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
             onVideoEnd={() => {
               if (idx <= stories.length - 2) {
                 setTimeout(
-                  () => carouselRef.current.snapToItem(idx + 1, true, true),
+                  () => carouselRef.current.snapToItem(idx + 1, false, true),
                   250
                 );
               } else {
