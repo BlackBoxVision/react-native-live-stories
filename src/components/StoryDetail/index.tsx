@@ -14,21 +14,54 @@ import * as instaEffect from './animations';
 import { styles } from './styles';
 
 export type Story = {
+  /**
+   * The ID of the story
+   */
   id: string | number | any;
+  /**
+   * The URL to the video
+   */
   video: string;
+  /**
+   * The URL to the avatar image
+   */
   preview: string;
+  /**
+   * A flag to mark the Story as visualized
+   */
   viewed: boolean;
 };
 
 export type StoreDetailProps = {
+  /**
+   * The initial index of the Story to present
+   */
   initial: number;
+  /**
+   * An array of stories to render
+   */
   stories: Story[];
+  /**
+   * A prop to mark if we need to show the Story Detail
+   */
   isVisible: boolean;
+  /**
+   * A back button handler callback
+   */
   onBackPress: (idx: number) => any;
+  /**
+   * Callback fired when we move to the next story
+   */
   onMoveToNextStory: (idx: number) => any;
+  /**
+   * A component to render as the Header of the Story Detail Item
+   */
   StoryDetailItemHeader?: (
     props?: StoryDetailHeaderProps
   ) => React.ReactElement | null;
+  /**
+   * A component to render as the Footer of the Story Detail Item
+   */
   StoryDetailItemFooter?: (
     props?: StoryDetailFooterProps
   ) => React.ReactElement | null;
@@ -72,7 +105,6 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
       onBackdropPress={() => onBackPress(initial)}
     >
       <Carousel
-        useScrollView
         data={stories}
         ref={carouselRef}
         itemWidth={width}
@@ -80,12 +112,22 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
         initialScrollIndex={initial}
         scrollInterpolator={instaEffect.scrollInterpolator}
         slideInterpolatedStyle={instaEffect.animatedStyles}
-        onSnapToItem={(idx) => onMoveToNextStory(idx)}
+        onBeforeSnapToItem={(idx) => onMoveToNextStory(idx)}
         renderItem={({ item: story, index: idx }) => (
           <StoryDetailItem
             {...story}
             isCurrentStory={initial === idx}
             onBackPress={() => onBackPress(idx)}
+            onVideoEnd={() => {
+              if (idx <= stories.length - 2) {
+                setTimeout(
+                  () => carouselRef.current.snapToItem(idx + 1, true, true),
+                  250
+                );
+              } else {
+                onBackPress(idx);
+              }
+            }}
             StoryDetailItemFooter={StoryDetailItemFooter}
             StoryDetailItemHeader={StoryDetailItemHeader}
           />

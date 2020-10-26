@@ -1,49 +1,51 @@
 import React from 'react';
 import { Avatar } from 'react-native-elements';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, ViewStyle } from 'react-native';
 
 import { styles } from './styles';
 
 export type StoryPreviewItemProps = {
-  onPress: any;
+  /**
+   * URL of the avatar
+   */
   preview: string;
-  viewed: boolean;
-};
-
-// TODO: extract to props
-const colors = {
-  primary: '#5D8FDB',
-  lightPrimary: 'rgb(233,240,251)',
-  secondary: '#5E5E5E',
-  storyBorder: '#D3D3D3',
-  lightSecondary: 'rgb(211,211,211)',
-  white: 'rgb(255,255,255)',
-  black: 'rgb(0,0,0)',
-  facebook: '#3b5998',
-  red: 'red',
+  /**
+   * The onPress handler
+   */
+  onPress: () => void;
+  /**
+   * The styles to be applied to the container
+   */
+  containerStyle?: ViewStyle;
+  /**
+   * The styles to be applied to the placeholder
+   */
+  placeholderStyle?: ViewStyle;
+  /**
+   * The size of the Avatar component
+   */
+  size?: 'small' | 'medium' | 'large' | 'xlarge' | number;
 };
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
-  viewed,
+  size,
   onPress,
-  preview,
-}) => {
-  return (
-    <Avatar
-      size="medium"
-      source={{
-        uri: preview,
-      }}
-      containerStyle={{
-        ...styles.container,
-        borderColor: viewed ? colors.storyBorder : colors.red,
-      }}
-      onPress={() => onPress && onPress()}
-      renderPlaceholderContent={<ActivityIndicator color={colors.white} />}
-      placeholderStyle={styles.placeholder}
-      rounded
-    />
-  );
-};
+  preview: uri,
+  containerStyle,
+  placeholderStyle,
+}) => (
+  <Avatar
+    rounded
+    size={size}
+    source={{ uri }}
+    onPress={() => onPress()}
+    placeholderStyle={placeholderStyle}
+    containerStyle={[styles.container, containerStyle]}
+    renderPlaceholderContent={<ActivityIndicator color="#FFFFFF" />}
+  />
+);
 
 StoryPreviewItem.displayName = 'StoryPreviewItem';
+StoryPreviewItem.defaultProps = {
+  size: 'medium',
+};

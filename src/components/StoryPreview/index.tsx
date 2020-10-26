@@ -11,6 +11,21 @@ import type {
   StoryDetailHeaderProps,
 } from '../StoryDetailItem';
 
+export type StoryPreviewItemProps = {
+  /**
+   * Size for the Avatar component
+   */
+  size: 'small' | 'medium' | 'large' | 'xlarge' | number;
+  /**
+   * Styles for the container view
+   */
+  containerStyle: ViewStyle;
+  /**
+   * Styles for the placeholder component
+   */
+  placeholderStyle: ViewStyle;
+};
+
 export type StoryPreviewProps = {
   /**
    * An array of stories to be rendered
@@ -20,6 +35,10 @@ export type StoryPreviewProps = {
    * Styles for FlatList mini stories container
    */
   style?: ViewStyle;
+  /**
+   * Props for Story Preview Item component
+   */
+  StoryPreviewItemProps?: StoryPreviewItemProps;
   /**
    * Callback fired when drag to next item
    */
@@ -49,6 +68,7 @@ export type StoryPreviewProps = {
 export const StoryPreview: React.FC<StoryPreviewProps> = ({
   style,
   stories,
+  StoryPreviewItemProps,
   StoryDetailItemHeader,
   StoryDetailItemFooter,
   onStoryDetailItemNext,
@@ -58,16 +78,22 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
 
+  const sortedStories = [
+    ...stories.filter((story: Story) => story && !story.viewed),
+    ...stories.filter((story: Story) => story && story.viewed),
+  ];
+
   return (
     <>
       <FlatList
         horizontal
-        data={stories}
+        data={sortedStories}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(story) => `${story.id}`}
         contentContainerStyle={[styles.container, style]}
         renderItem={({ item: story, index: idx }) => (
           <StoryPreviewItem
+            {...StoryPreviewItemProps}
             {...story}
             onPress={() => {
               setIsVisible(true);
@@ -115,3 +141,6 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
 };
 
 StoryPreview.displayName = 'StoryPreview';
+StoryPreview.defaultProps = {
+  stories: [],
+};
