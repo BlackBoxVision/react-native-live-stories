@@ -112,7 +112,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
         initialScrollIndex={initial}
         scrollInterpolator={instaEffect.scrollInterpolator}
         slideInterpolatedStyle={instaEffect.animatedStyles}
-        onBeforeSnapToItem={(idx) => onMoveToNextStory(idx)}
+        onSnapToItem={(idx) => onMoveToNextStory(idx)}
         renderItem={({ item: story, index: idx }) => (
           <StoryDetailItem
             {...story}
@@ -121,7 +121,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
             onVideoEnd={() => {
               if (idx <= stories.length - 2) {
                 setTimeout(
-                  () => carouselRef.current.snapToItem(idx + 1, false, true),
+                  () => carouselRef.current.snapToItem(idx + 1, true, true),
                   250
                 );
               } else {

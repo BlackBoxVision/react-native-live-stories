@@ -2,6 +2,7 @@ import Video from 'react-native-video';
 import React, { useEffect, useState } from 'react';
 
 import { styles } from './styles';
+import { useRef } from 'react';
 
 export type StoryDetailHeaderProps = {
   /**
@@ -68,6 +69,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   StoryDetailItemHeader,
   StoryDetailItemFooter,
 }) => {
+  const videoRef: any = useRef(null);
+
   const [paused, setPaused] = useState(true);
   const [muted, setMuted] = useState(false);
 
@@ -90,6 +93,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         mute={() => setMuted(!muted)}
       />
       <Video
+        ref={videoRef}
         muted={muted}
         paused={paused}
         controls={false}
@@ -101,7 +105,13 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
           setDuration(nativeEvent.duration);
         }}
         onProgress={(nativeEvent: any) => setProgress(nativeEvent.currentTime)}
-        onEnd={() => onVideoEnd()}
+        onEnd={() => {
+          onVideoEnd();
+
+          if (videoRef.current) {
+            videoRef.current.seek(0);
+          }
+        }}
       />
       <StoryDetailItemFooter
         videoProgress={progress}
