@@ -36,9 +36,12 @@ export type StoryPreviewProps = {
    */
   style?: ViewStyle;
   /**
-   * Props for Story Preview Item component
+   * Get Props for Story Preview Item component based on Story and Index
    */
-  StoryPreviewItemProps?: StoryPreviewItemProps;
+  getStoryPreviewItemProps?: (
+    story: Story,
+    idx: number
+  ) => StoryPreviewItemProps | any;
   /**
    * Callback fired when drag to next item
    */
@@ -68,12 +71,12 @@ export type StoryPreviewProps = {
 export const StoryPreview: React.FC<StoryPreviewProps> = ({
   style,
   stories,
-  StoryPreviewItemProps,
   StoryDetailItemHeader,
   StoryDetailItemFooter,
   onStoryDetailItemNext,
   onStoryDetailBackPress,
   onStoryPreviewItemPress,
+  getStoryPreviewItemProps,
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
@@ -91,20 +94,25 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
         showsHorizontalScrollIndicator={false}
         keyExtractor={(story) => `${story.id}`}
         contentContainerStyle={[styles.container, style]}
-        renderItem={({ item: story, index: idx }) => (
-          <StoryPreviewItem
-            {...StoryPreviewItemProps}
-            {...story}
-            onPress={() => {
-              setIsVisible(true);
-              setIndex(idx);
+        renderItem={({ item: story, index: idx }) => {
+          const StoryPreviewItemProps =
+            getStoryPreviewItemProps && getStoryPreviewItemProps(story, idx);
 
-              if (onStoryPreviewItemPress) {
-                onStoryPreviewItemPress(story, idx);
-              }
-            }}
-          />
-        )}
+          return (
+            <StoryPreviewItem
+              {...StoryPreviewItemProps}
+              {...story}
+              onPress={() => {
+                setIsVisible(true);
+                setIndex(idx);
+
+                if (onStoryPreviewItemPress) {
+                  onStoryPreviewItemPress(story, idx);
+                }
+              }}
+            />
+          );
+        }}
       />
       <StoryDetail
         initial={index}
@@ -142,5 +150,6 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
 
 StoryPreview.displayName = 'StoryPreview';
 StoryPreview.defaultProps = {
+  getStoryPreviewItemProps: () => {},
   stories: [],
 };
