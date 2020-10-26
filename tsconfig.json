@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "react-native-live-stories": ["./src/index"]
+      "@blackbox-vision/react-native-live-stories": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
