@@ -103,11 +103,25 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         isVisible={visible && isCurrentStory}
         overlayStyle={styles.overlayContainer}
       >
-        <ActivityIndicator
-          animating
-          color="#FFFFFF"
-          style={styles.overlayIndicator}
-        />
+        <>
+          <StoryDetailItemHeader
+            story={story}
+            muted={muted}
+            goBack={() => onBackPress()}
+            mute={() => setMuted(!muted)}
+          />
+          <ActivityIndicator
+            animating
+            color="#FFFFFF"
+            style={styles.overlayIndicator}
+          />
+          <StoryDetailItemFooter
+            story={story}
+            videoProgress={progress}
+            videoDuration={duration}
+            goBack={() => onBackPress()}
+          />
+        </>
       </Overlay>
       <StoryDetailItemHeader
         story={story}
