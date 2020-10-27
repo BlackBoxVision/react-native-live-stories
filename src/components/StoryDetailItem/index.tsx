@@ -3,8 +3,8 @@ import { Overlay } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 
-import { styles } from './styles';
 import type { Story } from '../StoryDetail';
+import { styles } from './styles';
 
 export type StoryDetailHeaderProps = {
   /**
@@ -89,11 +89,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   const [progress, setProgress] = useState(null);
 
   useEffect(() => {
-    if (isCurrentStory) {
-      setPaused(false);
-    } else {
-      setPaused(true);
-    }
+    setPaused(isCurrentStory ? false : true);
   }, [isCurrentStory]);
 
   return (
@@ -101,12 +97,12 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
       <Overlay
         fullScreen
         isVisible={visible && isCurrentStory}
-        overlayStyle={{ backgroundColor: '#000000' }}
+        overlayStyle={styles.overlayContainer}
       >
         <ActivityIndicator
-          animating={true}
+          animating
           color="#FFFFFF"
-          style={{ height: '100%' }}
+          style={styles.overlayIndicator}
         />
       </Overlay>
       <StoryDetailItemHeader

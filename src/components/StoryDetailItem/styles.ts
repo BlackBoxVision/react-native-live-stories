@@ -5,4 +5,10 @@ export const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     flex: 1,
   },
+  overlayContainer: {
+    backgroundColor: '#000000',
+  },
+  overlayIndicator: {
+    height: '100%',
+  },
 });
