@@ -38,6 +38,10 @@ export type StoryDetailFooterProps = {
    * The progress of the video been rendered
    */
   videoProgress: number | string | null;
+  /**
+   * A function to exit from the StoryDetail
+   */
+  goBack: () => any;
 };
 
 export type StoryDetailItemProps = {
@@ -138,6 +142,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         story={story}
         videoProgress={progress}
         videoDuration={duration}
+        goBack={() => onBackPress()}
       />
     </>
   );
