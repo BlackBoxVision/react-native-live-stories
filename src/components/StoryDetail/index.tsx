@@ -4,8 +4,8 @@ import React, { useEffect, useRef } from 'react';
 import Carousel from 'react-native-snap-carousel';
 
 import {
-  StoryDetailFooterProps,
-  StoryDetailHeaderProps,
+  StoryDetailHeaderItemProps,
+  StoryDetailFooterItemProps,
   StoryDetailItem,
 } from '../StoryDetailItem';
 
@@ -57,13 +57,13 @@ export type StoreDetailProps = {
    * A component to render as the Header of the Story Detail Item
    */
   StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderProps
+    props?: StoryDetailHeaderItemProps
   ) => React.ReactElement | null;
   /**
    * A component to render as the Footer of the Story Detail Item
    */
   StoryDetailItemFooter?: (
-    props?: StoryDetailFooterProps
+    props?: StoryDetailFooterItemProps
   ) => React.ReactElement | null;
 };
 

@@ -6,7 +6,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import type { Story } from '../StoryDetail';
 import { styles } from './styles';
 
-export type StoryDetailHeaderProps = {
+export type StoryDetailHeaderItemProps = {
   /**
    * The story content
    */
@@ -25,7 +25,7 @@ export type StoryDetailHeaderProps = {
   muted: boolean;
 };
 
-export type StoryDetailFooterProps = {
+export type StoryDetailFooterItemProps = {
   /**
    * The story content
    */
@@ -65,13 +65,13 @@ export type StoryDetailItemProps = {
    * A component to render as the Header of the Story Detail Item
    */
   StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderProps
+    props?: StoryDetailHeaderItemProps
   ) => React.ReactElement | null;
   /**
    * A component to render as the Footer of the Story Detail Item
    */
   StoryDetailItemFooter?: (
-    props?: StoryDetailFooterProps
+    props?: StoryDetailFooterItemProps
   ) => React.ReactElement | null;
 };
 
