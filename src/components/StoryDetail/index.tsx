@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { Overlay } from 'react-native-elements';
 import React, { useEffect, useRef } from 'react';
 import Carousel from 'react-native-snap-carousel';
@@ -86,7 +86,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
     if (initial !== null) {
       timeoutId = setTimeout(
         () => carouselRef.current.snapToItem(initial, true, true),
-        0
+        Platform.OS === 'ios' ? 25 : 0
       );
     }
 
@@ -124,7 +124,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
               if (idx <= stories.length - 2) {
                 setTimeout(
                   () => carouselRef.current.snapToItem(idx + 1, true, true),
-                  0
+                  Platform.OS === 'ios' ? 25 : 0
                 );
               } else {
                 onBackPress(idx);

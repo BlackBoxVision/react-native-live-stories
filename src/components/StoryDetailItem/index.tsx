@@ -138,10 +138,10 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         style={styles.container}
         source={{ uri: story.video }}
         onLoadStart={() => setVisible(true)}
-        onReadyForDisplay={() => setVisible(false)}
         onLoad={(nativeEvent: any) => {
           setProgress(nativeEvent.currentPosition);
           setDuration(nativeEvent.duration);
+          setVisible(false);
         }}
         onProgress={(nativeEvent: any) => setProgress(nativeEvent.currentTime)}
         onEnd={() => {
