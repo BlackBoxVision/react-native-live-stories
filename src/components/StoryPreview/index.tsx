@@ -103,11 +103,15 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
               {...StoryPreviewItemProps}
               {...story}
               onPress={() => {
+                const storyIndex = stories.findIndex(
+                  (s: Story) => s.id === story.id
+                );
+
                 setIsVisible(true);
-                setIndex(idx);
+                setIndex(storyIndex);
 
                 if (onStoryPreviewItemPress) {
-                  onStoryPreviewItemPress(story, idx);
+                  onStoryPreviewItemPress(story, storyIndex);
                 }
               }}
             />
