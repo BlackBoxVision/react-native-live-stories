@@ -4,8 +4,13 @@ import { ActivityIndicator } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 
 import { styles } from './styles';
+import type { Story } from '../StoryDetail';
 
 export type StoryDetailHeaderProps = {
+  /**
+   * The story content
+   */
+  story: Story;
   /**
    * A function to exit from the StoryDetail
    */
@@ -22,6 +27,10 @@ export type StoryDetailHeaderProps = {
 
 export type StoryDetailFooterProps = {
   /**
+   * The story content
+   */
+  story: Story;
+  /**
    * The duration of the video been rendered
    */
   videoDuration: number | string | null;
@@ -33,9 +42,9 @@ export type StoryDetailFooterProps = {
 
 export type StoryDetailItemProps = {
   /**
-   * The URL to the video
+   * The story content
    */
-  video?: string;
+  story: Story;
   /**
    * A boolean prop to enable play
    */
@@ -51,24 +60,24 @@ export type StoryDetailItemProps = {
   /**
    * A component to render as the Header of the Story Detail Item
    */
-  StoryDetailItemHeader: (
+  StoryDetailItemHeader?: (
     props?: StoryDetailHeaderProps
   ) => React.ReactElement | null;
   /**
    * A component to render as the Footer of the Story Detail Item
    */
-  StoryDetailItemFooter: (
+  StoryDetailItemFooter?: (
     props?: StoryDetailFooterProps
   ) => React.ReactElement | null;
 };
 
 export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
-  video,
+  story,
   onVideoEnd,
   onBackPress,
   isCurrentStory,
-  StoryDetailItemHeader,
-  StoryDetailItemFooter,
+  StoryDetailItemHeader = () => null,
+  StoryDetailItemFooter = () => null,
 }) => {
   const videoRef: any = useRef(null);
 
@@ -101,6 +110,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         />
       </Overlay>
       <StoryDetailItemHeader
+        story={story}
         muted={muted}
         goBack={() => onBackPress()}
         mute={() => setMuted(!muted)}
@@ -111,8 +121,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         paused={paused}
         controls={false}
         resizeMode="cover"
-        source={{ uri: video }}
         style={styles.container}
+        source={{ uri: story.video }}
         onLoadStart={() => setVisible(true)}
         onReadyForDisplay={() => setVisible(false)}
         onLoad={(nativeEvent: any) => {
@@ -129,6 +139,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
         }}
       />
       <StoryDetailItemFooter
+        story={story}
         videoProgress={progress}
         videoDuration={duration}
       />
@@ -137,7 +148,3 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
 };
 
 StoryDetailItem.displayName = 'StoryDetailItem';
-StoryDetailItem.defaultProps = {
-  StoryDetailItemHeader: () => null,
-  StoryDetailItemFooter: () => null,
-};

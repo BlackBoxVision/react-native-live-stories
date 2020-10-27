@@ -70,13 +70,13 @@ export type StoryPreviewProps = {
 
 export const StoryPreview: React.FC<StoryPreviewProps> = ({
   style,
-  stories,
+  stories = [],
   StoryDetailItemHeader,
   StoryDetailItemFooter,
   onStoryDetailItemNext,
   onStoryDetailBackPress,
   onStoryPreviewItemPress,
-  getStoryPreviewItemProps,
+  getStoryPreviewItemProps = () => {},
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
@@ -149,7 +149,3 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
 };
 
 StoryPreview.displayName = 'StoryPreview';
-StoryPreview.defaultProps = {
-  getStoryPreviewItemProps: () => {},
-  stories: [],
-};

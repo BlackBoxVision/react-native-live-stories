@@ -115,8 +115,10 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
         onSnapToItem={(idx) => onMoveToNextStory(idx)}
         renderItem={({ item: story, index: idx }) => (
           <StoryDetailItem
-            {...story}
+            story={story}
             isCurrentStory={initial === idx}
+            StoryDetailItemFooter={StoryDetailItemFooter}
+            StoryDetailItemHeader={StoryDetailItemHeader}
             onBackPress={() => onBackPress(idx)}
             onVideoEnd={() => {
               if (idx <= stories.length - 2) {
@@ -128,8 +130,6 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
                 onBackPress(idx);
               }
             }}
-            StoryDetailItemFooter={StoryDetailItemFooter}
-            StoryDetailItemHeader={StoryDetailItemHeader}
           />
         )}
       />

@@ -28,7 +28,7 @@ export type StoryPreviewItemProps = {
 };
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
-  size,
+  size = 'medium',
   onPress,
   preview: uri,
   containerStyle,
@@ -46,6 +46,3 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
 );
 
 StoryPreviewItem.displayName = 'StoryPreviewItem';
-StoryPreviewItem.defaultProps = {
-  size: 'medium',
-};
