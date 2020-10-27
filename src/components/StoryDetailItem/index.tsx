@@ -100,6 +100,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
     <>
       <Overlay
         fullScreen
+        onBackdropPress={() => onBackPress()}
         isVisible={visible && isCurrentStory}
         overlayStyle={styles.overlayContainer}
       >
