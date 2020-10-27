@@ -1,6 +1,6 @@
 import { Dimensions, Platform } from 'react-native';
 import { Overlay } from 'react-native-elements';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import Carousel from 'react-native-snap-carousel';
 
 import {
@@ -80,23 +80,6 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
 }) => {
   const carouselRef: any = useRef(null);
 
-  useEffect(() => {
-    let timeoutId: any = null;
-
-    if (initial !== null) {
-      timeoutId = setTimeout(
-        () => carouselRef.current.snapToItem(initial, true, true),
-        Platform.OS === 'ios' ? 25 : 0
-      );
-    }
-
-    return () => {
-      if (timeoutId !== null) {
-        clearTimeout(timeoutId);
-      }
-    };
-  }, [initial]);
-
   return (
     <Overlay
       fullScreen
@@ -109,6 +92,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
         ref={carouselRef}
         itemWidth={width}
         sliderWidth={width}
+        firstItem={initial}
         initialScrollIndex={initial}
         scrollInterpolator={instaEffect.scrollInterpolator}
         slideInterpolatedStyle={instaEffect.animatedStyles}
