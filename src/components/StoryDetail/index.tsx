@@ -86,7 +86,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
     if (initial !== null) {
       timeoutId = setTimeout(
         () => carouselRef.current.snapToItem(initial, true, true),
-        250
+        0
       );
     }
 
@@ -124,7 +124,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
               if (idx <= stories.length - 2) {
                 setTimeout(
                   () => carouselRef.current.snapToItem(idx + 1, true, true),
-                  250
+                  0
                 );
               } else {
                 onBackPress(idx);
