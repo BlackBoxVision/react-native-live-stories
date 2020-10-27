@@ -6,9 +6,11 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   overlayContainer: {
+    margin: 0,
+    padding: 0,
     backgroundColor: '#000000',
   },
   overlayIndicator: {
-    height: '100%',
+    ...StyleSheet.absoluteFillObject,
   },
 });
