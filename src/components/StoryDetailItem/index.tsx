@@ -94,6 +94,12 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
 
   useEffect(() => {
     setPaused(isCurrentStory ? false : true);
+
+    if (isCurrentStory) {
+      if (videoRef.current) {
+        videoRef.current.seek(0);
+      }
+    }
   }, [isCurrentStory]);
 
   return (
@@ -152,6 +158,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
             videoRef.current.seek(0);
           }
         }}
+        onTouchStart={() => setPaused(true)}
+        onTouchEnd={() => setPaused(false)}
       />
       <StoryDetailItemFooter
         story={story}
