@@ -83,6 +83,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
   return (
     <Overlay
       fullScreen
+      animationType="none"
       isVisible={isVisible}
       overlayStyle={styles.overlayContainer}
       onBackdropPress={() => onBackPress(initial)}

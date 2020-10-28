@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FlatList, ViewStyle } from 'react-native';
 
 import { StoryPreviewItem } from '../StoryPreviewItem';
@@ -10,6 +10,8 @@ import type {
   StoryDetailHeaderItemProps,
   StoryDetailFooterItemProps,
 } from '../StoryDetailItem';
+
+import { StoryDetailExpander } from './animations';
 
 export type StoryPreviewItemProps = {
   /**
@@ -81,20 +83,31 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
 
+  const expanderRef: any = useRef(null);
+
   const sortedStories = [
     ...stories.filter((story: Story) => story && !story.viewed),
     ...stories.filter((story: Story) => story && story.viewed),
   ];
+
+  useEffect(() => {
+    if (!isVisible) {
+      if (expanderRef.current) {
+        expanderRef.current.resetExpandAnimation();
+      }
+    }
+  }, [isVisible]);
 
   return (
     <>
       <FlatList
         horizontal
         data={sortedStories}
+        renderItem={() => null}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(story) => `${story.id}`}
         contentContainerStyle={[styles.container, style]}
-        renderItem={({ item: story, index: idx }) => {
+        CellRendererComponent={({ item: story, index: idx }) => {
           const StoryPreviewItemProps =
             getStoryPreviewItemProps && getStoryPreviewItemProps(story, idx);
 
@@ -102,52 +115,66 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
             <StoryPreviewItem
               {...StoryPreviewItemProps}
               {...story}
-              onPress={() => {
+              ref={expanderRef}
+              onPress={(coordinates) => {
                 const storyIndex = stories.findIndex(
                   (s: Story) => s.id === story.id
                 );
 
-                setIsVisible(true);
-                setIndex(storyIndex);
+                if (expanderRef.current) {
+                  expanderRef.current.startExpandAnimation(coordinates, () => {
+                    setIsVisible(true);
+                    setIndex(storyIndex);
 
-                if (onStoryPreviewItemPress) {
-                  onStoryPreviewItemPress(story, storyIndex);
+                    if (onStoryPreviewItemPress) {
+                      onStoryPreviewItemPress(story, storyIndex);
+                    }
+                  });
+                } else {
+                  setIsVisible(true);
+                  setIndex(storyIndex);
+
+                  if (onStoryPreviewItemPress) {
+                    onStoryPreviewItemPress(story, storyIndex);
+                  }
                 }
               }}
             />
           );
         }}
       />
-      <StoryDetail
-        initial={index}
-        stories={stories}
-        isVisible={isVisible}
-        StoryDetailItemHeader={StoryDetailItemHeader}
-        StoryDetailItemFooter={StoryDetailItemFooter}
-        onMoveToNextStory={(idx) => {
-          setIndex(idx);
+      <StoryDetailExpander ref={expanderRef}>
+        <StoryDetail
+          initial={index}
+          stories={stories}
+          isVisible={isVisible}
+          StoryDetailItemHeader={StoryDetailItemHeader}
+          StoryDetailItemFooter={StoryDetailItemFooter}
+          onMoveToNextStory={(idx) => {
+            setIndex(idx);
 
-          if (onStoryDetailItemNext) {
-            const story: Story = stories[idx];
+            if (onStoryDetailItemNext) {
+              const story: Story = stories[idx];
 
-            if (story) {
-              onStoryDetailItemNext(story, idx);
+              if (story) {
+                onStoryDetailItemNext(story, idx);
+              }
             }
-          }
-        }}
-        onBackPress={(idx: number) => {
-          setIsVisible(false);
-          setIndex(null);
+          }}
+          onBackPress={(idx: number) => {
+            setIsVisible(false);
+            setIndex(null);
 
-          if (onStoryDetailBackPress) {
-            const story: Story = stories[idx];
+            if (onStoryDetailBackPress) {
+              const story: Story = stories[idx];
 
-            if (story) {
-              onStoryDetailBackPress(story, idx);
+              if (story) {
+                onStoryDetailBackPress(story, idx);
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </StoryDetailExpander>
     </>
   );
 };

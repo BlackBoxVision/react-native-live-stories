@@ -1,7 +1,7 @@
-import React, { ReactText } from 'react';
 import { Avatar } from 'react-native-elements';
-import { ActivityIndicator, ViewStyle, View } from 'react-native';
+import React, { ReactText, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import { ActivityIndicator, ViewStyle, View } from 'react-native';
 
 import { styles } from './styles';
 
@@ -25,7 +25,7 @@ export type GradientOptions = {
   /**
    * Gradient container styles
    */
-  styles?: ViewStyle;
+  style?: ViewStyle;
 };
 
 export type StoryPreviewItemProps = {
@@ -36,7 +36,7 @@ export type StoryPreviewItemProps = {
   /**
    * The onPress handler
    */
-  onPress: () => void;
+  onPress: (props: any) => void;
   /**
    * The styles to be applied to the container
    */
@@ -66,25 +66,37 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   containerStyle,
   placeholderStyle,
   gradient = defaultGradient,
-}) => (
-  <View style={[styles.container, containerStyle]}>
-    <LinearGradient
-      colors={gradient.colors}
-      start={gradient.start}
-      end={gradient.end}
-      locations={gradient.locations}
-      style={[styles.gradientContainer, gradient.styles]}
+}) => {
+  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+
+  return (
+    <View
+      style={[styles.container, containerStyle]}
+      onLayout={(event) =>
+        setCoordinates({
+          x: event.nativeEvent.layout.x,
+          y: 78 / 2,
+        })
+      }
     >
-      <Avatar
-        rounded
-        size={size}
-        source={{ uri }}
-        onPress={() => onPress()}
-        placeholderStyle={placeholderStyle}
-        renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
-      />
-    </LinearGradient>
-  </View>
-);
+      <LinearGradient
+        colors={gradient.colors}
+        start={gradient.start}
+        end={gradient.end}
+        locations={gradient.locations}
+        style={[styles.gradientContainer, gradient.style]}
+      >
+        <Avatar
+          rounded
+          size={size}
+          source={{ uri }}
+          placeholderStyle={placeholderStyle}
+          onPress={() => onPress(coordinates)}
+          renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
+        />
+      </LinearGradient>
+    </View>
+  );
+};
 
 StoryPreviewItem.displayName = 'StoryPreviewItem';
