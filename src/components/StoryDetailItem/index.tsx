@@ -60,7 +60,15 @@ export type StoryDetailItemProps = {
   /**
    * A back button handler
    */
-  onBackPress: () => any;
+  onBackPress?: () => any;
+  /**
+   * A callback triggered when video touch starts
+   */
+  onVideoTouchStart?: () => any;
+  /**
+   * A callback triggered when video touch ends
+   */
+  onVideoTouchEnd?: () => any;
   /**
    * A component to render as the Header of the Story Detail Item
    */
@@ -80,6 +88,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   onVideoEnd,
   onBackPress,
   isCurrentStory,
+  onVideoTouchEnd,
+  onVideoTouchStart,
   StoryDetailItemHeader = () => null,
   StoryDetailItemFooter = () => null,
 }) => {
@@ -92,21 +102,21 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(null);
 
+  const goBack = () => {
+    if (onBackPress) {
+      onBackPress();
+    }
+  };
+
   useEffect(() => {
     setPaused(isCurrentStory ? false : true);
-
-    if (isCurrentStory) {
-      if (videoRef.current) {
-        videoRef.current.seek(0);
-      }
-    }
   }, [isCurrentStory]);
 
   return (
     <>
       <Overlay
         fullScreen
-        onBackdropPress={() => onBackPress()}
+        onBackdropPress={goBack}
         isVisible={visible && isCurrentStory}
         overlayStyle={styles.overlayContainer}
       >
@@ -114,7 +124,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
           <StoryDetailItemHeader
             story={story}
             muted={muted}
-            goBack={() => onBackPress()}
+            goBack={goBack}
             mute={() => setMuted(!muted)}
           />
           <ActivityIndicator
@@ -124,16 +134,16 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
           />
           <StoryDetailItemFooter
             story={story}
+            goBack={goBack}
             videoProgress={progress}
             videoDuration={duration}
-            goBack={() => onBackPress()}
           />
         </>
       </Overlay>
       <StoryDetailItemHeader
         story={story}
         muted={muted}
-        goBack={() => onBackPress()}
+        goBack={goBack}
         mute={() => setMuted(!muted)}
       />
       <Video
@@ -158,14 +168,26 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
             videoRef.current.seek(0);
           }
         }}
-        onTouchStart={() => setPaused(true)}
-        onTouchEnd={() => setPaused(false)}
+        onTouchStart={() => {
+          setPaused(true);
+
+          if (onVideoTouchStart) {
+            onVideoTouchStart();
+          }
+        }}
+        onTouchEnd={() => {
+          setPaused(false);
+
+          if (onVideoTouchEnd) {
+            onVideoTouchEnd();
+          }
+        }}
       />
       <StoryDetailItemFooter
         story={story}
+        goBack={goBack}
         videoProgress={progress}
         videoDuration={duration}
-        goBack={() => onBackPress()}
       />
     </>
   );
