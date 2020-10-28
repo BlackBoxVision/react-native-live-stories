@@ -110,6 +110,10 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
 
   useEffect(() => {
     setPaused(isCurrentStory ? false : true);
+
+    if (videoRef.current) {
+      videoRef.current.seek(0);
+    }
   }, [isCurrentStory]);
 
   return (
