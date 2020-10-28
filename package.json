@@ -62,6 +62,7 @@
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-elements": "^2.3.2",
+    "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.13.1",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-vector-icons": "^7.1.0",
@@ -76,7 +77,8 @@
     "react-native-reanimated": "^1.13.1",
     "react-native-video": "^5.0.2",
     "react-native-snap-carousel": "^3.9.1",
-    "react-native-vector-icons": "^7.1.0"
+    "react-native-vector-icons": "^7.1.0",
+    "react-native-linear-gradient": "^2.5.6"
   },
   "publishConfig": {
     "access": "public"
@@ -153,5 +155,6 @@
       "module",
       "typescript"
     ]
-  }
+  },
+  "dependencies": {}
 }
