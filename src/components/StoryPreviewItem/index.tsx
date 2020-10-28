@@ -5,6 +5,29 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import { styles } from './styles';
 
+export type GradientOptions = {
+  /**
+   * The colors list of the gradient border
+   */
+  colors: ReactText[];
+  /**
+   * Coordinates that declare the position that the gradient starts
+   */
+  start?: { x: number; y: number };
+  /**
+   * Coordinates that declare the position that the gradient ends
+   */
+  end?: { x: number; y: number };
+  /**
+   * Array of numbers that defining the location of each gradient color stop, mapping to the color with the same index in colors prop
+   */
+  locations?: number[];
+  /**
+   * Gradient container styles
+   */
+  styles?: ViewStyle;
+};
+
 export type StoryPreviewItemProps = {
   /**
    * URL of the avatar
@@ -29,28 +52,11 @@ export type StoryPreviewItemProps = {
   /**
    * The options of the linear gradient border
    */
-  gradient: {
-    /**
-     * The colors list of the gradient border
-     */
-    colors: ReactText[];
-    /**
-     * Coordinates that declare the position that the gradient starts
-     */
-    start?: { x: number; y: number };
-    /**
-     * Coordinates that declare the position that the gradient ends
-     */
-    end?: { x: number; y: number };
-    /**
-     * Array of numbers that defining the location of each gradient color stop, mapping to the color with the same index in colors prop
-     */
-    locations?: number[];
-    /**
-     * Gradient container styles
-     */
-    styles?: ViewStyle;
-  };
+  gradient?: GradientOptions;
+};
+
+const defaultGradient: GradientOptions = {
+  colors: ['#CA1D7E', '#E35157', '#F2703F'],
 };
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
@@ -59,7 +65,7 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   preview: uri,
   containerStyle,
   placeholderStyle,
-  gradient = { colors: ['#CA1D7E', '#E35157', '#F2703F'] },
+  gradient = defaultGradient,
 }) => (
   <View style={[styles.container, containerStyle]}>
     <LinearGradient
