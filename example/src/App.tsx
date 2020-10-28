@@ -4,9 +4,6 @@ import { StoryPreview } from '@blackbox-vision/react-native-live-stories';
 export default function App() {
   return (
     <StoryPreview
-      getStoryPreviewItemProps={() => ({
-        gradientBorderColors: ['#CA1D7E', '#E35157', '#F2703F'],
-      })}
       stories={[
         {
           id: 1,

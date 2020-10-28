@@ -27,25 +27,30 @@ export type StoryPreviewItemProps = {
    */
   size?: 'small' | 'medium' | 'large' | 'xlarge' | number;
   /**
-   * The colors list of the gradient border
+   * The options of the linear gradient border
    */
-  gradientBorderColors: ReactText[];
-  /**
-    Coordinates that declare the position that the gradient starts
-   */
-  gradientBorderStart?: { x: number; y: number };
-  /**
-    Coordinates that declare the position that the gradient ends
-   */
-  gradientBorderEnd?: { x: number; y: number };
-  /**
-    Array of numbers that defining the location of each gradient color stop, mapping to the color with the same index in colors prop
-   */
-  gradientBorderLocations?: number[];
-  /**
-    Gradient container styles
-   */
-  gradientContainerStyles?: ViewStyle;
+  gradient: {
+    /**
+     * The colors list of the gradient border
+     */
+    colors: ReactText[];
+    /**
+     * Coordinates that declare the position that the gradient starts
+     */
+    start?: { x: number; y: number };
+    /**
+     * Coordinates that declare the position that the gradient ends
+     */
+    end?: { x: number; y: number };
+    /**
+     * Array of numbers that defining the location of each gradient color stop, mapping to the color with the same index in colors prop
+     */
+    locations?: number[];
+    /**
+     * Gradient container styles
+     */
+    styles?: ViewStyle;
+  };
 };
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
@@ -54,19 +59,15 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   preview: uri,
   containerStyle,
   placeholderStyle,
-  gradientBorderColors,
-  gradientBorderStart,
-  gradientBorderEnd,
-  gradientBorderLocations,
-  gradientContainerStyles,
+  gradient = { colors: ['#CA1D7E', '#E35157', '#F2703F'] },
 }) => (
   <View style={[styles.container, containerStyle]}>
     <LinearGradient
-      colors={gradientBorderColors}
-      start={gradientBorderStart}
-      end={gradientBorderEnd}
-      locations={gradientBorderLocations}
-      style={[styles.gradientContainer, gradientContainerStyles]}
+      colors={gradient.colors}
+      start={gradient.start}
+      end={gradient.end}
+      locations={gradient.locations}
+      style={[styles.gradientContainer, gradient.styles]}
     >
       <Avatar
         rounded
