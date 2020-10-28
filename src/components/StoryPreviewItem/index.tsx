@@ -1,10 +1,11 @@
-import React, { ReactText } from 'react';
 import { Avatar } from 'react-native-elements';
+import React, { ReactText, useRef } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { ActivityIndicator, ViewStyle, View } from 'react-native';
 
+import type { Story } from '../StoryDetail';
+
 import { styles } from './styles';
-import { useRef } from 'react';
 
 export type GradientOptions = {
   /**
@@ -31,9 +32,9 @@ export type GradientOptions = {
 
 export type StoryPreviewItemProps = {
   /**
-   * URL of the avatar
+   * The Story information
    */
-  preview: string;
+  story: Story;
   /**
    * The onPress handler
    */
@@ -61,14 +62,16 @@ const defaultGradient: GradientOptions = {
 };
 
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
-  size = 'large',
+  story,
   onPress,
-  preview: uri,
+  size = 'large',
   containerStyle,
   placeholderStyle,
   gradient = defaultGradient,
 }) => {
   const coordinatesRef = useRef({
+    height: 0,
+    width: 0,
     x: 0,
     y: 0,
   });
@@ -80,6 +83,8 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
         const avatarMiddleSize = event.nativeEvent.layout.width / 2;
 
         coordinatesRef.current = {
+          width: event.nativeEvent.layout.width,
+          height: event.nativeEvent.layout.height,
           x: event.nativeEvent.layout.x + avatarMiddleSize,
           y: event.nativeEvent.layout.y + avatarMiddleSize,
         };
@@ -95,7 +100,7 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
         <Avatar
           rounded
           size={size}
-          source={{ uri }}
+          source={{ uri: story.preview }}
           placeholderStyle={placeholderStyle}
           onPress={() => onPress(coordinatesRef.current)}
           renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
@@ -104,5 +109,3 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
     </View>
   );
 };
-
-StoryPreviewItem.displayName = 'StoryPreviewItem';

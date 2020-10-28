@@ -1,7 +1,13 @@
-import { Animated, Dimensions } from 'react-native';
 import React, { useRef, useImperativeHandle } from 'react';
+import { Animated, Dimensions, StyleSheet } from 'react-native';
+
+import { expandAnimation } from '../../utils/helpers';
 
 export type StoryDetailExpanderProps = {
+  /**
+   * The duration of the animation
+   */
+  duration?: number;
   /**
    * Aditional styles to add to the animated view
    */
@@ -12,76 +18,56 @@ export type StoryDetailExpanderProps = {
   children?: React.ReactNode;
 };
 
-const duration = 150;
-const toValue = {
-  x: 0,
-  y: 0,
-};
-const initialAnimationConfig = {
-  useNativeDriver: false,
-  duration,
-  toValue,
-};
-
 const { width, height } = Dimensions.get('screen');
 
 export const StoryDetailExpander = React.forwardRef<
   any,
   StoryDetailExpanderProps
->(({ style, children }, ref) => {
-  const coordsRef = useRef(toValue);
-  const animatedWidthHeightRef = useRef(new Animated.ValueXY(toValue));
-  const animatedCoordinatesRef = useRef(new Animated.ValueXY(toValue));
+>(({ style, children, duration = 200 }, ref) => {
+  const coordsRef = useRef({ x: 0, y: 0 });
+
+  const scaleXRef = useRef(new Animated.Value(0));
+  const scaleYRef = useRef(new Animated.Value(0));
+
+  const translateXRef = useRef(new Animated.Value(0));
+  const translateYRef = useRef(new Animated.Value(0));
 
   useImperativeHandle(ref, () => ({
-    startExpandAnimation: (coords: any, callback: any) => {
-      animatedCoordinatesRef.current.setValue(coords);
+    startExpandAnimation: (coords: any, finishCallback: any) => {
+      translateXRef.current.setValue(coords.x);
+      translateYRef.current.setValue(coords.y);
+
       coordsRef.current = coords;
 
-      const scaleWidthHeightAnimation = Animated.timing(
-        animatedWidthHeightRef.current,
-        {
-          useNativeDriver: false,
-          duration,
-          toValue: {
-            x: width,
-            y: height,
-          },
-        }
-      );
+      const animations = [
+        scaleXRef.current,
+        scaleYRef.current,
+        translateXRef.current,
+        translateYRef.current,
+      ];
 
-      const changeXYPosition = Animated.timing(
-        animatedCoordinatesRef.current,
-        initialAnimationConfig
-      );
-
-      changeXYPosition.start();
-      scaleWidthHeightAnimation.start(({ finished }) => {
-        if (finished) {
-          callback && callback();
-        }
+      expandAnimation(animations, finishCallback, {
+        x: 0,
+        y: 0,
+        width,
+        height,
+        duration,
       });
     },
-    resetExpandAnimation: (callback: any) => {
-      const inverseWidthHeightAnimation = Animated.timing(
-        animatedWidthHeightRef.current,
-        initialAnimationConfig
-      );
+    resetExpandAnimation: (finishCallback: any) => {
+      const animations = [
+        scaleXRef.current,
+        scaleYRef.current,
+        translateXRef.current,
+        translateYRef.current,
+      ];
 
-      const changeXYPosition = Animated.timing(animatedCoordinatesRef.current, {
-        useNativeDriver: false,
+      expandAnimation(animations, finishCallback, {
+        x: coordsRef.current.x,
+        y: coordsRef.current.y,
+        width: 0,
+        height: 0,
         duration,
-        toValue: {
-          x: coordsRef.current.x,
-          y: coordsRef.current.y,
-        },
-      });
-
-      changeXYPosition.start();
-      inverseWidthHeightAnimation.start(({ finished }) => {
-        if (finished) {
-          callback && callback();
-        }
       });
     },
   }));
@@ -90,13 +76,27 @@ export const StoryDetailExpander = React.forwardRef<
     <Animated.View
       style={[
         style,
+        StyleSheet.absoluteFillObject,
         {
-          position: 'absolute',
+          width: 10,
+          height: 10,
           backgroundColor: '#000000',
-          top: animatedCoordinatesRef.current.y,
-          left: animatedCoordinatesRef.current.x,
-          width: animatedWidthHeightRef.current.x,
-          height: animatedWidthHeightRef.current.y,
+        },
+        {
+          transform: [
+            {
+              translateX: translateXRef.current,
+            },
+            {
+              translateY: translateYRef.current,
+            },
+            {
+              scaleX: scaleXRef.current,
+            },
+            {
+              scaleY: scaleYRef.current,
+            },
+          ],
         },
       ]}
     >

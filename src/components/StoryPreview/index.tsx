@@ -124,7 +124,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
           return (
             <StoryPreviewItem
               {...StoryPreviewItemProps}
-              {...story}
+              story={story}
               ref={expanderRef}
               onPress={(coordinates) => {
                 const storyIndex = stories.findIndex(
