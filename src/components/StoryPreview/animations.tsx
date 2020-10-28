@@ -1,8 +1,5 @@
-import React, { useRef, useImperativeHandle } from 'react';
-import { useState } from 'react';
 import { Animated, Dimensions } from 'react-native';
-
-const { width, height } = Dimensions.get('screen');
+import React, { useRef, useImperativeHandle } from 'react';
 
 export type StoryDetailExpanderProps = {
   /**
@@ -15,55 +12,77 @@ export type StoryDetailExpanderProps = {
   children?: React.ReactNode;
 };
 
-const size = 0;
-const duration = 200;
-const defaultAnimationConfig = {
+const duration = 150;
+const toValue = {
+  x: 0,
+  y: 0,
+};
+const initialAnimationConfig = {
   useNativeDriver: false,
   duration,
+  toValue,
 };
+
+const { width, height } = Dimensions.get('screen');
 
 export const StoryDetailExpander = React.forwardRef<
   any,
   StoryDetailExpanderProps
 >(({ style, children }, ref) => {
-  const animatedHeightRef = useRef(new Animated.Value(size));
-  const animatedWidthRef = useRef(new Animated.Value(size));
-
-  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+  const coordsRef = useRef(toValue);
+  const animatedWidthHeightRef = useRef(new Animated.ValueXY(toValue));
+  const animatedCoordinatesRef = useRef(new Animated.ValueXY(toValue));
 
   useImperativeHandle(ref, () => ({
     startExpandAnimation: (coords: any, callback: any) => {
-      setCoordinates(coords);
+      animatedCoordinatesRef.current.setValue(coords);
+      coordsRef.current = coords;
 
-      const scaleHeightAnimation = Animated.timing(animatedHeightRef.current, {
-        ...defaultAnimationConfig,
-        toValue: height,
-      });
-
-      const scaleWidthAnimation = Animated.timing(animatedWidthRef.current, {
-        ...defaultAnimationConfig,
-        toValue: width,
-      });
-
-      scaleHeightAnimation.start(() => callback && callback());
-      scaleWidthAnimation.start(() => callback && callback());
-    },
-    resetExpandAnimation: (callback: any) => {
-      const inverseHeightAnimation = Animated.timing(
-        animatedHeightRef.current,
+      const scaleWidthHeightAnimation = Animated.timing(
+        animatedWidthHeightRef.current,
         {
-          ...defaultAnimationConfig,
-          toValue: size,
+          useNativeDriver: false,
+          duration,
+          toValue: {
+            x: width,
+            y: height,
+          },
         }
       );
 
-      const inverseWidthAnimation = Animated.timing(animatedWidthRef.current, {
-        ...defaultAnimationConfig,
-        toValue: size,
+      const changeXYPosition = Animated.timing(
+        animatedCoordinatesRef.current,
+        initialAnimationConfig
+      );
+
+      changeXYPosition.start();
+      scaleWidthHeightAnimation.start(({ finished }) => {
+        if (finished) {
+          callback && callback();
+        }
+      });
+    },
+    resetExpandAnimation: (callback: any) => {
+      const inverseWidthHeightAnimation = Animated.timing(
+        animatedWidthHeightRef.current,
+        initialAnimationConfig
+      );
+
+      const changeXYPosition = Animated.timing(animatedCoordinatesRef.current, {
+        useNativeDriver: false,
+        duration,
+        toValue: {
+          x: coordsRef.current.x,
+          y: coordsRef.current.y,
+        },
       });
 
-      inverseHeightAnimation.start(() => callback && callback());
-      inverseWidthAnimation.start(() => callback && callback());
+      changeXYPosition.start();
+      inverseWidthHeightAnimation.start(({ finished }) => {
+        if (finished) {
+          callback && callback();
+        }
+      });
     },
   }));
 
@@ -72,12 +91,12 @@ export const StoryDetailExpander = React.forwardRef<
       style={[
         style,
         {
-          top: coordinates.y,
-          left: coordinates.x,
           position: 'absolute',
           backgroundColor: '#000000',
-          width: animatedWidthRef.current,
-          height: animatedHeightRef.current,
+          top: animatedCoordinatesRef.current.y,
+          left: animatedCoordinatesRef.current.x,
+          width: animatedWidthHeightRef.current.x,
+          height: animatedWidthHeightRef.current.y,
         },
       ]}
     >
@@ -85,5 +104,3 @@ export const StoryDetailExpander = React.forwardRef<
     </Animated.View>
   );
 });
-
-StoryDetailExpander.displayName = 'StoryDetailExpander';

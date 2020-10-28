@@ -91,11 +91,21 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
   ];
 
   useEffect(() => {
+    let timeoutId: any = null;
+
     if (!isVisible) {
-      if (expanderRef.current) {
-        expanderRef.current.resetExpandAnimation();
-      }
+      timeoutId = setTimeout(() => {
+        if (expanderRef.current) {
+          expanderRef.current.resetExpandAnimation();
+        }
+      }, 50);
     }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [isVisible]);
 
   return (
@@ -123,12 +133,14 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
 
                 if (expanderRef.current) {
                   expanderRef.current.startExpandAnimation(coordinates, () => {
-                    setIsVisible(true);
-                    setIndex(storyIndex);
+                    setTimeout(() => {
+                      setIsVisible(true);
+                      setIndex(storyIndex);
 
-                    if (onStoryPreviewItemPress) {
-                      onStoryPreviewItemPress(story, storyIndex);
-                    }
+                      if (onStoryPreviewItemPress) {
+                        onStoryPreviewItemPress(story, storyIndex);
+                      }
+                    }, 50);
                   });
                 } else {
                   setIsVisible(true);

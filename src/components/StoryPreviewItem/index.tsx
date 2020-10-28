@@ -1,9 +1,10 @@
+import React, { ReactText } from 'react';
 import { Avatar } from 'react-native-elements';
-import React, { ReactText, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import { ActivityIndicator, ViewStyle, View } from 'react-native';
 
 import { styles } from './styles';
+import { useRef } from 'react';
 
 export type GradientOptions = {
   /**
@@ -67,17 +68,22 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   placeholderStyle,
   gradient = defaultGradient,
 }) => {
-  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 });
+  const coordinatesRef = useRef({
+    x: 0,
+    y: 0,
+  });
 
   return (
     <View
       style={[styles.container, containerStyle]}
-      onLayout={(event) =>
-        setCoordinates({
-          x: event.nativeEvent.layout.x,
-          y: 78 / 2,
-        })
-      }
+      onLayout={(event) => {
+        const avatarMiddleSize = event.nativeEvent.layout.width / 2;
+
+        coordinatesRef.current = {
+          x: event.nativeEvent.layout.x + avatarMiddleSize,
+          y: event.nativeEvent.layout.y + avatarMiddleSize,
+        };
+      }}
     >
       <LinearGradient
         colors={gradient.colors}
@@ -91,7 +97,7 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
           size={size}
           source={{ uri }}
           placeholderStyle={placeholderStyle}
-          onPress={() => onPress(coordinates)}
+          onPress={() => onPress(coordinatesRef.current)}
           renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
         />
       </LinearGradient>
