@@ -3,6 +3,8 @@ import { Animated, Dimensions, StyleSheet } from 'react-native';
 
 import { expandAnimation } from '../../utils/helpers';
 
+import { styles } from './styles';
+
 export type StoryDetailExpanderProps = {
   /**
    * The duration of the animation
@@ -32,19 +34,19 @@ export const StoryDetailExpander = React.forwardRef<
   const translateXRef = useRef(new Animated.Value(0));
   const translateYRef = useRef(new Animated.Value(0));
 
+  const animations = [
+    scaleXRef.current,
+    scaleYRef.current,
+    translateXRef.current,
+    translateYRef.current,
+  ];
+
   useImperativeHandle(ref, () => ({
     startExpandAnimation: (coords: any, finishCallback: any) => {
       translateXRef.current.setValue(coords.x);
       translateYRef.current.setValue(coords.y);
 
       coordsRef.current = coords;
-
-      const animations = [
-        scaleXRef.current,
-        scaleYRef.current,
-        translateXRef.current,
-        translateYRef.current,
-      ];
 
       expandAnimation(animations, finishCallback, {
         x: 0,
@@ -55,13 +57,6 @@ export const StoryDetailExpander = React.forwardRef<
       });
     },
     resetExpandAnimation: (finishCallback: any) => {
-      const animations = [
-        scaleXRef.current,
-        scaleYRef.current,
-        translateXRef.current,
-        translateYRef.current,
-      ];
-
       expandAnimation(animations, finishCallback, {
         x: coordsRef.current.x,
         y: coordsRef.current.y,
@@ -75,13 +70,9 @@ export const StoryDetailExpander = React.forwardRef<
   return (
     <Animated.View
       style={[
-        style,
         StyleSheet.absoluteFillObject,
-        {
-          width: 10,
-          height: 10,
-          backgroundColor: '#000000',
-        },
+        styles.container,
+        style,
         {
           transform: [
             {
@@ -104,3 +95,5 @@ export const StoryDetailExpander = React.forwardRef<
     </Animated.View>
   );
 });
+
+StoryDetailExpander.displayName = 'StoryDetailExpander';

@@ -11,7 +11,7 @@ import type {
   StoryDetailFooterItemProps,
 } from '../StoryDetailItem';
 
-import { StoryDetailExpander } from './animations';
+import { StoryDetailExpander } from '../StoryDetailExpander';
 
 export type StoryPreviewItemProps = {
   /**

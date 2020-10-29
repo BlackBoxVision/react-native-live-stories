@@ -9,7 +9,7 @@ import {
   StoryDetailItem,
 } from '../StoryDetailItem';
 
-import * as instaEffect from './animations';
+import * as instaEffect from '../../utils/helpers';
 
 import { styles } from './styles';
 
@@ -96,7 +96,7 @@ export const StoryDetail: React.FC<StoreDetailProps> = ({
         firstItem={initial}
         initialScrollIndex={initial}
         scrollInterpolator={instaEffect.scrollInterpolator}
-        slideInterpolatedStyle={instaEffect.animatedStyles}
+        slideInterpolatedStyle={instaEffect.animatedStyles as any}
         onSnapToItem={(idx) => onMoveToNextStory(idx)}
         renderItem={({ item: story, index: idx }) => (
           <StoryDetailItem
