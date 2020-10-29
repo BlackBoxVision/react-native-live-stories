@@ -70,6 +70,7 @@ export type StoryPreviewProps = {
   ) => React.ReactElement | null;
 };
 
+// TODO: enable animations based on a property, by default animations will be run
 export const StoryPreview: React.FC<StoryPreviewProps> = ({
   style,
   stories = [],

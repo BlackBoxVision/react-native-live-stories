@@ -8,9 +8,9 @@ export const styles = StyleSheet.create({
   },
   gradientContainer: {
     alignItems: 'center',
-    borderRadius: 78 / 2,
-    height: 78,
+    borderRadius: 90 / 2,
+    height: 90,
     justifyContent: 'center',
-    width: 78,
+    width: 90,
   },
 });
