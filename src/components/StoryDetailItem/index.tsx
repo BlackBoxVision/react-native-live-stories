@@ -100,7 +100,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   const [muted, setMuted] = useState(false);
 
   const [duration, setDuration] = useState(null);
-  const [progress, setProgress] = useState(null);
+  const [progress, setProgress] = useState(0);
 
   const goBack = () => {
     if (onBackPress) {
@@ -113,6 +113,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
 
     if (videoRef.current) {
       videoRef.current.seek(0);
+      setProgress(0);
     }
   }, [isCurrentStory]);
 
