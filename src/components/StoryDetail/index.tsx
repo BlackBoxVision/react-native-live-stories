@@ -10,7 +10,7 @@ import {
 } from '../StoryDetailItem';
 import { StoryDetailExpander } from './Expander';
 
-import * as instaEffect from '../../animations/helpers';
+import * as cubeEffect from '../../animations/cube';
 
 import { styles } from './styles';
 
@@ -101,8 +101,8 @@ export const StoryDetail = React.forwardRef<any, StoryDetailProps>(
             sliderWidth={width}
             firstItem={initial}
             initialScrollIndex={initial}
-            scrollInterpolator={instaEffect.scrollInterpolator}
-            slideInterpolatedStyle={instaEffect.animatedStyles as any}
+            scrollInterpolator={cubeEffect.scrollInterpolator}
+            slideInterpolatedStyle={cubeEffect.animatedStyles as any}
             onSnapToItem={(idx) => onMoveToNextStory(idx)}
             renderItem={({ item: story, index: idx }) => (
               <StoryDetailItem
