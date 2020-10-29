@@ -8,8 +8,9 @@ import {
   StoryDetailFooterItemProps,
   StoryDetailItem,
 } from '../StoryDetailItem';
+import { StoryDetailExpander } from './Expander';
 
-import * as instaEffect from '../../utils/helpers';
+import * as instaEffect from '../../animations/helpers';
 
 import { styles } from './styles';
 
@@ -32,7 +33,7 @@ export type Story = {
   viewed: boolean;
 };
 
-export type StoreDetailProps = {
+export type StoryDetailProps = {
   /**
    * The initial index of the Story to present
    */
@@ -69,57 +70,62 @@ export type StoreDetailProps = {
 
 const { width } = Dimensions.get('screen');
 
-export const StoryDetail: React.FC<StoreDetailProps> = ({
-  initial,
-  stories,
-  isVisible,
-  onBackPress,
-  onMoveToNextStory,
-  StoryDetailItemFooter,
-  StoryDetailItemHeader,
-}) => {
-  const carouselRef: any = useRef(null);
+export const StoryDetail = React.forwardRef<any, StoryDetailProps>(
+  (
+    {
+      initial,
+      stories,
+      isVisible,
+      onBackPress,
+      onMoveToNextStory,
+      StoryDetailItemFooter,
+      StoryDetailItemHeader,
+    },
+    ref
+  ) => {
+    const carouselRef: any = useRef(null);
 
-  return (
-    <Overlay
-      fullScreen
-      animationType="none"
-      isVisible={isVisible}
-      overlayStyle={styles.overlayContainer}
-      onBackdropPress={() => onBackPress(initial)}
-    >
-      <Carousel
-        data={stories}
-        ref={carouselRef}
-        itemWidth={width}
-        sliderWidth={width}
-        firstItem={initial}
-        initialScrollIndex={initial}
-        scrollInterpolator={instaEffect.scrollInterpolator}
-        slideInterpolatedStyle={instaEffect.animatedStyles as any}
-        onSnapToItem={(idx) => onMoveToNextStory(idx)}
-        renderItem={({ item: story, index: idx }) => (
-          <StoryDetailItem
-            story={story}
-            isCurrentStory={initial === idx}
-            StoryDetailItemFooter={StoryDetailItemFooter}
-            StoryDetailItemHeader={StoryDetailItemHeader}
-            onBackPress={() => onBackPress(idx)}
-            onVideoEnd={() => {
-              if (idx <= stories.length - 2) {
-                setTimeout(
-                  () => carouselRef.current.snapToItem(idx + 1, true, true),
-                  Platform.OS === 'ios' ? 25 : 0
-                );
-              } else {
-                onBackPress(idx);
-              }
-            }}
+    return (
+      <StoryDetailExpander ref={ref}>
+        <Overlay
+          fullScreen
+          animationType="none"
+          isVisible={isVisible}
+          overlayStyle={styles.overlayContainer}
+          onBackdropPress={() => onBackPress(initial)}
+        >
+          <Carousel
+            data={stories}
+            ref={carouselRef}
+            itemWidth={width}
+            sliderWidth={width}
+            firstItem={initial}
+            initialScrollIndex={initial}
+            scrollInterpolator={instaEffect.scrollInterpolator}
+            slideInterpolatedStyle={instaEffect.animatedStyles as any}
+            onSnapToItem={(idx) => onMoveToNextStory(idx)}
+            renderItem={({ item: story, index: idx }) => (
+              <StoryDetailItem
+                story={story}
+                isCurrentStory={initial === idx}
+                StoryDetailItemFooter={StoryDetailItemFooter}
+                StoryDetailItemHeader={StoryDetailItemHeader}
+                onBackPress={() => onBackPress(idx)}
+                onVideoEnd={() => {
+                  if (idx <= stories.length - 2) {
+                    setTimeout(
+                      () => carouselRef.current.snapToItem(idx + 1, true, true),
+                      Platform.OS === 'ios' ? 25 : 0
+                    );
+                  } else {
+                    onBackPress(idx);
+                  }
+                }}
+              />
+            )}
           />
-        )}
-      />
-    </Overlay>
-  );
-};
-
-StoryDetail.displayName = 'StoryDetail';
+        </Overlay>
+      </StoryDetailExpander>
+    );
+  }
+);

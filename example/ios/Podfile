@@ -1,22 +1,17 @@
-platform :ios, '9.0'
+platform :ios, '14.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-def add_flipper_pods!
-  version = '~> 0.33.1'
-  pod 'FlipperKit', version, :configuration => 'Debug'
-  pod 'FlipperKit/FlipperKitLayoutPlugin', version, :configuration => 'Debug'
-  pod 'FlipperKit/SKIOSNetworkPlugin', version, :configuration => 'Debug'
-  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', version, :configuration => 'Debug'
-  pod 'FlipperKit/FlipperKitReactPlugin', version, :configuration => 'Debug'
-end
-# Post Install processing for Flipper
-def flipper_post_install(installer)
+# Post Install to fix deployment target
+def deployment_target_post_install(installer)
   installer.pods_project.targets.each do |target|
-    if target.name == 'YogaKit'
-      target.build_configurations.each do |config|
-        config.build_settings['SWIFT_VERSION'] = '4.1'
-      end
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
     end
+  end
+
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
+    config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
   end
 end
 
@@ -52,20 +47,10 @@ target 'LiveStoriesExample' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-
-
+  
   use_native_modules!
+end
 
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable these next few lines.
-  add_flipper_pods!
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-  pod 'react-native-video', :path => '../node_modules/react-native-video'
-
-  post_install do |installer|
-    flipper_post_install(installer)
-  end
+post_install do |installer|
+  deployment_target_post_install(installer)
 end

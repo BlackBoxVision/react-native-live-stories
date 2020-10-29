@@ -1,7 +1,7 @@
 import React, { useRef, useImperativeHandle } from 'react';
 import { Animated, Dimensions, StyleSheet } from 'react-native';
 
-import { expandAnimation } from '../../utils/helpers';
+import { expandAnimation } from '../../../animations/helpers';
 
 import { styles } from './styles';
 

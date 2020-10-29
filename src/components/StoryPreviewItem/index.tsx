@@ -5,7 +5,7 @@ import { ActivityIndicator, ViewStyle, View, Animated } from 'react-native';
 
 import type { Story } from '../StoryDetail';
 
-import { heartbeatAnimation } from '../../utils/helpers';
+import { heartbeatAnimation } from '../../animations/helpers';
 
 import { styles } from './styles';
 

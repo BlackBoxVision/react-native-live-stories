@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { FlatList, ViewStyle } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { StoryPreviewItem } from '../StoryPreviewItem';
 import { Story, StoryDetail } from '../StoryDetail';
@@ -10,8 +10,6 @@ import type {
   StoryDetailHeaderItemProps,
   StoryDetailFooterItemProps,
 } from '../StoryDetailItem';
-
-import { StoryDetailExpander } from '../StoryDetailExpander';
 
 export type StoryPreviewItemProps = {
   /**
@@ -156,38 +154,37 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
           );
         }}
       />
-      <StoryDetailExpander ref={expanderRef}>
-        <StoryDetail
-          initial={index}
-          stories={stories}
-          isVisible={isVisible}
-          StoryDetailItemHeader={StoryDetailItemHeader}
-          StoryDetailItemFooter={StoryDetailItemFooter}
-          onMoveToNextStory={(idx) => {
-            setIndex(idx);
+      <StoryDetail
+        ref={expanderRef}
+        initial={index}
+        stories={stories}
+        isVisible={isVisible}
+        StoryDetailItemHeader={StoryDetailItemHeader}
+        StoryDetailItemFooter={StoryDetailItemFooter}
+        onMoveToNextStory={(idx) => {
+          setIndex(idx);
 
-            if (onStoryDetailItemNext) {
-              const story: Story = stories[idx];
+          if (onStoryDetailItemNext) {
+            const story: Story = stories[idx];
 
-              if (story) {
-                onStoryDetailItemNext(story, idx);
-              }
+            if (story) {
+              onStoryDetailItemNext(story, idx);
             }
-          }}
-          onBackPress={(idx: number) => {
-            setIsVisible(false);
-            setIndex(null);
+          }
+        }}
+        onBackPress={(idx: number) => {
+          setIsVisible(false);
+          setIndex(null);
 
-            if (onStoryDetailBackPress) {
-              const story: Story = stories[idx];
+          if (onStoryDetailBackPress) {
+            const story: Story = stories[idx];
 
-              if (story) {
-                onStoryDetailBackPress(story, idx);
-              }
+            if (story) {
+              onStoryDetailBackPress(story, idx);
             }
-          }}
-        />
-      </StoryDetailExpander>
+          }
+        }}
+      />
     </>
   );
 };

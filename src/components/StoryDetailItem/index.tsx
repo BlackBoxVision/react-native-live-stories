@@ -1,9 +1,11 @@
 import Video from 'react-native-video';
-import { Overlay } from 'react-native-elements';
-import { ActivityIndicator } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 
 import type { Story } from '../StoryDetail';
+
+import { StoryDetailItemLayout } from './Layout';
+import { StoryDetailItemLoading } from './Loading';
+
 import { styles } from './styles';
 
 export type StoryDetailHeaderItemProps = {
@@ -117,82 +119,76 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
     }
   }, [isCurrentStory]);
 
+  const header = (
+    <StoryDetailItemHeader
+      story={story}
+      muted={muted}
+      goBack={goBack}
+      mute={() => setMuted(!muted)}
+    />
+  );
+
+  const footer = (
+    <StoryDetailItemFooter
+      story={story}
+      goBack={goBack}
+      videoProgress={progress}
+      videoDuration={duration}
+    />
+  );
+
   return (
     <>
-      <Overlay
-        fullScreen
-        onBackdropPress={goBack}
+      <StoryDetailItemLoading
         isVisible={visible && isCurrentStory}
-        overlayStyle={styles.overlayContainer}
-      >
-        <>
-          <StoryDetailItemHeader
-            story={story}
+        goBack={goBack}
+        header={header}
+        footer={footer}
+      />
+      <StoryDetailItemLayout
+        header={header}
+        content={
+          <Video
+            ref={videoRef}
             muted={muted}
-            goBack={goBack}
-            mute={() => setMuted(!muted)}
-          />
-          <ActivityIndicator
-            animating
-            color="#FFFFFF"
-            style={styles.overlayIndicator}
-          />
-          <StoryDetailItemFooter
-            story={story}
-            goBack={goBack}
-            videoProgress={progress}
-            videoDuration={duration}
-          />
-        </>
-      </Overlay>
-      <StoryDetailItemHeader
-        story={story}
-        muted={muted}
-        goBack={goBack}
-        mute={() => setMuted(!muted)}
-      />
-      <Video
-        ref={videoRef}
-        muted={muted}
-        paused={paused}
-        controls={false}
-        resizeMode="cover"
-        style={styles.container}
-        source={{ uri: story.video }}
-        onLoadStart={() => setVisible(true)}
-        onLoad={(nativeEvent: any) => {
-          setProgress(nativeEvent.currentPosition);
-          setDuration(nativeEvent.duration);
-          setVisible(false);
-        }}
-        onProgress={(nativeEvent: any) => setProgress(nativeEvent.currentTime)}
-        onEnd={() => {
-          onVideoEnd();
+            paused={paused}
+            controls={false}
+            resizeMode="cover"
+            style={styles.container}
+            source={{ uri: story.video }}
+            onLoadStart={() => setVisible(true)}
+            onLoad={(nativeEvent: any) => {
+              setProgress(nativeEvent.currentPosition);
+              setDuration(nativeEvent.duration);
+              setVisible(false);
+            }}
+            onProgress={(nativeEvent: any) =>
+              setProgress(nativeEvent.currentTime)
+            }
+            onEnd={() => {
+              onVideoEnd();
 
-          if (videoRef.current) {
-            videoRef.current.seek(0);
-          }
-        }}
-        onTouchStart={() => {
-          setPaused(true);
+              if (videoRef.current) {
+                videoRef.current.seek(0);
+              }
+            }}
+            onTouchStart={() => {
+              setPaused(true);
 
-          if (onVideoTouchStart) {
-            onVideoTouchStart();
-          }
-        }}
-        onTouchEnd={() => {
-          setPaused(false);
+              if (onVideoTouchStart) {
+                onVideoTouchStart();
+              }
+            }}
+            onTouchEnd={() => {
+              setPaused(false);
 
-          if (onVideoTouchEnd) {
-            onVideoTouchEnd();
-          }
-        }}
-      />
-      <StoryDetailItemFooter
-        story={story}
-        goBack={goBack}
-        videoProgress={progress}
-        videoDuration={duration}
+              if (onVideoTouchEnd) {
+                onVideoTouchEnd();
+              }
+            }}
+          />
+        }
+        footer={footer}
       />
     </>
   );
