@@ -80,6 +80,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
   getStoryPreviewItemProps = () => {},
 }) => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [animated, setAnimated] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
 
   const expanderRef: any = useRef(null);
@@ -95,7 +96,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
     if (!isVisible) {
       timeoutId = setTimeout(() => {
         if (expanderRef.current) {
-          expanderRef.current.resetExpandAnimation();
+          expanderRef.current.resetExpandAnimation(() => setAnimated(false));
         }
       }, 50);
     }
@@ -126,6 +127,8 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
               story={story}
               ref={expanderRef}
               onPress={(coordinates) => {
+                setAnimated(true);
+
                 const storyIndex = stories.findIndex(
                   (s: Story) => s.id === story.id
                 );
@@ -158,6 +161,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
         ref={expanderRef}
         initial={index}
         stories={stories}
+        animated={animated}
         isVisible={isVisible}
         StoryDetailItemHeader={StoryDetailItemHeader}
         StoryDetailItemFooter={StoryDetailItemFooter}

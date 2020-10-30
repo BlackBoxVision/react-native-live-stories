@@ -1,11 +1,15 @@
 import React, { useRef, useImperativeHandle } from 'react';
-import { Animated, Dimensions, StyleSheet } from 'react-native';
+import { Animated, Dimensions, Modal, StyleSheet } from 'react-native';
 
 import { expandAnimation } from '../../../animations/expand';
 
 import { styles } from './styles';
 
 export type StoryDetailExpanderProps = {
+  /**
+   * Trigger animation visibility
+   */
+  isVisible?: boolean;
   /**
    * The duration of the animation
    */
@@ -25,7 +29,7 @@ const { width, height } = Dimensions.get('screen');
 export const StoryDetailExpander = React.forwardRef<
   any,
   StoryDetailExpanderProps
->(({ style, children, duration = 200 }, ref) => {
+>(({ style, children, duration = 200, isVisible }, ref) => {
   const coordsRef = useRef({ x: 0, y: 0 });
 
   const scaleXRef = useRef(new Animated.Value(0));
@@ -68,31 +72,33 @@ export const StoryDetailExpander = React.forwardRef<
   }));
 
   return (
-    <Animated.View
-      style={[
-        StyleSheet.absoluteFillObject,
-        styles.container,
-        style,
-        {
-          transform: [
-            {
-              translateX: translateXRef.current,
-            },
-            {
-              translateY: translateYRef.current,
-            },
-            {
-              scaleX: scaleXRef.current,
-            },
-            {
-              scaleY: scaleYRef.current,
-            },
-          ],
-        },
-      ]}
-    >
-      {children}
-    </Animated.View>
+    <Modal visible={isVisible} transparent>
+      <Animated.View
+        style={[
+          StyleSheet.absoluteFillObject,
+          styles.container,
+          style,
+          {
+            transform: [
+              {
+                translateX: translateXRef.current,
+              },
+              {
+                translateY: translateYRef.current,
+              },
+              {
+                scaleX: scaleXRef.current,
+              },
+              {
+                scaleY: scaleYRef.current,
+              },
+            ],
+          },
+        ]}
+      >
+        {children}
+      </Animated.View>
+    </Modal>
   );
 });
 

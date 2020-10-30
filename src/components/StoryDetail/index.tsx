@@ -47,6 +47,10 @@ export type StoryDetailProps = {
    */
   isVisible: boolean;
   /**
+   * A prop to trigger animation
+   */
+  animated: boolean;
+  /**
    * A back button handler callback
    */
   onBackPress: (idx: number) => any;
@@ -77,6 +81,7 @@ export const StoryDetail = React.forwardRef<any, StoryDetailProps>(
       stories,
       isVisible,
       onBackPress,
+      animated = false,
       onMoveToNextStory,
       StoryDetailItemFooter,
       StoryDetailItemHeader,
@@ -86,7 +91,7 @@ export const StoryDetail = React.forwardRef<any, StoryDetailProps>(
     const carouselRef: any = useRef(null);
 
     return (
-      <StoryDetailExpander ref={ref}>
+      <StoryDetailExpander ref={ref} isVisible={animated}>
         <Overlay
           fullScreen
           animationType="none"
