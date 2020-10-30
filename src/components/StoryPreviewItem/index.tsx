@@ -1,6 +1,6 @@
 import { Avatar } from 'react-native-elements';
-import React, { ReactText, useRef } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import React, { ReactText, useRef, useState } from 'react';
 import { ActivityIndicator, ViewStyle, View, Animated } from 'react-native';
 
 import type { Story } from '../StoryDetail';
@@ -57,6 +57,10 @@ export type StoryPreviewItemProps = {
    * The options of the linear gradient border
    */
   gradient?: GradientOptions;
+  /**
+   * Boolean used to set if story preview item must be rendered with animation and gradient border
+   */
+  shouldAnimate?: boolean;
 };
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
@@ -64,7 +68,6 @@ const defaultGradient: GradientOptions = {
   colors: ['#CA1D7E', '#E35157', '#F2703F'],
 };
 
-// TODO: run animation based on condition like shouldAnimate
 // TODO: dynamic calculate the best size for the LinearGradient based on the Avatar width/height constraints obtained via onLayout event
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   story,
@@ -72,8 +75,9 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   containerStyle,
   placeholderStyle,
   gradient = defaultGradient,
+  shouldAnimate = true,
 }) => {
-  const scaleRef = useRef(new Animated.Value(1));
+  const [scale, setScale] = useState(new Animated.Value(1));
   const coordinatesRef = useRef({
     height: 0,
     width: 0,
@@ -96,11 +100,11 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
 
         const sizeScale = coordinatesRef.current.width / 100;
 
-        heartbeatAnimation(
-          scaleRef.current,
-          sizeScale - 0.01,
-          sizeScale + 0.05
-        );
+        if (shouldAnimate) {
+          heartbeatAnimation(scale, sizeScale - 0.01, sizeScale + 0.05);
+        } else {
+          setScale(new Animated.Value(sizeScale));
+        }
       }}
     >
       <AnimatedLinearGradient
@@ -114,10 +118,10 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
           {
             transform: [
               {
-                scaleX: scaleRef.current,
+                scaleX: scale,
               },
               {
-                scaleY: scaleRef.current,
+                scaleY: scale,
               },
             ],
           },
@@ -126,11 +130,7 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
       <Avatar
         rounded
         size={78}
-        containerStyle={{
-          position: 'absolute',
-          top: 6,
-          left: 6,
-        }}
+        containerStyle={styles.avatar}
         source={{ uri: story.preview }}
         placeholderStyle={placeholderStyle}
         onPress={() => onPress(coordinatesRef.current)}

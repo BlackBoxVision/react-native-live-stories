@@ -13,4 +13,9 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 90,
   },
+  avatar: {
+    left: 6,
+    position: 'absolute',
+    top: 6,
+  },
 });

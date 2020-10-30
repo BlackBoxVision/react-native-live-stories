@@ -54,6 +54,61 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UIAppFonts</key>
-	<array/>
+	<array>
+		<string>Entypo.ttf</string>
+		<string>EvilIcons.ttf</string>
+		<string>Feather.ttf</string>
+		<string>FontAwesome.ttf</string>
+		<string>Foundation.ttf</string>
+		<string>Ionicons.ttf</string>
+		<string>MaterialCommunityIcons.ttf</string>
+		<string>MaterialIcons.ttf</string>
+		<string>Octicons.ttf</string>
+		<string>SimpleLineIcons.ttf</string>
+		<string>Zocial.ttf</string>
+		<string>DINLi___.ttf</string>
+		<string>DINLiA__.ttf</string>
+		<string>DINLiEp_.ttf</string>
+		<string>DINMd___.ttf</string>
+		<string>DINMdA__.ttf</string>
+		<string>DINMdEp_.ttf</string>
+		<string>DINRg___.ttf</string>
+		<string>DINRgA__.ttf</string>
+		<string>DINRgEp_.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-BoldItalic.ttf</string>
+		<string>OpenSans-ExtraBold.ttf</string>
+		<string>OpenSans-ExtraBoldItalic.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-LightItalic.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Semibold.ttf</string>
+		<string>OpenSans-SemiboldItalic.ttf</string>
+		<string>DINNextLTPro-UltraLight.otf</string>
+		<string>Barlow-Black.ttf</string>
+		<string>Barlow-BlackItalic.ttf</string>
+		<string>Barlow-Bold.ttf</string>
+		<string>Barlow-BoldItalic.ttf</string>
+		<string>Barlow-ExtraBold.ttf</string>
+		<string>Barlow-ExtraBoldItalic.ttf</string>
+		<string>Barlow-ExtraLight.ttf</string>
+		<string>Barlow-ExtraLightItalic.ttf</string>
+		<string>Barlow-Italic.ttf</string>
+		<string>Barlow-Light.ttf</string>
+		<string>Barlow-LightItalic.ttf</string>
+		<string>Barlow-Medium.ttf</string>
+		<string>Barlow-MediumItalic.ttf</string>
+		<string>Barlow-Regular.ttf</string>
+		<string>Barlow-SemiBold.ttf</string>
+		<string>Barlow-SemiBoldItalic.ttf</string>
+		<string>Barlow-Thin.ttf</string>
+		<string>Barlow-ThinItalic.ttf</string>
+		<string>AntDesign.ttf</string>
+		<string>FontAwesome5_Brands.ttf</string>
+		<string>FontAwesome5_Regular.ttf</string>
+		<string>FontAwesome5_Solid.ttf</string>
+		<string>Fontisto.ttf</string>
+	</array>
 </dict>
 </plist>
