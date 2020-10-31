@@ -1,6 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
+  header: {
+    borderBottomWidth: 0,
+    paddingTop: 0,
+  },
+  progressBar: {
+    height: 2,
+    marginTop: 8,
+  },
   icon: {
     marginHorizontal: 8,
     paddingHorizontal: 0,

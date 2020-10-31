@@ -6,10 +6,7 @@ import { Story, StoryDetail } from '../StoryDetail';
 
 import { styles } from './styles';
 
-import type {
-  StoryDetailHeaderItemProps,
-  StoryDetailFooterItemProps,
-} from '../StoryDetailItem';
+import type { RenderItemProps } from '../StoryDetailItem';
 
 export type StoryPreviewItemProps = {
   /**
@@ -58,13 +55,13 @@ export type StoryPreviewProps = {
    * Component for Header in Story Detail Item
    */
   StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderItemProps
+    props?: RenderItemProps
   ) => React.ReactElement | null;
   /**
    * Component for Footer in Story Detail Item
    */
   StoryDetailItemFooter?: (
-    props?: StoryDetailFooterItemProps
+    props?: RenderItemProps
   ) => React.ReactElement | null;
 };
 

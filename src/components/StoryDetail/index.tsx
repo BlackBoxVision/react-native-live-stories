@@ -3,11 +3,7 @@ import { Overlay } from 'react-native-elements';
 import React, { useRef } from 'react';
 import Carousel from 'react-native-snap-carousel';
 
-import {
-  StoryDetailHeaderItemProps,
-  StoryDetailFooterItemProps,
-  StoryDetailItem,
-} from '../StoryDetailItem';
+import { RenderItemProps, StoryDetailItem } from '../StoryDetailItem';
 import { StoryDetailExpander } from './Expander';
 
 import * as cubeEffect from '../../animations/cube';
@@ -62,13 +58,13 @@ export type StoryDetailProps = {
    * A component to render as the Header of the Story Detail Item
    */
   StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderItemProps
+    props?: RenderItemProps
   ) => React.ReactElement | null;
   /**
    * A component to render as the Footer of the Story Detail Item
    */
   StoryDetailItemFooter?: (
-    props?: StoryDetailFooterItemProps
+    props?: RenderItemProps
   ) => React.ReactElement | null;
 };
 

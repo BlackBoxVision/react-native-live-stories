@@ -8,7 +8,7 @@ import { StoryDetailItemLoading } from './Loading';
 
 import { styles } from './styles';
 
-export type StoryDetailHeaderItemProps = {
+export type RenderItemProps = {
   /**
    * The story content
    */
@@ -25,13 +25,6 @@ export type StoryDetailHeaderItemProps = {
    * It indicates if the video is muted or not
    */
   muted: boolean;
-};
-
-export type StoryDetailFooterItemProps = {
-  /**
-   * The story content
-   */
-  story: Story;
   /**
    * The duration of the video been rendered
    */
@@ -40,10 +33,6 @@ export type StoryDetailFooterItemProps = {
    * The progress of the video been rendered
    */
   videoProgress: number | string | null;
-  /**
-   * A function to exit from the StoryDetail
-   */
-  goBack: () => any;
 };
 
 export type StoryDetailItemProps = {
@@ -75,13 +64,13 @@ export type StoryDetailItemProps = {
    * A component to render as the Header of the Story Detail Item
    */
   StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderItemProps
+    props?: RenderItemProps
   ) => React.ReactElement | null;
   /**
    * A component to render as the Footer of the Story Detail Item
    */
   StoryDetailItemFooter?: (
-    props?: StoryDetailFooterItemProps
+    props?: RenderItemProps
   ) => React.ReactElement | null;
 };
 
@@ -122,9 +111,11 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   const header = (
     <StoryDetailItemHeader
       story={story}
-      muted={muted}
       goBack={goBack}
+      muted={muted}
       mute={() => setMuted(!muted)}
+      videoProgress={progress}
+      videoDuration={duration}
     />
   );
 
@@ -132,6 +123,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
     <StoryDetailItemFooter
       story={story}
       goBack={goBack}
+      muted={muted}
+      mute={() => setMuted(!muted)}
       videoProgress={progress}
       videoDuration={duration}
     />
