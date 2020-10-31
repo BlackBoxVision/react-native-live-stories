@@ -7,6 +7,8 @@ import StoryHeader from './components/StoryHeader';
 
 const { width } = Dimensions.get('screen');
 
+console.disableYellowBox = true;
+
 export default function App() {
   return (
     <SafeAreaView>
