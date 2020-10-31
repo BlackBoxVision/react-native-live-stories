@@ -2,30 +2,13 @@ import React from 'react';
 import { Overlay } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
 
+import type { StoryDetailItemLoadingProps } from 'lib/typescript/src/components/StoryDetailItem/Loading';
+
 import { StoryDetailItemLayout } from '../Layout';
 
 import { styles } from './styles';
 
-export type StoryDetailItemLoadingProps = {
-  /**
-   * Prop to display loading
-   */
-  isVisible: boolean;
-  /**
-   * Prop with a callback to go back
-   */
-  goBack: () => any;
-  /**
-   * The header of the loading
-   */
-  header?: React.ReactNode;
-  /**
-   * The footer of the loading
-   */
-  footer?: React.ReactNode;
-};
-
-export const StoryDetailItemLoading = ({
+export const StoryDetailItemLoading: React.FC<StoryDetailItemLoadingProps> = ({
   isVisible,
   goBack,
   header,
@@ -47,4 +30,4 @@ export const StoryDetailItemLoading = ({
   </Overlay>
 );
 
-StoryDetailItemLoading.diplayName = 'StoryDetailItemLoading';
+StoryDetailItemLoading.displayName = 'StoryDetailItemLoading';

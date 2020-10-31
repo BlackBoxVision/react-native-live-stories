@@ -1,72 +1,17 @@
-import { FlatList, ViewStyle } from 'react-native';
+import { FlatList } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 
+import type {
+  Story,
+  Coords,
+  StoryPreviewProps,
+  StoryDetailExpanderRef,
+} from '../../types';
+
+import { StoryDetail } from '../StoryDetail';
 import { StoryPreviewItem } from '../StoryPreviewItem';
-import { Story, StoryDetail } from '../StoryDetail';
 
 import { styles } from './styles';
-
-import type {
-  StoryDetailHeaderItemProps,
-  StoryDetailFooterItemProps,
-} from '../StoryDetailItem';
-
-export type StoryPreviewItemProps = {
-  /**
-   * Size for the Avatar component
-   */
-  size: 'small' | 'medium' | 'large' | 'xlarge' | number;
-  /**
-   * Styles for the container view
-   */
-  containerStyle: ViewStyle;
-  /**
-   * Styles for the placeholder component
-   */
-  placeholderStyle: ViewStyle;
-};
-
-export type StoryPreviewProps = {
-  /**
-   * An array of stories to be rendered
-   */
-  stories: Story[];
-  /**
-   * Styles for FlatList mini stories container
-   */
-  style?: ViewStyle;
-  /**
-   * Get Props for Story Preview Item component based on Story and Index
-   */
-  getStoryPreviewItemProps?: (
-    story: Story,
-    idx: number
-  ) => StoryPreviewItemProps | any;
-  /**
-   * Callback fired when drag to next item
-   */
-  onStoryDetailItemNext?: (story: Story, idx: number) => any;
-  /**
-   * Callback fired when on back button press
-   */
-  onStoryDetailBackPress?: (story: Story, idx: number) => any;
-  /**
-   * Callback fired when performed click on preview
-   */
-  onStoryPreviewItemPress?: (story: Story, idx: number) => any;
-  /**
-   * Component for Header in Story Detail Item
-   */
-  StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderItemProps
-  ) => React.ReactElement | null;
-  /**
-   * Component for Footer in Story Detail Item
-   */
-  StoryDetailItemFooter?: (
-    props?: StoryDetailFooterItemProps
-  ) => React.ReactElement | null;
-};
 
 // TODO: enable animations based on a property, by default animations will be run
 export const StoryPreview: React.FC<StoryPreviewProps> = ({
@@ -83,7 +28,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
   const [animated, setAnimated] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
 
-  const expanderRef: any = useRef(null);
+  const expanderRef: StoryDetailExpanderRef = useRef(null);
 
   const sortedStories = [
     ...stories.filter((story: Story) => story && !story.viewed),
@@ -114,6 +59,11 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
         horizontal
         data={sortedStories}
         renderItem={() => null}
+        getItemLayout={(_, index) => ({
+          offset: 90 * index,
+          length: 90,
+          index,
+        })}
         showsHorizontalScrollIndicator={false}
         keyExtractor={(story) => `${story.id}`}
         contentContainerStyle={[styles.container, style]}
@@ -126,32 +76,28 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
               {...StoryPreviewItemProps}
               story={story}
               ref={expanderRef}
-              onPress={(coordinates) => {
-                setAnimated(true);
+              onPress={(story: Story, coords: Coords) => {
+                requestAnimationFrame(() => {
+                  setAnimated(true);
 
-                const storyIndex = stories.findIndex(
-                  (s: Story) => s.id === story.id
-                );
+                  const storyIndex = stories.findIndex(
+                    (s: Story) => s.id === story.id
+                  );
 
-                if (expanderRef.current) {
-                  expanderRef.current.startExpandAnimation(coordinates, () => {
-                    setTimeout(() => {
+                  if (expanderRef.current) {
+                    expanderRef.current.startExpandAnimation(coords, () => {
                       setIsVisible(true);
                       setIndex(storyIndex);
 
                       if (onStoryPreviewItemPress) {
                         onStoryPreviewItemPress(story, storyIndex);
                       }
-                    }, 50);
-                  });
-                } else {
-                  setIsVisible(true);
-                  setIndex(storyIndex);
-
-                  if (onStoryPreviewItemPress) {
-                    onStoryPreviewItemPress(story, storyIndex);
+                    });
+                  } else {
+                    setIsVisible(true);
+                    setIndex(storyIndex);
                   }
-                }
+                });
               }}
             />
           );
@@ -165,7 +111,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
         isVisible={isVisible}
         StoryDetailItemHeader={StoryDetailItemHeader}
         StoryDetailItemFooter={StoryDetailItemFooter}
-        onMoveToNextStory={(idx) => {
+        onMoveToNextStory={(idx: number) => {
           setIndex(idx);
 
           if (onStoryDetailItemNext) {
@@ -177,16 +123,18 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
           }
         }}
         onBackPress={(idx: number) => {
-          setIsVisible(false);
-          setIndex(null);
+          requestAnimationFrame(() => {
+            setIsVisible(false);
+            setIndex(null);
 
-          if (onStoryDetailBackPress) {
-            const story: Story = stories[idx];
+            if (onStoryDetailBackPress) {
+              const story: Story = stories[idx];
 
-            if (story) {
-              onStoryDetailBackPress(story, idx);
+              if (story) {
+                onStoryDetailBackPress(story, idx);
+              }
             }
-          }
+          });
         }}
       />
     </>

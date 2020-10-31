@@ -1,89 +1,12 @@
 import Video from 'react-native-video';
 import React, { useEffect, useState, useRef } from 'react';
 
-import type { Story } from '../StoryDetail';
+import type { StoryDetailItemProps } from '../../types';
 
 import { StoryDetailItemLayout } from './Layout';
 import { StoryDetailItemLoading } from './Loading';
 
 import { styles } from './styles';
-
-export type StoryDetailHeaderItemProps = {
-  /**
-   * The story content
-   */
-  story: Story;
-  /**
-   * A function to exit from the StoryDetail
-   */
-  goBack: () => any;
-  /**
-   * A callback to mute audio from video
-   */
-  mute: () => any;
-  /**
-   * It indicates if the video is muted or not
-   */
-  muted: boolean;
-};
-
-export type StoryDetailFooterItemProps = {
-  /**
-   * The story content
-   */
-  story: Story;
-  /**
-   * The duration of the video been rendered
-   */
-  videoDuration: number | string | null;
-  /**
-   * The progress of the video been rendered
-   */
-  videoProgress: number | string | null;
-  /**
-   * A function to exit from the StoryDetail
-   */
-  goBack: () => any;
-};
-
-export type StoryDetailItemProps = {
-  /**
-   * The story content
-   */
-  story: Story;
-  /**
-   * A boolean prop to enable play
-   */
-  isCurrentStory: boolean;
-  /**
-   * Callback fired when video ends
-   */
-  onVideoEnd: () => any;
-  /**
-   * A back button handler
-   */
-  onBackPress?: () => any;
-  /**
-   * A callback triggered when video touch starts
-   */
-  onVideoTouchStart?: () => any;
-  /**
-   * A callback triggered when video touch ends
-   */
-  onVideoTouchEnd?: () => any;
-  /**
-   * A component to render as the Header of the Story Detail Item
-   */
-  StoryDetailItemHeader?: (
-    props?: StoryDetailHeaderItemProps
-  ) => React.ReactElement | null;
-  /**
-   * A component to render as the Footer of the Story Detail Item
-   */
-  StoryDetailItemFooter?: (
-    props?: StoryDetailFooterItemProps
-  ) => React.ReactElement | null;
-};
 
 export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
   story,

@@ -1,36 +1,27 @@
 import React, { useRef, useImperativeHandle } from 'react';
 import { Animated, Dimensions, Modal, StyleSheet } from 'react-native';
 
+import type {
+  Coords,
+  OnAnimationEndCallback,
+  StoryDetailExpanderProps,
+  StoryDetailExpanderRefProps,
+} from '../../../types';
+
 import { expandAnimation } from '../../../animations/expand';
 
 import { styles } from './styles';
 
-export type StoryDetailExpanderProps = {
-  /**
-   * Trigger animation visibility
-   */
-  isVisible?: boolean;
-  /**
-   * The duration of the animation
-   */
-  duration?: number;
-  /**
-   * Aditional styles to add to the animated view
-   */
-  style?: any;
-  /**
-   * Children components
-   */
-  children?: React.ReactNode;
-};
-
 const { width, height } = Dimensions.get('screen');
 
 export const StoryDetailExpander = React.forwardRef<
-  any,
+  StoryDetailExpanderRefProps,
   StoryDetailExpanderProps
 >(({ style, children, duration = 200, isVisible }, ref) => {
-  const coordsRef = useRef({ x: 0, y: 0 });
+  const coordsRef = useRef<Coords>({
+    x: 0,
+    y: 0,
+  });
 
   const scaleXRef = useRef(new Animated.Value(0));
   const scaleYRef = useRef(new Animated.Value(0));
@@ -46,13 +37,16 @@ export const StoryDetailExpander = React.forwardRef<
   ];
 
   useImperativeHandle(ref, () => ({
-    startExpandAnimation: (coords: any, finishCallback: any) => {
+    startExpandAnimation: (
+      coords: Coords,
+      onAnimationEnd: OnAnimationEndCallback
+    ) => {
       translateXRef.current.setValue(coords.x);
       translateYRef.current.setValue(coords.y);
 
       coordsRef.current = coords;
 
-      expandAnimation(animations, finishCallback, {
+      expandAnimation(animations, onAnimationEnd, {
         x: 0,
         y: 0,
         width,
@@ -60,8 +54,8 @@ export const StoryDetailExpander = React.forwardRef<
         duration,
       });
     },
-    resetExpandAnimation: (finishCallback: any) => {
-      expandAnimation(animations, finishCallback, {
+    resetExpandAnimation: (onAnimationEnd: OnAnimationEndCallback) => {
+      expandAnimation(animations, onAnimationEnd, {
         x: coordsRef.current.x,
         y: coordsRef.current.y,
         width: 0,
