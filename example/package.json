@@ -9,18 +9,22 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react": "16.11.0",
-    "react-native": "0.62.2",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "react": "^16.13.1",
+    "react-native": "^0.63.3",
     "react-native-elements": "^2.3.2",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.13.1",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-vector-icons": "^7.1.0",
-    "react-native-video": "^5.0.2"
+    "react-native-video": "^5.0.2",
+    "react-test-renderer": "^16.13.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/runtime": "^7.9.6",
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
     "@types/react-native-snap-carousel": "^3.8.2",
     "babel-plugin-module-resolver": "^4.0.0",
     "metro-react-native-babel-preset": "^0.59.0",
