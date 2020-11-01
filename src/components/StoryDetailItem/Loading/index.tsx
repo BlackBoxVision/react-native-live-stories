@@ -2,7 +2,7 @@ import React from 'react';
 import { Overlay } from 'react-native-elements';
 import { ActivityIndicator } from 'react-native';
 
-import type { StoryDetailItemLoadingProps } from 'lib/typescript/src/components/StoryDetailItem/Loading';
+import type { StoryDetailItemLoadingProps } from '../../../types';
 
 import { StoryDetailItemLayout } from '../Layout';
 

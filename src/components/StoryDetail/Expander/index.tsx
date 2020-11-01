@@ -17,7 +17,7 @@ const { width, height } = Dimensions.get('screen');
 export const StoryDetailExpander = React.forwardRef<
   StoryDetailExpanderRefProps,
   StoryDetailExpanderProps
->(({ style, children, duration = 200, isVisible }, ref) => {
+>(({ style, children, duration = 250, isVisible }, ref) => {
   const coordsRef = useRef<Coords>({
     x: 0,
     y: 0,

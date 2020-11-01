@@ -1,5 +1,5 @@
-import { View, Animated } from 'react-native';
-import { useRef, useEffect, MutableRefObject } from 'react';
+import { Animated } from 'react-native';
+import { useState, useCallback } from 'react';
 
 import { heartbeatAnimation } from '../../animations/heartbeat';
 
@@ -7,42 +7,47 @@ import type { Coords, StoryPreviewItemProps } from 'src/types';
 
 export const useStoryPreviewItem = ({
   shouldAnimate,
+  onPress,
+  story,
 }: StoryPreviewItemProps) => {
-  const scaleRef: MutableRefObject<Animated.Value> = useRef(
-    new Animated.Value(1)
-  );
-
-  const containerRef: MutableRefObject<View | null> = useRef<View | null>(null);
-  const coordinatesRef = useRef<Coords>({
+  const [scale, setScale] = useState<Animated.Value>(new Animated.Value(1));
+  const [coords, setCoords] = useState<Coords>({
     height: 0,
     width: 0,
     x: 0,
     y: 0,
   });
 
-  useEffect(() => {
-    containerRef.current?.measureInWindow((x, y, width, height) => {
-      const avatarMiddleSize = width / 2;
-
-      x = x + avatarMiddleSize;
-      y = y + avatarMiddleSize;
-
-      coordinatesRef.current = {
-        x,
-        y,
-        width,
-        height,
-      };
+  const onLayout = useCallback(
+    (event) => {
+      const { x, y, width, height } = event.nativeEvent.layout;
 
       if (shouldAnimate) {
-        heartbeatAnimation(scaleRef.current, 1 - 0.01, 1 + 0.05);
+        heartbeatAnimation(scale, 1 - 0.01, 1 + 0.01);
+      } else {
+        const sizeScale = width / 100;
+        setScale(new Animated.Value(sizeScale + 0.13));
       }
-    });
-  }, [scaleRef, containerRef, shouldAnimate]);
+
+      const avatarMiddleSize = width / 2;
+
+      setCoords({
+        x: x + avatarMiddleSize,
+        y: y + width,
+        width,
+        height,
+      });
+    },
+    [scale, shouldAnimate]
+  );
+
+  const onItemPress = useCallback(() => {
+    onPress && onPress(story!, coords);
+  }, [story, coords, onPress]);
 
   return {
-    scaleRef,
-    containerRef,
-    coordinatesRef,
+    scale,
+    onLayout,
+    onItemPress,
   };
 };

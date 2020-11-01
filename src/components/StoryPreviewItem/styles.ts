@@ -2,20 +2,20 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 6,
+    marginHorizontal: 4,
     position: 'relative',
     zIndex: 0,
   },
   gradientContainer: {
     alignItems: 'center',
-    borderRadius: 90 / 2,
-    height: 90,
+    borderRadius: 85 / 2,
+    height: 85,
     justifyContent: 'center',
-    width: 90,
+    width: 85,
   },
   avatar: {
-    left: 6,
+    left: 2.5,
     position: 'absolute',
-    top: 6,
+    top: 2.5,
   },
 });

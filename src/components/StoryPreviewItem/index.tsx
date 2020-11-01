@@ -21,12 +21,14 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   shouldAnimate = true,
   gradient = defaultGradient,
 }) => {
-  const { scaleRef, containerRef, coordinatesRef } = useStoryPreviewItem({
+  const { scale, onLayout, onItemPress } = useStoryPreviewItem({
     shouldAnimate,
+    onPress,
+    story,
   });
 
   return (
-    <View ref={containerRef} style={[styles.container, containerStyle]}>
+    <View style={[styles.container, containerStyle]} onLayout={onLayout}>
       <AnimatedLinearGradient
         colors={gradient.colors}
         start={gradient.start}
@@ -38,10 +40,10 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
           {
             transform: [
               {
-                scaleX: scaleRef.current,
+                scaleX: scale,
               },
               {
-                scaleY: scaleRef.current,
+                scaleY: scale,
               },
             ],
           },
@@ -49,11 +51,11 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
       />
       <Avatar
         rounded
-        size={78}
+        size={80}
+        onPress={onItemPress}
         containerStyle={styles.avatar}
         source={{ uri: story?.preview }}
         placeholderStyle={placeholderStyle}
-        onPress={() => onPress && onPress(story!, coordinatesRef.current)}
         renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
       />
     </View>
