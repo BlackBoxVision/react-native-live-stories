@@ -1,18 +1,23 @@
-import { Dimensions, Platform } from 'react-native';
-import { Overlay } from 'react-native-elements';
 import React, { useRef } from 'react';
+import { Overlay } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
+import { Dimensions, Platform } from 'react-native';
 
 import type {
   StoryDetailExpanderRefProps,
   StoryDetailProps,
 } from '../../types';
+
 import { StoryDetailExpander } from './Expander';
 import { StoryDetailItem } from '../StoryDetailItem';
+
 import * as cubeEffect from '../../animations/cube';
+
 import { styles } from './styles';
 
 const { width } = Dimensions.get('screen');
+
+const noopCallback = () => {};
 
 export const StoryDetail = React.forwardRef<
   StoryDetailExpanderRefProps,
@@ -49,10 +54,10 @@ export const StoryDetail = React.forwardRef<
             sliderWidth={width}
             firstItem={initial}
             initialScrollIndex={initial}
-            onScrollToIndexFailed={() => {}}
+            onSnapToItem={onMoveToNextStory}
+            onScrollToIndexFailed={noopCallback}
             scrollInterpolator={cubeEffect.scrollInterpolator}
             slideInterpolatedStyle={cubeEffect.animatedStyles as any}
-            onSnapToItem={(idx) => onMoveToNextStory(idx)}
             renderItem={({ item: story, index: idx }) => (
               <StoryDetailItem
                 story={story}
