@@ -1,22 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import { styles } from './styles';
+import type { StoryDetailItemLayoutProps } from '../../../types';
 
-export type StoryDetailItemLayoutProps = {
-  /**
-   * The header component
-   */
-  header?: React.ReactNode;
-  /**
-   * The content component
-   */
-  content?: React.ReactNode;
-  /**
-   * The footer component
-   */
-  footer?: React.ReactNode;
-};
+import { styles } from './styles';
 
 export const StoryDetailItemLayout: React.FC<StoryDetailItemLayoutProps> = ({
   header,
