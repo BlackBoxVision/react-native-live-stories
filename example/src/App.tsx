@@ -10,6 +10,7 @@ import {
 import { StoryPreview } from '@blackbox-vision/react-native-live-stories';
 
 import StoryHeader from './components/StoryHeader';
+import StoryFooter from './components/StoryFooter';
 
 const { width } = Dimensions.get('screen');
 
@@ -19,6 +20,9 @@ const App = () => (
       data={[1, 2, 3, 4]}
       ListHeaderComponent={() => (
         <StoryPreview
+          StoryDetailItemFooter={() => (
+            <StoryFooter placeholder="Enviar mensaje" />
+          )}
           StoryDetailItemHeader={({
             goBack,
             mute,
