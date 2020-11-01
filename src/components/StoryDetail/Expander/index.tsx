@@ -29,13 +29,6 @@ export const StoryDetailExpander = React.forwardRef<
   const translateXRef = useRef(new Animated.Value(0));
   const translateYRef = useRef(new Animated.Value(0));
 
-  const animations = [
-    scaleXRef.current,
-    scaleYRef.current,
-    translateXRef.current,
-    translateYRef.current,
-  ];
-
   useImperativeHandle(ref, () => ({
     startExpandAnimation: (
       coords: Coords,
@@ -46,6 +39,13 @@ export const StoryDetailExpander = React.forwardRef<
 
       coordsRef.current = coords;
 
+      const animations = [
+        scaleXRef.current,
+        scaleYRef.current,
+        translateXRef.current,
+        translateYRef.current,
+      ];
+
       expandAnimation(animations, onAnimationEnd, {
         x: 0,
         y: 0,
@@ -55,6 +55,13 @@ export const StoryDetailExpander = React.forwardRef<
       });
     },
     resetExpandAnimation: (onAnimationEnd: OnAnimationEndCallback) => {
+      const animations = [
+        scaleXRef.current,
+        scaleYRef.current,
+        translateXRef.current,
+        translateYRef.current,
+      ];
+
       expandAnimation(animations, onAnimationEnd, {
         x: coordsRef.current.x,
         y: coordsRef.current.y,

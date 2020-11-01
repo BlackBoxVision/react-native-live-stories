@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {
-  Dimensions,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
   View,
+  FlatList,
+  Dimensions,
+  StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import { StoryPreview } from '@blackbox-vision/react-native-live-stories';
 
@@ -13,6 +12,8 @@ import StoryHeader from './components/StoryHeader';
 import StoryFooter from './components/StoryFooter';
 
 const { width } = Dimensions.get('screen');
+
+console.disableYellowBox = true;
 
 const App = () => (
   <SafeAreaView>
@@ -94,11 +95,7 @@ const App = () => (
           })}
         />
       )}
-      renderItem={({ item }) => (
-        <View style={styles.item}>
-          <Text>{item}</Text>
-        </View>
-      )}
+      renderItem={() => <View style={styles.item} />}
     />
   </SafeAreaView>
 );

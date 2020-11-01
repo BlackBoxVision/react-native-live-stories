@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 4,
+    marginHorizontal: 6,
     position: 'relative',
     zIndex: 0,
   },

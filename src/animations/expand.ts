@@ -9,26 +9,26 @@ export const expandAnimation = (
 
   Animated.parallel([
     Animated.timing(scaleX, {
+      easing: Easing.linear,
       useNativeDriver: true,
-      easing: Easing.ease,
       toValue: width,
       duration,
     }),
     Animated.timing(scaleY, {
+      easing: Easing.linear,
       useNativeDriver: true,
-      easing: Easing.ease,
       toValue: height,
       duration,
     }),
     Animated.timing(translateX, {
+      easing: Easing.linear,
       useNativeDriver: true,
-      easing: Easing.ease,
       toValue: x,
       duration,
     }),
     Animated.timing(translateY, {
+      easing: Easing.linear,
       useNativeDriver: true,
-      easing: Easing.ease,
       toValue: y,
       duration,
     }),
