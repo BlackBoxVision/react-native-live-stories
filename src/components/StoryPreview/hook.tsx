@@ -106,23 +106,25 @@ export const useStoryPreview = ({
     []
   );
 
-  const renderPreviewItem = useCallback(({ item, index }) => {
-    let StoryPreviewItemProps: any = {};
+  const renderPreviewItem = useCallback(
+    ({ item, index }) => {
+      let StoryPreviewItemProps: any = {};
 
-    if (getStoryPreviewItemProps) {
-      StoryPreviewItemProps = getStoryPreviewItemProps(item, index);
-    }
+      if (getStoryPreviewItemProps) {
+        StoryPreviewItemProps = getStoryPreviewItemProps(item, index);
+      }
 
-    return (
-      <StoryPreviewItem
-        {...StoryPreviewItemProps}
-        onPress={onPreviewItemPress}
-        ref={expanderRef}
-        story={item}
-      />
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      return (
+        <StoryPreviewItem
+          {...StoryPreviewItemProps}
+          onPress={onPreviewItemPress}
+          ref={expanderRef}
+          story={item}
+        />
+      );
+    },
+    [getStoryPreviewItemProps, expanderRef, onPreviewItemPress]
+  );
 
   const keyExtractor = useCallback((story: Story) => `${story.id}`, []);
 
