@@ -19,6 +19,10 @@ export const useStoryDetailItem = ({
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    if (isCurrentStory) {
+      setPaused(false);
+    }
+
     if (videoRef.current) {
       videoRef.current.seek(0);
       setProgress(0);
