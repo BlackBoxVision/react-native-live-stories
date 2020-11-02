@@ -52,8 +52,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
     videoDuration: duration,
   };
 
-  const header = <StoryDetailItemHeader {...commonProps} />;
-  const footer = <StoryDetailItemFooter {...commonProps} />;
+  const header = isCurrentStory && <StoryDetailItemHeader {...commonProps} />;
+  const footer = isCurrentStory && <StoryDetailItemFooter {...commonProps} />;
 
   return (
     <>
