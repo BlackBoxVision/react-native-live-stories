@@ -14,8 +14,9 @@ export const styles = StyleSheet.create({
     width: 85,
   },
   avatar: {
-    left: 2.5,
+    backgroundColor: '#FFFFFF',
     position: 'absolute',
+    left: 2.5,
     top: 2.5,
   },
 });
