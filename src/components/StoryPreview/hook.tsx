@@ -118,12 +118,11 @@ export const useStoryPreview = ({
         <StoryPreviewItem
           {...StoryPreviewItemProps}
           onPress={onPreviewItemPress}
-          ref={expanderRef}
           story={item}
         />
       );
     },
-    [getStoryPreviewItemProps, expanderRef, onPreviewItemPress]
+    [getStoryPreviewItemProps, onPreviewItemPress]
   );
 
   const keyExtractor = useCallback((story: Story) => `${story.id}`, []);
