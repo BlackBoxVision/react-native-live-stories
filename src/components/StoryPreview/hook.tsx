@@ -98,20 +98,20 @@ export const useStoryPreview = ({
 
   // TODO: add size property to make it customizable
   const getItemLayout = useCallback(
-    (_, index) => ({
-      offset: 90 * index,
+    (_, idx) => ({
+      offset: 90 * idx,
       length: 90,
-      index,
+      index: idx,
     }),
     []
   );
 
   const renderPreviewItem = useCallback(
-    ({ item, index }) => {
+    ({ item, index: idx }) => {
       let StoryPreviewItemProps: any = {};
 
       if (getStoryPreviewItemProps) {
-        StoryPreviewItemProps = getStoryPreviewItemProps(item, index);
+        StoryPreviewItemProps = getStoryPreviewItemProps(item, idx);
       }
 
       return (
