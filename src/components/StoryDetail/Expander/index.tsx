@@ -23,11 +23,11 @@ export const StoryDetailExpander = React.forwardRef<
     y: 0,
   });
 
-  const scaleXRef = useRef(new Animated.Value(0));
-  const scaleYRef = useRef(new Animated.Value(0));
+  const scaleXRef = useRef<Animated.Value>(new Animated.Value(0));
+  const scaleYRef = useRef<Animated.Value>(new Animated.Value(0));
 
-  const translateXRef = useRef(new Animated.Value(0));
-  const translateYRef = useRef(new Animated.Value(0));
+  const translateXRef = useRef<Animated.Value>(new Animated.Value(0));
+  const translateYRef = useRef<Animated.Value>(new Animated.Value(0));
 
   useImperativeHandle(ref, () => ({
     startExpandAnimation: (
