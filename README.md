@@ -13,7 +13,10 @@
   - [Additional Steps](#additional-steps)
 - [Example Usage](#example-usage)
 - [Component API](#component-api)
-- [Browser support](#browser-support)
+- [Customization](#customization)
+  - [Header](#header)
+  - [Footer](#header)
+- [TODOs](#todos)
 - [Issues](#issues)
 - [Contributing](#contributing)
 - [License](#license)
@@ -44,7 +47,15 @@ yarn add @blackbox-vision/react-native-live-stories
 
 ### Peer dependencies
 
-Our library rely in some packages, you'll need to install all of them if you don't have any:
+We rely on the following packages:
+
+- **react-native-video**
+- **react-native-elements**
+- **react-native-snap-carousel**
+- **react-native-vector-icons**
+- **react-native-linear-gradient**
+
+You can install all of them by running the next command:
 
 ```bash
 npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient
@@ -52,18 +63,20 @@ npm i react-native-elements react-native-video react-native-snap-carousel react-
 
 ### Additional Steps
 
-In Android we do need a little more configuration. Our library uses `react-native-video` as the library to render the `stories` as videos. `react-native-video` ships with 2 android libraries, by default it exposes `MediaPlayer`, and as opt-in you can leverage `ExoPlayer`.
+For `Android` you'll need to perform some additional steps because of `react-native-video`.
 
-Our library relies in `ExoPlayer` which performs better that actual `MediaPlayer`, so, in order to use it we do need to configure the following things:
+`react-native-video` by defaults ships with a component that relies on `Android MediaPlayer`, but this component has many issues related to video reproduction. Also, it ships as opt-in a component based on `ExoPlayer` which is a more performant video player for Android.
 
-1. Edit `settings.gradle` and add the following lines:
+In order to use `ExoPlayer` you'll need to perform the following steps:
+
+1. Edit `settings.gradle` and add the next lines:
 
 ```gradle
 include ':react-native-video'
 project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android-exoplayer')
 ```
 
-2. You need to have a file called `react-native.config.js` at the root of your project with the following config:
+2. You need to have a file called `react-native.config.js` at the root of your project with the next config:
 
 ```javascript
 module.exports = {
@@ -79,7 +92,7 @@ module.exports = {
 };
 ```
 
-With this configuration, now you should be able to use our library in `Android` too.
+With this configuration, now you should be able to use our library in `Android` too and make video reproduction rely on `ExoPlayer` instead of `MediaPlayer`.
 
 ## Example Usage
 
@@ -116,24 +129,6 @@ const stories = [
   },
 ];
 
-const StoryDetailItemHeader = ({
-  story,
-  goBack,
-  mute,
-  muted,
-  videoDuration,
-  videoProgress,
-}) => <Text>I am the Header</Text>;
-
-const StoryDetailItemFooter = ({
-  story,
-  goBack,
-  mute,
-  muted,
-  videoDuration,
-  videoProgress,
-}) => <Text>I am the Footer</Text>;
-
 const InstaStories = (props) => {
   const onStoryDetailItemNext = useCallback((story, idx) => {
     console.info('Moving to next story', story, ' at index ', idx);
@@ -154,8 +149,6 @@ const InstaStories = (props) => {
   return (
     <StoryPreview
       stories={stories}
-      StoryDetailItemHeader={StoryDetailItemHeader}
-      StoryDetailItemFooter={StoryDetailItemFooter}
       onStoryDetailItemNext={onStoryDetailItemNext}
       onStoryDetailBackPress={onStoryDetailBackPress}
       onStoryPreviewItemPress={onStoryPreviewItemPress}
@@ -179,6 +172,73 @@ The `StoryPreview` component has the following props:
 | onStoryDetailBackPress   | function    | none          | Callback fired when on back button press             |
 | onStoryPreviewItemPress  | function    | none          | Callback fired when performed click on preview       |
 | getStoryPreviewItemProps | function    | none          | Callback to get story preview item props dynamically |
+
+## Customization
+
+We provide some sort of customization by passing some components that can override the defaults from the library.
+
+For now, we only give the ability to customize the followings components:
+
+- **Story Header**
+- **Story Footer**
+
+### Header
+
+You can pass to the `StoryPreview` the component prop `StoryDetailItemHeader` that will replace the `Header` shipped by default.
+
+**Example Header:**
+
+```javascript
+import React from 'react';
+import { Text } from 'react-native';
+
+export const StoryHeader = ({
+  backgroundColor,
+  onPressBackButton,
+  muted,
+  mute,
+  progress,
+}) => <Text>I am the header</Text>;
+
+StoryHeader.displayName = 'StoryHeader';
+```
+
+### Footer
+
+You can pass to the `StoryPreview` the component prop `StoryDetailItemFooter` that will replace the `Footer` shipped by default.
+
+**Example Footer:**
+
+```javascript
+import React from 'react';
+import { Text } from 'react-native';
+
+export const StoryFooter = ({
+  backgroundColor,
+  onPressBackButton,
+  muted,
+  mute,
+  progress,
+}) => <Text>I am the footer</Text>;
+
+StoryFooter.displayName = 'StoryFooter';
+```
+
+## TODOs
+
+With this library we're intended to have you covered when trying to implement stories into a React Native app.
+
+As part of our efforts we've a very stable code by now, but we need to improve much things in order to reach a stable release.
+
+Here is a list of things we need to do:
+
+- [ ] Re-define story attributes to support passing more information.
+- [ ] Improve grow animation to behave like Insta one.
+- [ ] Add support for loading effect in Previews like Insta.
+- [ ] Add support for rendering multiple same user stories.
+- [ ] Add support for rendering initial preview with a CTA.
+- [ ] Improve video pre-loading and reproduction by relying on caché.
+- [ ] Ship with a default Header and Footer in the story that looks like Instagram ones
 
 ## Issues
 
