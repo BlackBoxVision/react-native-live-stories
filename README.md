@@ -193,11 +193,12 @@ import React from 'react';
 import { Text } from 'react-native';
 
 export const StoryHeader = ({
-  backgroundColor,
-  onPressBackButton,
-  muted,
   mute,
-  progress,
+  muted,
+  story,
+  goBack,
+  videoDuration,
+  videoProgress,
 }) => <Text>I am the header</Text>;
 
 StoryHeader.displayName = 'StoryHeader';
@@ -214,11 +215,12 @@ import React from 'react';
 import { Text } from 'react-native';
 
 export const StoryFooter = ({
-  backgroundColor,
-  onPressBackButton,
-  muted,
   mute,
-  progress,
+  muted,
+  story,
+  goBack,
+  videoDuration,
+  videoProgress,
 }) => <Text>I am the footer</Text>;
 
 StoryFooter.displayName = 'StoryFooter';
