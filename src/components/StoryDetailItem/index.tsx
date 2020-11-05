@@ -34,6 +34,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
     onEnd,
     onTouchStart,
     onTouchEnd,
+    getVideoSource,
   } = useStoryDetailItem({
     story,
     onVideoEnd,
@@ -72,7 +73,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
             controls={false}
             resizeMode="cover"
             style={styles.container}
-            source={{ uri: story.video }}
+            source={getVideoSource(story)}
             paused={paused}
             onLoadStart={onLoadStart}
             onLoad={onLoad}
@@ -80,6 +81,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
             onEnd={onEnd}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            useTextureView={false}
           />
         }
         footer={footer}

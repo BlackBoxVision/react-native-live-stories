@@ -21,11 +21,13 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   shouldAnimate = true,
   gradient = defaultGradient,
 }) => {
-  const { scale, onLayout, onItemPress } = useStoryPreviewItem({
-    shouldAnimate,
-    onPress,
-    story,
-  });
+  const { scale, onLayout, onItemPress, getAvatarSource } = useStoryPreviewItem(
+    {
+      shouldAnimate,
+      onPress,
+      story,
+    }
+  );
 
   return (
     <View style={[styles.container, containerStyle]} onLayout={onLayout}>
@@ -54,7 +56,7 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
         size={80}
         onPress={onItemPress}
         containerStyle={styles.avatar}
-        source={{ uri: story?.preview }}
+        source={getAvatarSource(story)}
         placeholderStyle={placeholderStyle}
         renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
       />

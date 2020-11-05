@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 
-import type { StoryDetailItemProps } from '../../types';
+import type { Story, StoryDetailItemProps } from '../../types';
 
 export const useStoryDetailItem = ({
   onVideoEnd,
@@ -76,6 +76,16 @@ export const useStoryDetailItem = ({
     }
   }, [onVideoTouchEnd]);
 
+  const getVideoSource = useCallback((story?: Story): any => {
+    if (typeof story?.video === 'string') {
+      return {
+        uri: story?.video,
+      };
+    }
+
+    return story?.video;
+  }, []);
+
   return {
     videoRef,
     visible,
@@ -91,5 +101,6 @@ export const useStoryDetailItem = ({
     onEnd,
     onTouchStart,
     onTouchEnd,
+    getVideoSource,
   };
 };

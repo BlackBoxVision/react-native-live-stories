@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 
 import { heartbeatAnimation } from '../../animations/heartbeat';
 
-import type { Coords, StoryPreviewItemProps } from 'src/types';
+import type { Coords, Story, StoryPreviewItemProps } from '../../types';
 
 export const useStoryPreviewItem = ({
   shouldAnimate,
@@ -45,9 +45,20 @@ export const useStoryPreviewItem = ({
     onPress && onPress(story!, coords);
   }, [story, coords, onPress]);
 
+  const getAvatarSource = useCallback((story?: Story): any => {
+    if (typeof story?.preview === 'string') {
+      return {
+        uri: story?.preview,
+      };
+    }
+
+    return story?.preview;
+  }, []);
+
   return {
     scale,
     onLayout,
     onItemPress,
+    getAvatarSource,
   };
 };
