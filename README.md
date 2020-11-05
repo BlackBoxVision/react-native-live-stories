@@ -49,11 +49,11 @@ yarn add @blackbox-vision/react-native-live-stories
 
 We rely on the following packages:
 
-- **react-native-video**
-- **react-native-elements**
-- **react-native-snap-carousel**
-- **react-native-vector-icons**
-- **react-native-linear-gradient**
+- [react-native-video](https://github.com/react-native-video/react-native-video)
+- [react-native-elements](https://reactnativeelements.com)
+- [react-native-snap-carousel](https://github.com/archriss/react-native-snap-carousel)
+- [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons)
+- [react-native-linear-gradient](https://github.com/react-native-linear-gradient/react-native-linear-gradient)
 
 You can install all of them by running the next command:
 
