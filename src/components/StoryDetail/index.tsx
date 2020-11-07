@@ -67,6 +67,12 @@ export const StoryDetail = React.forwardRef<
                 StoryDetailItemHeader={StoryDetailItemHeader}
                 StoryDetailItemFooter={StoryDetailItemFooter}
                 onBackPress={() => onBackPress(idx)}
+                onTapLeft={
+                  carouselRef.current && carouselRef.current.snapToPrev
+                }
+                onTapRight={
+                  carouselRef.current && carouselRef.current.snapToNext
+                }
                 onVideoEnd={() => {
                   if (idx <= stories.length - 2) {
                     requestAnimationFrame(() => {
