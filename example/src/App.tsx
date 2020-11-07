@@ -57,19 +57,19 @@ const stories = [
   {
     id: 5,
     preview: require('./assets/images/5.jpg'),
-    video: require('./assets/videos/5.mp4'),
+    video: require('./assets/videos/1.mp4'),
     viewed: false,
   },
   {
     id: 6,
     preview: require('./assets/images/6.jpg'),
-    video: require('./assets/videos/1.mp4'),
+    video: require('./assets/videos/2.mp4'),
     viewed: true,
   },
   {
     id: 7,
     preview: require('./assets/images/7.jpg'),
-    video: require('./assets/videos/2.mp4'),
+    video: require('./assets/videos/3.mp4'),
     viewed: true,
   },
 ];
