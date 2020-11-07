@@ -9,4 +9,9 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
     position: 'absolute',
   },
+  indicator: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 10,
+    elevation: 20,
+  },
 });

@@ -1,90 +1,85 @@
 import React from 'react';
 import Video from 'react-native-video';
+import { ActivityIndicator } from 'react-native';
 
 import type { StoryDetailItemProps } from '../../types';
 
 import { StoryDetailItemLayout } from './Layout';
-import { StoryDetailItemLoading } from './Loading';
 
 import { styles } from './styles';
 import { useStoryDetailItem } from './hook';
 
-export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
-  story,
-  onVideoEnd,
-  onBackPress,
-  isCurrentStory,
-  onVideoTouchEnd,
-  onVideoTouchStart,
-  StoryDetailItemHeader = () => null,
-  StoryDetailItemFooter = () => null,
-}) => {
-  const {
-    videoRef,
-    visible,
-    paused,
-    muted,
-    duration,
-    progress,
-    mute,
-    goBack,
-    onLoadStart,
-    onLoad,
-    onProgress,
-    onEnd,
-    onTouchStart,
-    onTouchEnd,
-    getVideoSource,
-  } = useStoryDetailItem({
+export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
+  ({
     story,
     onVideoEnd,
     onBackPress,
     isCurrentStory,
     onVideoTouchEnd,
     onVideoTouchStart,
-  });
+    StoryDetailItemHeader = () => null,
+    StoryDetailItemFooter = () => null,
+  }) => {
+    const {
+      header,
+      footer,
+      videoRef,
+      visible,
+      paused,
+      muted,
+      onLoadStart,
+      onLoad,
+      onProgress,
+      onEnd,
+      onTouchStart,
+      onTouchEnd,
+      getVideoSource,
+    } = useStoryDetailItem({
+      story,
+      onVideoEnd,
+      onBackPress,
+      isCurrentStory,
+      onVideoTouchEnd,
+      onVideoTouchStart,
+      StoryDetailItemHeader,
+      StoryDetailItemFooter,
+    });
 
-  const commonProps = {
-    mute,
-    muted,
-    story,
-    goBack,
-    videoProgress: progress,
-    videoDuration: duration,
-  };
+    return (
+      <>
+        <StoryDetailItemLayout
+          header={header}
+          content={
+            <>
+              {visible && isCurrentStory && (
+                <ActivityIndicator
+                  animating
+                  color="#FFFFFF"
+                  style={styles.indicator}
+                />
+              )}
+              <Video
+                ref={videoRef}
+                muted={muted}
+                controls={false}
+                resizeMode="cover"
+                style={styles.container}
+                source={getVideoSource(story)}
+                paused={paused}
+                onLoadStart={onLoadStart}
+                onLoad={onLoad}
+                onProgress={onProgress}
+                onEnd={onEnd}
+                onTouchStart={onTouchStart}
+                onTouchEnd={onTouchEnd}
+              />
+            </>
+          }
+          footer={footer}
+        />
+      </>
+    );
+  }
+);
 
-  const header = <StoryDetailItemHeader {...commonProps} />;
-  const footer = <StoryDetailItemFooter {...commonProps} />;
-
-  return (
-    <>
-      <StoryDetailItemLoading
-        isVisible={visible && isCurrentStory}
-        goBack={goBack}
-        header={header}
-        footer={footer}
-      />
-      <StoryDetailItemLayout
-        header={header}
-        content={
-          <Video
-            ref={videoRef}
-            muted={muted}
-            controls={false}
-            resizeMode="cover"
-            style={styles.container}
-            source={getVideoSource(story)}
-            paused={paused}
-            onLoadStart={onLoadStart}
-            onLoad={onLoad}
-            onProgress={onProgress}
-            onEnd={onEnd}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          />
-        }
-        footer={footer}
-      />
-    </>
-  );
-};
+StoryDetailItem.displayName = 'StoryDetailItem';

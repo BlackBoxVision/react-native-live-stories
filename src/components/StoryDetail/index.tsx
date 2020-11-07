@@ -53,6 +53,8 @@ export const StoryDetail = React.forwardRef<
             itemWidth={width}
             sliderWidth={width}
             firstItem={initial}
+            removeClippedSubviews
+            initialNumToRender={5}
             initialScrollIndex={initial}
             onSnapToItem={onMoveToNextStory}
             onScrollToIndexFailed={noopCallback}
@@ -62,15 +64,16 @@ export const StoryDetail = React.forwardRef<
               <StoryDetailItem
                 story={story}
                 isCurrentStory={initial === idx}
-                StoryDetailItemFooter={StoryDetailItemFooter}
                 StoryDetailItemHeader={StoryDetailItemHeader}
+                StoryDetailItemFooter={StoryDetailItemFooter}
                 onBackPress={() => onBackPress(idx)}
                 onVideoEnd={() => {
                   if (idx <= stories.length - 2) {
-                    setTimeout(
-                      () => carouselRef.current.snapToItem(idx + 1, true, true),
-                      Platform.OS === 'ios' ? 25 : 0
-                    );
+                    requestAnimationFrame(() => {
+                      carouselRef.current &&
+                        carouselRef.current.snapToItem(idx + 1, false, true),
+                        Platform.OS === 'ios' ? 25 : 0;
+                    });
                   } else {
                     onBackPress(idx);
                   }

@@ -14,14 +14,14 @@ const StoryDetailItemHeader = ({
   goBack,
   mute,
   muted,
-  videoProgress,
-  videoDuration,
+  progress,
+  duration,
 }: any) => (
   <StoryHeader
-    onPressBackButton={goBack}
     mute={mute}
     muted={muted}
-    progress={videoProgress && videoDuration && videoProgress / videoDuration}
+    onPressBackButton={goBack}
+    progress={progress && duration && progress / duration}
   />
 );
 

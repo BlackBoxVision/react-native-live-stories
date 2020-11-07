@@ -197,25 +197,6 @@ export type StoryDetailItemProps = {
   ) => React.ReactElement | null;
 };
 
-export type StoryDetailItemLoadingProps = {
-  /**
-   * Prop to display loading
-   */
-  isVisible: boolean;
-  /**
-   * Prop with a callback to go back
-   */
-  goBack: () => any;
-  /**
-   * The header of the loading
-   */
-  header?: React.ReactNode;
-  /**
-   * The footer of the loading
-   */
-  footer?: React.ReactNode;
-};
-
 export type StoryDetailItemLayoutProps = {
   /**
    * The header component
@@ -334,9 +315,9 @@ export type RenderStoryDetailItemProps = {
   /**
    * The duration of the video been rendered
    */
-  videoDuration: number | string | null;
+  duration: number | string | null;
   /**
    * The progress of the video been rendered
    */
-  videoProgress: number | string | null;
+  progress: number | string | null;
 };

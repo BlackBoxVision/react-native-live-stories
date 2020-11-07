@@ -10,11 +10,15 @@ export const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
+    zIndex: 20,
+    elevation: 20,
     alignItems: 'stretch',
     justifyContent: 'flex-start',
   },
   footer: {
     flex: 2,
+    zIndex: 20,
+    elevation: 20,
     alignItems: 'stretch',
     justifyContent: 'flex-end',
   },
