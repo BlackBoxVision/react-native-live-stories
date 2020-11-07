@@ -17,10 +17,10 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
     isCurrentStory,
     onVideoTouchEnd,
     onVideoTouchStart,
-    StoryDetailItemHeader = () => null,
-    StoryDetailItemFooter = () => null,
     onTapLeft = () => {},
     onTapRight = () => {},
+    StoryDetailItemHeader = () => null,
+    StoryDetailItemFooter = () => null,
   }) => {
     const {
       mute,
