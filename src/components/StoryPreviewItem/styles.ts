@@ -16,7 +16,16 @@ export const styles = StyleSheet.create({
   avatar: {
     backgroundColor: '#FFFFFF',
     position: 'absolute',
+    overflow: 'hidden',
+    borderRadius: 40,
     left: 2.5,
     top: 2.5,
+  },
+  avatarImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
   },
 });

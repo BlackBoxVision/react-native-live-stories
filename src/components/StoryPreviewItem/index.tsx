@@ -52,20 +52,11 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
           },
         ]}
       />
-      <TouchableOpacity
-        onPress={onItemPress}
-        style={[styles.avatar, { borderRadius: 40, overflow: 'hidden' }]}
-      >
+      <TouchableOpacity onPress={onItemPress} style={styles.avatar}>
         <FastImage
+          style={styles.avatarImage}
           source={getAvatarSource(story)}
           resizeMode={FastImage.resizeMode.contain}
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            overflow: 'hidden',
-            backgroundColor: 'transparent',
-          }}
         />
       </TouchableOpacity>
     </View>
