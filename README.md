@@ -11,6 +11,8 @@
   - [YARN](#yarn)
   - [Peer dependencies](#peer-dependencies)
   - [Additional Steps](#additional-steps)
+    - [RN Video](#react-native-video)
+    - [RN Fast Image](#react-native-fast-image)
 - [Example Usage](#example-usage)
 - [Component API](#component-api)
 - [Customization](#customization)
@@ -49,6 +51,7 @@ yarn add @blackbox-vision/react-native-live-stories
 
 We rely on the following packages:
 
+- [react-native-fast-image](https://github.com/DylanVann/react-native-fast-image)
 - [react-native-video](https://github.com/react-native-video/react-native-video)
 - [react-native-elements](https://reactnativeelements.com)
 - [react-native-snap-carousel](https://github.com/archriss/react-native-snap-carousel)
@@ -58,10 +61,12 @@ We rely on the following packages:
 You can install all of them by running the next command:
 
 ```bash
-npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient
+npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient react-native-fast-image
 ```
 
 ### Additional Steps
+
+#### React Native Video
 
 For `Android` you'll need to perform some additional steps because of `react-native-video`.
 
@@ -93,6 +98,21 @@ module.exports = {
 ```
 
 With this configuration, now you should be able to use our library in `Android` too and make video reproduction rely on `ExoPlayer` instead of `MediaPlayer`.
+
+#### React Native Fast Image
+
+If in your android builds you've proguard enabled, you will need to add the following config in `proguard-rules.pro`:
+
+```bash
+-keep public class com.dylanvann.fastimage.* {*;}
+-keep public class com.dylanvann.fastimage.** {*;}
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+```
 
 ## Example Usage
 
