@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
+import { Dimensions } from 'react-native';
 import { Overlay } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
-import { Dimensions, Platform } from 'react-native';
 
 import type {
   StoryDetailExpanderRefProps,
@@ -71,8 +71,7 @@ export const StoryDetail = React.forwardRef<
                   if (idx <= stories.length - 2) {
                     requestAnimationFrame(() => {
                       carouselRef.current &&
-                        carouselRef.current.snapToItem(idx + 1, false, true),
-                        Platform.OS === 'ios' ? 25 : 0;
+                        carouselRef.current.snapToItem(idx + 1, false, true);
                     });
                   } else {
                     onBackPress(idx);
