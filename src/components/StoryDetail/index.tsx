@@ -68,17 +68,15 @@ export const StoryDetail = React.forwardRef<
                 StoryDetailItemFooter={StoryDetailItemFooter}
                 onBackPress={() => onBackPress(idx)}
                 onTapLeft={() => {
-                  // TODO: validate for first item
                   requestAnimationFrame(() => {
                     carouselRef.current &&
-                      carouselRef.current.snapToPrev(idx - 1, false, true);
+                      carouselRef.current.snapToPrev(false, true);
                   });
                 }}
                 onTapRight={() => {
-                  // TODO: validate for last Item
                   requestAnimationFrame(() => {
                     carouselRef.current &&
-                      carouselRef.current.snapToNext(idx + 1, false, true);
+                      carouselRef.current.snapToNext(false, true);
                   });
                 }}
                 onVideoEnd={() => {
