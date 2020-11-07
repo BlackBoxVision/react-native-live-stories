@@ -49,9 +49,13 @@ export type StoryPreviewItemProps = {
    */
   story?: Story;
   /**
+   * The index of the story to render
+   */
+  storyIndex?: number;
+  /**
    * The onPress handler
    */
-  onPress?: (story: Story, coords: Coords) => void;
+  onPress?: (story: Story, storyIndex: number, coords: Coords) => void;
   /**
    * The styles to be applied to the container
    */

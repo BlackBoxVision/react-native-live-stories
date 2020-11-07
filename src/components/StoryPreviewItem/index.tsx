@@ -1,7 +1,7 @@
 import React from 'react';
-import { Avatar } from 'react-native-elements';
+import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
-import { ActivityIndicator, View, Animated } from 'react-native';
+import { View, Animated, TouchableOpacity } from 'react-native';
 
 import type { GradientOptions, StoryPreviewItemProps } from '../../types';
 
@@ -16,14 +16,15 @@ const defaultGradient: GradientOptions = {
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   story,
   onPress,
+  storyIndex,
   containerStyle,
-  placeholderStyle,
   shouldAnimate = true,
   gradient = defaultGradient,
 }) => {
   const { scale, onLayout, onItemPress, getAvatarSource } = useStoryPreviewItem(
     {
       shouldAnimate,
+      storyIndex,
       onPress,
       story,
     }
@@ -51,15 +52,22 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
           },
         ]}
       />
-      <Avatar
-        rounded
-        size={80}
+      <TouchableOpacity
         onPress={onItemPress}
-        containerStyle={styles.avatar}
-        source={getAvatarSource(story)}
-        placeholderStyle={placeholderStyle}
-        renderPlaceholderContent={<ActivityIndicator color="#FFF" />}
-      />
+        style={[styles.avatar, { borderRadius: 40, overflow: 'hidden' }]}
+      >
+        <FastImage
+          source={getAvatarSource(story)}
+          resizeMode={FastImage.resizeMode.contain}
+          style={{
+            width: 80,
+            height: 80,
+            borderRadius: 40,
+            overflow: 'hidden',
+            backgroundColor: 'transparent',
+          }}
+        />
+      </TouchableOpacity>
     </View>
   );
 };

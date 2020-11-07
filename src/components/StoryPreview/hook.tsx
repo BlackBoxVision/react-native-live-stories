@@ -1,3 +1,4 @@
+import FastImage from 'react-native-fast-image';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 
 import type {
@@ -23,6 +24,19 @@ export const useStoryPreview = ({
   const expanderRef: StoryDetailExpanderRef = useRef(null);
 
   useEffect(() => {
+    const imagesToPreload = stories
+      .filter((story: Story) => typeof story?.preview === 'string')
+      .map((story: Story) => ({
+        priority: FastImage.priority.high,
+        uri: story?.preview,
+      }));
+
+    if (Array.isArray(imagesToPreload) && imagesToPreload.length > 0) {
+      FastImage.preload(imagesToPreload);
+    }
+  }, [stories]);
+
+  useEffect(() => {
     const rafId: number = requestAnimationFrame(() => {
       if (!isVisible) {
         if (expanderRef.current) {
@@ -37,16 +51,15 @@ export const useStoryPreview = ({
   }, [isVisible]);
 
   const onPreviewItemPress = useCallback(
-    (story: Story, coords: Coords) => {
+    (story: Story, storyIndex: number, coords: Coords) => {
       requestAnimationFrame(() => {
+        // setIndex before animated to make carousel have index before animation finish
+        setIndex(storyIndex);
         setAnimated(true);
-
-        const storyIndex = stories.findIndex((s: Story) => s.id === story.id);
 
         if (expanderRef.current) {
           expanderRef.current.startExpandAnimation(coords, () => {
             setIsVisible(true);
-            setIndex(storyIndex);
 
             if (onStoryPreviewItemPress) {
               onStoryPreviewItemPress(story, storyIndex);
@@ -54,11 +67,10 @@ export const useStoryPreview = ({
           });
         } else {
           setIsVisible(true);
-          setIndex(storyIndex);
         }
       });
     },
-    [stories, expanderRef, onStoryPreviewItemPress]
+    [expanderRef, onStoryPreviewItemPress]
   );
 
   const onMoveToNextStory = useCallback(
@@ -118,6 +130,7 @@ export const useStoryPreview = ({
         <StoryPreviewItem
           {...StoryPreviewItemProps}
           onPress={onPreviewItemPress}
+          storyIndex={idx}
           story={item}
         />
       );

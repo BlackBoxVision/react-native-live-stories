@@ -7,6 +7,7 @@ import type { Coords, Story, StoryPreviewItemProps } from '../../types';
 
 export const useStoryPreviewItem = ({
   shouldAnimate,
+  storyIndex,
   onPress,
   story,
 }: StoryPreviewItemProps) => {
@@ -42,8 +43,8 @@ export const useStoryPreviewItem = ({
   );
 
   const onItemPress = useCallback(() => {
-    onPress && onPress(story!, coords);
-  }, [story, coords, onPress]);
+    onPress && onPress(story!, storyIndex!, coords);
+  }, [story, storyIndex, coords, onPress]);
 
   const getAvatarSource = useCallback((story?: Story): any => {
     if (typeof story?.preview === 'string') {
