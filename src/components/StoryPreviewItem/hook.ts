@@ -46,14 +46,14 @@ export const useStoryPreviewItem = ({
     onPress && onPress(story!, storyIndex!, coords);
   }, [story, storyIndex, coords, onPress]);
 
-  const getAvatarSource = useCallback((story?: Story): any => {
-    if (typeof story?.preview === 'string') {
+  const getAvatarSource = useCallback((currentStory?: Story): any => {
+    if (typeof currentStory?.preview === 'string') {
       return {
-        uri: story?.preview,
+        uri: currentStory?.preview,
       };
     }
 
-    return story?.preview;
+    return currentStory?.preview;
   }, []);
 
   return {
