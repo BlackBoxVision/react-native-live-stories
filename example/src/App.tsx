@@ -32,44 +32,58 @@ const StoryDetailItemFooter = () => (
 const stories = [
   {
     id: 1,
-    preview: require('./assets/images/1.jpg'),
-    video: require('./assets/videos/1.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770257/OpenSource/react-native-live-stories/images/1_lqcrf6.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604771037/OpenSource/react-native-live-stories/videos/1_qda00p.mp4',
     viewed: false,
   },
   {
     id: 2,
-    preview: require('./assets/images/2.jpg'),
-    video: require('./assets/videos/2.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770281/OpenSource/react-native-live-stories/images/2_te4bdg.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604770935/OpenSource/react-native-live-stories/videos/2_ib2rvi.mp4',
     viewed: false,
   },
   {
     id: 3,
-    preview: require('./assets/images/3.jpg'),
-    video: require('./assets/videos/3.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770821/OpenSource/react-native-live-stories/images/3_ejuc9o.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604771045/OpenSource/react-native-live-stories/videos/3_ndavcm.mp4',
     viewed: false,
   },
   {
     id: 4,
-    preview: require('./assets/images/4.jpg'),
-    video: require('./assets/videos/4.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770273/OpenSource/react-native-live-stories/images/4_rd7ugn.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604770928/OpenSource/react-native-live-stories/videos/4_gtjhhy.mp4',
     viewed: false,
   },
   {
     id: 5,
-    preview: require('./assets/images/5.jpg'),
-    video: require('./assets/videos/1.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770271/OpenSource/react-native-live-stories/images/5_wpx1ag.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604771037/OpenSource/react-native-live-stories/videos/1_qda00p.mp4',
     viewed: false,
   },
   {
     id: 6,
-    preview: require('./assets/images/6.jpg'),
-    video: require('./assets/videos/2.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770268/OpenSource/react-native-live-stories/images/6_zmyutn.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604770935/OpenSource/react-native-live-stories/videos/2_ib2rvi.mp4',
     viewed: true,
   },
   {
     id: 7,
-    preview: require('./assets/images/7.jpg'),
-    video: require('./assets/videos/3.mp4'),
+    preview:
+      'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770267/OpenSource/react-native-live-stories/images/7_v363yf.jpg',
+    video:
+      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604771045/OpenSource/react-native-live-stories/videos/3_ndavcm.mp4',
     viewed: true,
   },
 ];
