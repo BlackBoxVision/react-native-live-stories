@@ -21,12 +21,14 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
     StoryDetailItemFooter = () => null,
   }) => {
     const {
-      header,
-      footer,
+      mute,
+      muted,
+      progress,
+      duration,
+      goBack,
       videoRef,
       visible,
       paused,
-      muted,
       onLoadStart,
       onLoad,
       onProgress,
@@ -48,7 +50,16 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
     return (
       <>
         <StoryDetailItemLayout
-          header={header}
+          header={
+            <StoryDetailItemHeader
+              mute={mute}
+              muted={muted}
+              story={story}
+              goBack={goBack}
+              progress={progress}
+              duration={duration}
+            />
+          }
           content={
             <>
               {visible && isCurrentStory && (
@@ -75,7 +86,16 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
               />
             </>
           }
-          footer={footer}
+          footer={
+            <StoryDetailItemFooter
+              mute={mute}
+              muted={muted}
+              story={story}
+              goBack={goBack}
+              progress={progress}
+              duration={duration}
+            />
+          }
         />
       </>
     );

@@ -186,15 +186,11 @@ export type StoryDetailItemProps = {
   /**
    * A component to render as the Header of the Story Detail Item
    */
-  StoryDetailItemHeader?: (
-    props?: RenderStoryDetailItemProps
-  ) => React.ReactElement | null;
+  StoryDetailItemHeader?: (props?: RenderStoryDetailItemProps) => any;
   /**
    * A component to render as the Footer of the Story Detail Item
    */
-  StoryDetailItemFooter?: (
-    props?: RenderStoryDetailItemProps
-  ) => React.ReactElement | null;
+  StoryDetailItemFooter?: (props?: RenderStoryDetailItemProps) => any;
 };
 
 export type StoryDetailItemLayoutProps = {

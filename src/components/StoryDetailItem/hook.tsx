@@ -1,22 +1,13 @@
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 import type { Story, StoryDetailItemProps } from '../../types';
 
 export const useStoryDetailItem = ({
-  story,
   onVideoEnd,
   onBackPress,
   isCurrentStory,
   onVideoTouchEnd,
   onVideoTouchStart,
-  StoryDetailItemHeader,
-  StoryDetailItemFooter,
 }: StoryDetailItemProps) => {
   const videoRef: any = useRef(null);
 
@@ -95,37 +86,7 @@ export const useStoryDetailItem = ({
     return story?.video;
   }, []);
 
-  const header = useMemo(
-    () => (
-      <StoryDetailItemHeader
-        mute={mute}
-        muted={muted}
-        story={story}
-        goBack={goBack}
-        progress={progress}
-        duration={duration}
-      />
-    ),
-    [mute, muted, story, goBack, progress, duration]
-  );
-
-  const footer = useMemo(
-    () => (
-      <StoryDetailItemFooter
-        mute={mute}
-        muted={muted}
-        story={story}
-        goBack={goBack}
-        progress={progress}
-        duration={duration}
-      />
-    ),
-    [mute, muted, story, goBack, progress, duration]
-  );
-
   return {
-    header,
-    footer,
     videoRef,
     visible,
     paused,
