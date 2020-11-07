@@ -10,6 +10,8 @@ export const styles = StyleSheet.create({
     left: 0,
     height: 100,
     width: '100%',
+    zIndex: 20,
+    elevation: 20,
     position: 'absolute',
   },
   footer: {
@@ -17,6 +19,8 @@ export const styles = StyleSheet.create({
     bottom: 0,
     height: 100,
     width: '100%',
+    zIndex: 20,
+    elevation: 20,
     position: 'absolute',
   },
 });
