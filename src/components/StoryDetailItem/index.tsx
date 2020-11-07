@@ -81,7 +81,6 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = ({
             onEnd={onEnd}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
-            useTextureView={false}
           />
         }
         footer={footer}
