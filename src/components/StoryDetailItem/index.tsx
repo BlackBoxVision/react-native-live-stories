@@ -1,6 +1,6 @@
 import React from 'react';
 import Video from 'react-native-video';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
 
 import type { StoryDetailItemProps } from '../../types';
 
@@ -69,21 +69,24 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
                   style={styles.indicator}
                 />
               )}
-              <Video
-                ref={videoRef}
-                muted={muted}
-                controls={false}
-                resizeMode="cover"
-                style={styles.container}
-                source={getVideoSource(story)}
-                paused={paused}
-                onLoadStart={onLoadStart}
-                onLoad={onLoad}
-                onProgress={onProgress}
-                onEnd={onEnd}
-                onTouchStart={onTouchStart}
-                onTouchEnd={onTouchEnd}
-              />
+              <TouchableWithoutFeedback
+                onPressIn={onTouchStart}
+                onPressOut={onTouchEnd}
+              >
+                <Video
+                  ref={videoRef}
+                  muted={muted}
+                  controls={false}
+                  resizeMode="cover"
+                  style={styles.container}
+                  source={getVideoSource(story)}
+                  paused={paused}
+                  onLoadStart={onLoadStart}
+                  onLoad={onLoad}
+                  onProgress={onProgress}
+                  onEnd={onEnd}
+                />
+              </TouchableWithoutFeedback>
             </>
           }
           footer={
