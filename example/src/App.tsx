@@ -35,7 +35,7 @@ const stories = [
     preview:
       'https://res.cloudinary.com/blackboxvision/image/upload/f_auto/w_200/q_auto:best/v1604770257/OpenSource/react-native-live-stories/images/1_lqcrf6.jpg',
     video:
-      'https://res.cloudinary.com/blackboxvision/video/upload/f_auto,q_60:qmax_20/v1604771037/OpenSource/react-native-live-stories/videos/1_qda00p.mp4',
+      'https://res.cloudinary.com/blackboxvision/video/upload/v1604771037/OpenSource/react-native-live-stories/videos/1_qda00p.mp4',
     viewed: false,
   },
   {
