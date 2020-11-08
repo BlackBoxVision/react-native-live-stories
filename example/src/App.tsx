@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import { FlatList, Dimensions, StyleSheet, SafeAreaView } from 'react-native';
+import { Divider } from 'react-native-paper';
+import { Instagram } from 'react-content-loader/native';
+import { FlatList, StyleSheet, SafeAreaView, View } from 'react-native';
 import { StoryPreview } from '@blackbox-vision/react-native-live-stories';
 
 import StoryHeader from './components/StoryHeader';
 import StoryFooter from './components/StoryFooter';
-
-const { width } = Dimensions.get('screen');
 
 console.disableYellowBox = true;
 
@@ -107,30 +106,52 @@ const App = () => {
         data={[1, 2, 3, 4]}
         keyExtractor={(item) => `${item}`}
         ListHeaderComponent={() => (
-          <StoryPreview
-            stories={stories}
-            StoryDetailItemHeader={StoryDetailItemHeader}
-            StoryDetailItemFooter={StoryDetailItemFooter}
-            getStoryPreviewItemProps={getStoryPreviewItemProps}
-          />
+          <>
+            <StoryPreview
+              stories={stories}
+              StoryDetailItemHeader={StoryDetailItemHeader}
+              StoryDetailItemFooter={StoryDetailItemFooter}
+              getStoryPreviewItemProps={getStoryPreviewItemProps}
+            />
+            <Divider style={styles.divider} />
+          </>
         )}
-        renderItem={() => (
-          <LinearGradient
-            colors={['#CA1D7E', '#E35157', '#F2703F']}
-            style={styles.item}
-          />
+        renderItem={({ index }) => (
+          <View
+            style={[
+              styles.insta,
+              index === stories.length - 1 && styles.lastItem,
+            ]}
+          >
+            <Instagram backgroundColor="#CA1D7E" foregroundColor="#E35157" />
+          </View>
         )}
       />
+      <View style={styles.footer} />
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  item: {
-    borderRadius: 15,
-    height: width - 32,
-    marginVertical: 8,
-    marginHorizontal: 16,
+  divider: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  lastItem: {
+    marginBottom: 225,
+  },
+  insta: {
+    marginBottom: 150,
+  },
+  footer: {
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: 75,
+    backgroundColor: '#FFFFFF',
   },
 });
 
