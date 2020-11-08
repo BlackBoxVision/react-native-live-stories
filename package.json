@@ -1,6 +1,6 @@
 {
   "name": "@blackbox-vision/react-native-live-stories",
-  "version": "0.15.0",
+  "version": "0.15.1",
   "description": "An Instagram video stories component",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
