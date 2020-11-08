@@ -11,8 +11,8 @@
   - [YARN](#yarn)
   - [Peer dependencies](#peer-dependencies)
   - [Additional Steps](#additional-steps)
-    - [RN Video](#react-native-video)
     - [RN Fast Image](#react-native-fast-image)
+    - [RN Video Cache](#react-native-video-cache)
 - [Example Usage](#example-usage)
 - [Component API](#component-api)
 - [Customization](#customization)
@@ -51,6 +51,7 @@ yarn add @blackbox-vision/react-native-live-stories
 
 We rely on the following packages:
 
+- [react-native-video-cache](https://github.com/zhigang1992/react-native-video-cache)
 - [react-native-fast-image](https://github.com/DylanVann/react-native-fast-image)
 - [react-native-video](https://github.com/react-native-video/react-native-video)
 - [react-native-elements](https://reactnativeelements.com)
@@ -61,43 +62,10 @@ We rely on the following packages:
 You can install all of them by running the next command:
 
 ```bash
-npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient react-native-fast-image
+npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient react-native-fast-image react-native-video-cache
 ```
 
 ### Additional Steps
-
-#### React Native Video
-
-For `Android` you'll need to perform some additional steps because of `react-native-video`.
-
-`react-native-video` by defaults ships with a component that relies on `Android MediaPlayer`, but this component has many issues related to video reproduction. Also, it ships as opt-in a component based on `ExoPlayer` which is a more performant video player for Android.
-
-In order to use `ExoPlayer` you'll need to perform the following steps:
-
-1. Edit `settings.gradle` and add the next lines:
-
-```gradle
-include ':react-native-video'
-project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android-exoplayer')
-```
-
-2. You need to have a file called `react-native.config.js` at the root of your project with the next config:
-
-```javascript
-module.exports = {
-  dependencies: {
-    'react-native-video': {
-      platforms: {
-        android: {
-          sourceDir: '../node_modules/react-native-video/android-exoplayer',
-        },
-      },
-    },
-  },
-};
-```
-
-With this configuration, now you should be able to use our library in `Android` too and make video reproduction rely on `ExoPlayer` instead of `MediaPlayer`.
 
 #### React Native Fast Image
 
@@ -113,6 +81,12 @@ If in your android builds you've proguard enabled, you will need to add the foll
   public *;
 }
 ```
+
+#### React Native Video Cache
+
+For built-in caching we use react-native-video-cache library, which needs a little adjustment in the android manifest in order to work. 
+
+You need to add the property `android:usesCleartextTraffic="true"` in your application in `AndroidManifest.xml`.
 
 ## Example Usage
 
@@ -217,8 +191,8 @@ export const StoryHeader = ({
   muted,
   story,
   goBack,
-  videoDuration,
-  videoProgress,
+  duration,
+  progress,
 }) => <Text>I am the header</Text>;
 
 StoryHeader.displayName = 'StoryHeader';
@@ -239,8 +213,8 @@ export const StoryFooter = ({
   muted,
   story,
   goBack,
-  videoDuration,
-  videoProgress,
+  duration,
+  progress,
 }) => <Text>I am the footer</Text>;
 
 StoryFooter.displayName = 'StoryFooter';
@@ -259,8 +233,7 @@ Here is a list of things we need to do:
 - [ ] Add support for loading effect in Previews like Insta.
 - [ ] Add support for rendering multiple same user stories.
 - [ ] Add support for rendering initial preview with a CTA.
-- [ ] Improve video pre-loading and reproduction by relying on caché.
-- [ ] Ship with a default Header and Footer in the story that looks like Instagram ones
+- [ ] Ship with a default Header and Footer in the story that looks like Instagram ones.
 
 ## Issues
 

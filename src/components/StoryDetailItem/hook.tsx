@@ -1,3 +1,4 @@
+import convertToProxyURL from 'react-native-video-cache';
 import { useEffect, useState, useRef, useCallback } from 'react';
 
 import type { Story, StoryDetailItemProps } from '../../types';
@@ -79,7 +80,7 @@ export const useStoryDetailItem = ({
   const getVideoSource = useCallback((story?: Story): any => {
     if (typeof story?.video === 'string') {
       return {
-        uri: story?.video,
+        uri: convertToProxyURL(story?.video),
       };
     }
 

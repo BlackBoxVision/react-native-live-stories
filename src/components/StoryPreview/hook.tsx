@@ -51,8 +51,10 @@ export const useStoryPreview = ({
   }, [isVisible]);
 
   const onPreviewItemPress = useCallback(
-    (story: Story, storyIndex: number, coords: Coords) => {
+    (story: Story, coords: Coords) => {
       requestAnimationFrame(() => {
+        const storyIndex = stories.findIndex((s: Story) => s.id === story.id);
+
         // setIndex before animated to make carousel have index before animation finish
         setIndex(storyIndex);
         setAnimated(true);
@@ -70,7 +72,7 @@ export const useStoryPreview = ({
         }
       });
     },
-    [expanderRef, onStoryPreviewItemPress]
+    [stories, expanderRef, onStoryPreviewItemPress]
   );
 
   const onMoveToNextStory = useCallback(
@@ -130,7 +132,6 @@ export const useStoryPreview = ({
         <StoryPreviewItem
           {...StoryPreviewItemProps}
           onPress={onPreviewItemPress}
-          storyIndex={idx}
           story={item}
         />
       );
