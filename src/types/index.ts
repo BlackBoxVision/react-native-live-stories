@@ -206,6 +206,14 @@ export type StoryDetailItemLayoutProps = {
    * The footer component
    */
   footer?: React.ReactNode;
+  /**
+   * The callback executed to snap to previous element
+   */
+  onTapLeft: () => any;
+  /**
+   * The callback executed to snap to next element
+   */
+  onTapRight: () => any;
 };
 
 export type StoryDetailProps = {
