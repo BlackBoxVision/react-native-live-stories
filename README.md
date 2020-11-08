@@ -191,8 +191,8 @@ export const StoryHeader = ({
   muted,
   story,
   goBack,
-  videoDuration,
-  videoProgress,
+  duration,
+  progress,
 }) => <Text>I am the header</Text>;
 
 StoryHeader.displayName = 'StoryHeader';
@@ -213,8 +213,8 @@ export const StoryFooter = ({
   muted,
   story,
   goBack,
-  videoDuration,
-  videoProgress,
+  duration,
+  progress,
 }) => <Text>I am the footer</Text>;
 
 StoryFooter.displayName = 'StoryFooter';
