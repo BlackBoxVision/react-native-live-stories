@@ -16,7 +16,6 @@ const defaultGradient: GradientOptions = {
 export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   story,
   onPress,
-  storyIndex,
   containerStyle,
   shouldAnimate = true,
   gradient = defaultGradient,
@@ -24,7 +23,6 @@ export const StoryPreviewItem: React.FC<StoryPreviewItemProps> = ({
   const { scale, onLayout, onItemPress, getAvatarSource } = useStoryPreviewItem(
     {
       shouldAnimate,
-      storyIndex,
       onPress,
       story,
     }
