@@ -233,8 +233,7 @@ Here is a list of things we need to do:
 - [ ] Add support for loading effect in Previews like Insta.
 - [ ] Add support for rendering multiple same user stories.
 - [ ] Add support for rendering initial preview with a CTA.
-- [ ] Improve video pre-loading and reproduction by relying on caché.
-- [ ] Ship with a default Header and Footer in the story that looks like Instagram ones
+- [ ] Ship with a default Header and Footer in the story that looks like Instagram ones.
 
 ## Issues
 
