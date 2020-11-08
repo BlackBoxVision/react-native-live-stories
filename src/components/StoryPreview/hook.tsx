@@ -27,7 +27,9 @@ export const useStoryPreview = ({
     const imagesToPreload = stories
       .filter((story: Story) => typeof story?.preview === 'string')
       .map((story: Story) => ({
-        priority: FastImage.priority.high,
+        priority: story.viewed
+          ? FastImage.priority.low
+          : FastImage.priority.high,
         uri: story?.preview,
       }));
 
