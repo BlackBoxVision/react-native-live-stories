@@ -62,7 +62,7 @@ We rely on the following packages:
 You can install all of them by running the next command:
 
 ```bash
-npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient react-native-fast-image
+npm i react-native-elements react-native-video react-native-snap-carousel react-native-vector-icons react-native-linear-gradient react-native-fast-image react-native-video-cache
 ```
 
 ### Additional Steps
