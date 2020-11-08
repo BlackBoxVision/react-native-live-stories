@@ -48,13 +48,14 @@ export const StoryDetail = React.forwardRef<
           onBackdropPress={() => onBackPress(initial)}
         >
           <Carousel
+            windowSize={4}
             data={stories}
             ref={carouselRef}
             itemWidth={width}
             sliderWidth={width}
             firstItem={initial}
             removeClippedSubviews
-            initialNumToRender={5}
+            maxToRenderPerBatch={2}
             initialScrollIndex={initial}
             onSnapToItem={onMoveToNextStory}
             onScrollToIndexFailed={noopCallback}
