@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const width = Dimensions.get('screen').width;
 
 export const styles = StyleSheet.create({
   container: {
@@ -27,7 +29,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    width: 40,
+    width: width * 0.15,
     height: '100%',
     zIndex: 20,
     elevation: 20,
@@ -36,7 +38,7 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    width: 40,
+    width: width * 0.15,
     height: '100%',
     zIndex: 20,
     elevation: 20,

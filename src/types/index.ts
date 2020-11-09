@@ -209,11 +209,11 @@ export type StoryDetailItemLayoutProps = {
   /**
    * The callback executed to snap to previous element
    */
-  onTapLeft: () => any;
+  onTapLeft: () => void;
   /**
    * The callback executed to snap to next element
    */
-  onTapRight: () => any;
+  onTapRight: () => void;
 };
 
 export type StoryDetailProps = {
@@ -325,3 +325,12 @@ export type RenderStoryDetailItemProps = {
    */
   progress: number | string | null;
 };
+
+/**
+ * The argument received in the animation finish callback
+ */
+export type EndResult = { finished: boolean };
+/**
+ * The animation finish callback
+ */
+export type EndCallback = (result: EndResult) => void;

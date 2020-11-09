@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Animated, View, TouchableWithoutFeedback } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { fadeIn, fadeOut } from '../../../animations/fade';
 import type { StoryDetailItemLayoutProps } from '../../../types';
 
 import { styles } from './styles';
@@ -23,27 +24,16 @@ export const StoryDetailItemLayout: React.FC<StoryDetailItemLayoutProps> = ({
   const fadeLeftAnim = useRef(new Animated.Value(0)).current;
   const fadeRightAnim = useRef(new Animated.Value(0)).current;
 
-  const fadeIn = (value: Animated.Value) =>
-    Animated.timing(value, {
-      toValue: 1,
-      duration: 50,
-      useNativeDriver: true,
-    } as Animated.TimingAnimationConfig).start();
-
-  const fadeOut = (value: Animated.Value) =>
-    Animated.timing(value, {
-      toValue: 0,
-      duration: 50,
-      useNativeDriver: true,
-    } as Animated.TimingAnimationConfig).start();
-
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
         onPressIn={() => fadeIn(fadeLeftAnim)}
         onPressOut={() => {
-          fadeOut(fadeLeftAnim);
-          onTapLeft();
+          fadeOut(fadeLeftAnim, ({ finished }) => {
+            if (finished) {
+              onTapLeft();
+            }
+          });
         }}
       >
         <AnimatedLinearGradient
@@ -63,8 +53,11 @@ export const StoryDetailItemLayout: React.FC<StoryDetailItemLayoutProps> = ({
       <TouchableWithoutFeedback
         onPressIn={() => fadeIn(fadeRightAnim)}
         onPressOut={() => {
-          fadeOut(fadeRightAnim);
-          onTapRight();
+          fadeOut(fadeRightAnim, ({ finished }) => {
+            if (finished) {
+              onTapRight();
+            }
+          });
         }}
       >
         <AnimatedLinearGradient
