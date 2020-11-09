@@ -293,12 +293,3 @@ export type RenderStoryDetailItemProps = {
    */
   progress: number | string | null;
 };
-
-/**
- * The argument received in the animation finish callback
- */
-export type EndResult = { finished: boolean };
-/**
- * The animation finish callback
- */
-export type EndCallback = (result: EndResult) => void;
