@@ -48,14 +48,11 @@ export const StoryDetail = React.forwardRef<
           onBackdropPress={() => onBackPress(initial)}
         >
           <Carousel
-            windowSize={4}
             data={stories}
             ref={carouselRef}
             itemWidth={width}
             sliderWidth={width}
             firstItem={initial}
-            removeClippedSubviews
-            maxToRenderPerBatch={2}
             initialScrollIndex={initial}
             onSnapToItem={onMoveToNextStory}
             onScrollToIndexFailed={noopCallback}
@@ -69,22 +66,26 @@ export const StoryDetail = React.forwardRef<
                 StoryDetailItemFooter={StoryDetailItemFooter}
                 onBackPress={() => onBackPress(idx)}
                 onTapLeft={() => {
-                  requestAnimationFrame(() => {
-                    carouselRef.current &&
-                      carouselRef.current.snapToPrev(false, true);
-                  });
+                  setTimeout(
+                    () =>
+                      carouselRef.current &&
+                      carouselRef.current.snapToItem(idx - 1, false, false),
+                    250
+                  );
                 }}
                 onTapRight={() => {
-                  requestAnimationFrame(() => {
-                    carouselRef.current &&
-                      carouselRef.current.snapToNext(false, true);
-                  });
+                  setTimeout(
+                    () =>
+                      carouselRef.current &&
+                      carouselRef.current.snapToItem(idx + 1, false, false),
+                    250
+                  );
                 }}
                 onVideoEnd={() => {
                   if (idx <= stories.length - 2) {
                     requestAnimationFrame(() => {
                       carouselRef.current &&
-                        carouselRef.current.snapToItem(idx + 1, false, true);
+                        carouselRef.current.snapToItem(idx + 1, false, false);
                     });
                   } else {
                     onBackPress(idx);

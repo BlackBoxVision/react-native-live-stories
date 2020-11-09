@@ -31,7 +31,7 @@ export const StoryDetailItemLayout: React.FC<StoryDetailItemLayoutProps> = ({
         onPressOut={() => {
           fadeOut(fadeLeftAnim, ({ finished }) => {
             if (finished) {
-              onTapLeft();
+              onTapLeft && onTapLeft();
             }
           });
         }}
@@ -55,7 +55,7 @@ export const StoryDetailItemLayout: React.FC<StoryDetailItemLayoutProps> = ({
         onPressOut={() => {
           fadeOut(fadeRightAnim, ({ finished }) => {
             if (finished) {
-              onTapRight();
+              onTapRight && onTapRight();
             }
           });
         }}

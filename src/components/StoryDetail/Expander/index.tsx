@@ -3,7 +3,6 @@ import { Animated, Dimensions, Modal, StyleSheet } from 'react-native';
 
 import type {
   Coords,
-  OnAnimationEndCallback,
   StoryDetailExpanderProps,
   StoryDetailExpanderRefProps,
 } from '../../../types';
@@ -32,7 +31,7 @@ export const StoryDetailExpander = React.forwardRef<
   useImperativeHandle(ref, () => ({
     startExpandAnimation: (
       coords: Coords,
-      onAnimationEnd: OnAnimationEndCallback
+      onAnimationEnd: Animated.EndCallback
     ) => {
       translateXRef.current.setValue(coords.x);
       translateYRef.current.setValue(coords.y);
@@ -54,7 +53,7 @@ export const StoryDetailExpander = React.forwardRef<
         duration,
       });
     },
-    resetExpandAnimation: (onAnimationEnd: OnAnimationEndCallback) => {
+    resetExpandAnimation: (onAnimationEnd: Animated.EndCallback) => {
       const animations = [
         scaleXRef.current,
         scaleYRef.current,
