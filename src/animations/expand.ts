@@ -2,7 +2,7 @@ import { Animated, Easing } from 'react-native';
 
 export const expandAnimation = (
   animations: Animated.Value[],
-  finishCallback: () => any,
+  finishCallback: Animated.EndCallback,
   { x, y, width, height, duration }
 ): void => {
   const [scaleX, scaleY, translateX, translateY] = animations;
@@ -32,9 +32,5 @@ export const expandAnimation = (
       toValue: y,
       duration,
     }),
-  ]).start(({ finished }) => {
-    if (finished && finishCallback) {
-      finishCallback();
-    }
-  });
+  ]).start(finishCallback);
 };

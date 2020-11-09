@@ -17,6 +17,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
     isCurrentStory,
     onVideoTouchEnd,
     onVideoTouchStart,
+    onTapLeft = () => {},
+    onTapRight = () => {},
     StoryDetailItemHeader = () => null,
     StoryDetailItemFooter = () => null,
   }) => {
@@ -50,6 +52,8 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
     return (
       <>
         <StoryDetailItemLayout
+          onTapLeft={onTapLeft}
+          onTapRight={onTapRight}
           header={
             <StoryDetailItemHeader
               mute={mute}

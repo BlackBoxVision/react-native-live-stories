@@ -1,5 +1,5 @@
 import type { MutableRefObject, ReactText } from 'react';
-import type { ViewStyle } from 'react-native';
+import type { Animated, ViewStyle } from 'react-native';
 
 export type Story = {
   /**
@@ -120,44 +120,6 @@ export type StoryPreviewProps = {
   ) => React.ReactElement | null;
 };
 
-export type StoryDetailHeaderItemProps = {
-  /**
-   * The story content
-   */
-  story: Story;
-  /**
-   * A function to exit from the StoryDetail
-   */
-  goBack: () => any;
-  /**
-   * A callback to mute audio from video
-   */
-  mute: () => any;
-  /**
-   * It indicates if the video is muted or not
-   */
-  muted: boolean;
-};
-
-export type StoryDetailFooterItemProps = {
-  /**
-   * The story content
-   */
-  story: Story;
-  /**
-   * The duration of the video been rendered
-   */
-  videoDuration: number | string | null;
-  /**
-   * The progress of the video been rendered
-   */
-  videoProgress: number | string | null;
-  /**
-   * A function to exit from the StoryDetail
-   */
-  goBack: () => any;
-};
-
 export type StoryDetailItemProps = {
   /**
    * The story content
@@ -191,6 +153,14 @@ export type StoryDetailItemProps = {
    * A component to render as the Footer of the Story Detail Item
    */
   StoryDetailItemFooter?: (props?: RenderStoryDetailItemProps) => any;
+  /**
+   * The callback executed to snap to previous element
+   */
+  onTapLeft?: () => void;
+  /**
+   * The callback executed to snap to next element
+   */
+  onTapRight?: () => void;
 };
 
 export type StoryDetailItemLayoutProps = {
@@ -206,6 +176,14 @@ export type StoryDetailItemLayoutProps = {
    * The footer component
    */
   footer?: React.ReactNode;
+  /**
+   * The callback executed to snap to previous element
+   */
+  onTapLeft?: () => void;
+  /**
+   * The callback executed to snap to next element
+   */
+  onTapRight?: () => void;
 };
 
 export type StoryDetailProps = {
@@ -273,20 +251,18 @@ export type Coords = {
   y: number;
 };
 
-export type OnAnimationEndCallback = () => void;
-
 export type StoryDetailExpanderRefProps = {
   /**
    * A callback to fire expand-on-click animation
    */
   startExpandAnimation: (
     coords: Coords,
-    onAnimationEnd: OnAnimationEndCallback
+    onAnimationEnd: Animated.EndCallback
   ) => void;
   /**
    * A callback to revert expand-on-click animation
    */
-  resetExpandAnimation: (onAnimationEnd: OnAnimationEndCallback) => void;
+  resetExpandAnimation: (onAnimationEnd: Animated.EndCallback) => void;
 };
 
 export type StoryDetailExpanderRef = MutableRefObject<StoryDetailExpanderRefProps | null>;

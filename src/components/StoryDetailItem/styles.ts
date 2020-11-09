@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   },
   indicator: {
     ...StyleSheet.absoluteFillObject,
-    zIndex: 10,
-    elevation: 10,
+    zIndex: 15,
+    elevation: 15,
   },
 });
