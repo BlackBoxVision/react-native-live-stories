@@ -115,8 +115,8 @@ export const useStoryPreview = ({
   // TODO: add size property to make it customizable
   const getItemLayout = useCallback(
     (_, idx) => ({
-      offset: 90 * idx,
-      length: 90,
+      offset: 70 * idx,
+      length: 70,
       index: idx,
     }),
     []
