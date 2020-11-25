@@ -10,7 +10,7 @@ export const useStoryPreviewItem = ({
   onPress,
   story,
 }: StoryPreviewItemProps) => {
-  const [scale, setScale] = useState<Animated.Value>(new Animated.Value(1));
+  const [scale] = useState<Animated.Value>(new Animated.Value(1));
   const [coords, setCoords] = useState<Coords>({
     height: 0,
     width: 0,
@@ -24,9 +24,6 @@ export const useStoryPreviewItem = ({
 
       if (shouldAnimate) {
         heartbeatAnimation(scale, 1 - 0.01, 1 + 0.01);
-      } else {
-        const sizeScale = width / 100;
-        setScale(new Animated.Value(sizeScale + 0.13));
       }
 
       const avatarMiddleSize = width / 2;
