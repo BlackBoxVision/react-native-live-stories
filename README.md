@@ -84,7 +84,7 @@ If in your android builds you've proguard enabled, you will need to add the foll
 
 #### React Native Video Cache
 
-For built-in caching we use react-native-video-cache library, which needs a little adjustment in the android manifest in order to work. 
+For built-in caching we use react-native-video-cache library, which needs a little adjustment in the android manifest in order to work.
 
 You need to add the property `android:usesCleartextTraffic="true"` in your application in `AndroidManifest.xml`.
 
@@ -96,7 +96,7 @@ After reading and performing the previous steps, you should be able to import th
 // insta-stories.js
 
 import { Text } from 'react-native';
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { StoryPreview } from '@blackbox-vision/react-native-live-stories';
 
 const stories = [
@@ -124,21 +124,21 @@ const stories = [
 ];
 
 const InstaStories = (props) => {
-  const onStoryDetailItemNext = useCallback((story, idx) => {
+  const onStoryDetailItemNext = (story, idx) => {
     console.info('Moving to next story', story, ' at index ', idx);
-  }, []);
+  };
 
-  const onStoryDetailBackPress = useCallback((story, idx) => {
+  const onStoryDetailBackPress = (story, idx) => {
     console.info('Going back from story', story, ' at index ', idx);
-  }, []);
+  };
 
-  const onStoryPreviewItemPress = useCallback((story, idx) => {
+  const onStoryPreviewItemPress = (story, idx) => {
     console.info('Clicking story preview for story', story, ' at index ', idx);
-  }, []);
+  };
 
-  const getStoryPreviewItemProps = useCallback((story, idx) => ({
+  const getStoryPreviewItemProps = (story, idx) => ({
     shouldAnimate: !story.viewed,
-  }));
+  });
 
   return (
     <StoryPreview

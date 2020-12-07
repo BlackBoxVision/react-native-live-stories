@@ -1,14 +1,12 @@
-import FastImage from 'react-native-fast-image';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 
-import type {
-  Story,
-  Coords,
-  StoryPreviewProps,
-  StoryDetailExpanderRef,
-} from '../../types';
+import type { Story, Coords, StoryPreviewProps } from '../../types';
 
 import { StoryPreviewItem } from '../StoryPreviewItem';
+
+import { useTrackExpandAnimation } from '../../hooks/useTrackExpandAnimation';
+import { usePreloadImages } from '../../hooks/usePreloadImages';
+import { useTrackRaf } from '../../hooks/useTrackRaf';
 
 export const useStoryPreview = ({
   stories,
@@ -21,127 +19,88 @@ export const useStoryPreview = ({
   const [animated, setAnimated] = useState<boolean>(false);
   const [index, setIndex] = useState<any>(null);
 
-  const expanderRef: StoryDetailExpanderRef = useRef(null);
+  const { trackRaf } = useTrackRaf();
+  const { expanderRef } = useTrackExpandAnimation(isVisible, () =>
+    setAnimated(false)
+  );
 
-  useEffect(() => {
-    const imagesToPreload = stories
-      .filter((story: Story) => typeof story?.preview === 'string')
-      .map((story: Story) => ({
-        priority: story.viewed
-          ? FastImage.priority.low
-          : FastImage.priority.high,
-        uri: story?.preview,
-      }));
+  usePreloadImages(stories);
 
-    if (Array.isArray(imagesToPreload) && imagesToPreload.length > 0) {
-      FastImage.preload(imagesToPreload);
-    }
-  }, [stories]);
+  const onPreviewItemPress = (story: Story, coords: Coords) => {
+    trackRaf(() => {
+      const storyIndex = stories.findIndex((s: Story) => s.id === story.id);
 
-  useEffect(() => {
-    const rafId: number = requestAnimationFrame(() => {
-      if (!isVisible) {
-        if (expanderRef.current) {
-          expanderRef.current.resetExpandAnimation(() => setAnimated(false));
+      // setIndex before animated to make carousel have index before animation finish
+      setIndex(storyIndex);
+      setAnimated(true);
+
+      if (expanderRef.current) {
+        expanderRef.current.startExpandAnimation(coords, () => {
+          setIsVisible(true);
+
+          if (onStoryPreviewItemPress) {
+            onStoryPreviewItemPress(story, storyIndex);
+          }
+        });
+      } else {
+        setIsVisible(true);
+      }
+    });
+  };
+
+  const onMoveToNextStory = (idx: number) => {
+    trackRaf(() => {
+      setIndex(idx);
+
+      if (onStoryDetailItemNext) {
+        const story: Story = stories[idx];
+
+        if (story) {
+          onStoryDetailItemNext(story, idx);
         }
       }
     });
+  };
 
-    return () => {
-      cancelAnimationFrame(rafId);
-    };
-  }, [isVisible]);
+  const onBackPress = (idx: number) => {
+    trackRaf(() => {
+      setIsVisible(false);
+      setIndex(null);
 
-  const onPreviewItemPress = useCallback(
-    (story: Story, coords: Coords) => {
-      requestAnimationFrame(() => {
-        const storyIndex = stories.findIndex((s: Story) => s.id === story.id);
+      if (onStoryDetailBackPress) {
+        const story: Story = stories[idx];
 
-        // setIndex before animated to make carousel have index before animation finish
-        setIndex(storyIndex);
-        setAnimated(true);
-
-        if (expanderRef.current) {
-          expanderRef.current.startExpandAnimation(coords, () => {
-            setIsVisible(true);
-
-            if (onStoryPreviewItemPress) {
-              onStoryPreviewItemPress(story, storyIndex);
-            }
-          });
-        } else {
-          setIsVisible(true);
+        if (story) {
+          onStoryDetailBackPress(story, idx);
         }
-      });
-    },
-    [stories, expanderRef, onStoryPreviewItemPress]
-  );
-
-  const onMoveToNextStory = useCallback(
-    (idx: number) => {
-      requestAnimationFrame(() => {
-        setIndex(idx);
-
-        if (onStoryDetailItemNext) {
-          const story: Story = stories[idx];
-
-          if (story) {
-            onStoryDetailItemNext(story, idx);
-          }
-        }
-      });
-    },
-    [stories, onStoryDetailItemNext]
-  );
-
-  const onBackPress = useCallback(
-    (idx: number) => {
-      requestAnimationFrame(() => {
-        setIsVisible(false);
-        setIndex(null);
-
-        if (onStoryDetailBackPress) {
-          const story: Story = stories[idx];
-
-          if (story) {
-            onStoryDetailBackPress(story, idx);
-          }
-        }
-      });
-    },
-    [stories, onStoryDetailBackPress]
-  );
+      }
+    });
+  };
 
   // TODO: add size property to make it customizable
-  const getItemLayout = useCallback(
-    (_, idx) => ({
-      offset: 70 * idx,
-      length: 70,
-      index: idx,
-    }),
-    []
-  );
+  const getItemLayout = (_, idx) => ({
+    offset: 70 * idx,
+    length: 70,
+    index: idx,
+  });
 
-  const renderPreviewItem = useCallback(
-    ({ item, index: idx }) => {
-      let StoryPreviewItemProps: any = {};
+  const renderPreviewItem = ({ item: story, index: idx }) => {
+    let StoryPreviewItemProps: any = {};
 
-      if (getStoryPreviewItemProps) {
-        StoryPreviewItemProps = getStoryPreviewItemProps(item, idx);
-      }
+    if (getStoryPreviewItemProps) {
+      StoryPreviewItemProps = getStoryPreviewItemProps(story, idx);
+    }
 
-      return (
-        <StoryPreviewItem
-          {...StoryPreviewItemProps}
-          onPress={onPreviewItemPress}
-          story={item}
-        />
-      );
-    },
-    [getStoryPreviewItemProps, onPreviewItemPress]
-  );
+    return (
+      <StoryPreviewItem
+        {...StoryPreviewItemProps}
+        onPress={onPreviewItemPress}
+        story={story}
+      />
+    );
+  };
 
-  const keyExtractor = useCallback((story: Story) => `${story.id}`, []);
+  const keyExtractor = (story: Story) => `${story.id}`;
 
   return {
     index,

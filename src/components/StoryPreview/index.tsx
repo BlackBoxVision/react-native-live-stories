@@ -47,10 +47,7 @@ export const StoryPreview: React.FC<StoryPreviewProps> = ({
     <>
       <FlatList
         horizontal
-        windowSize={14}
         data={sortedStories}
-        removeClippedSubviews
-        maxToRenderPerBatch={7}
         renderItem={noopRenderItem}
         keyExtractor={keyExtractor}
         getItemLayout={getItemLayout}

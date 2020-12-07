@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Divider } from 'react-native-paper';
 import { Instagram } from 'react-content-loader/native';
 import { FlatList, StyleSheet, SafeAreaView, View } from 'react-native';
@@ -88,17 +88,14 @@ const stories = [
 ];
 
 const App = () => {
-  const getStoryPreviewItemProps = useCallback(
-    (story) => ({
-      shouldAnimate: !story.viewed,
-      gradient: story.viewed
-        ? {
-            colors: ['#D3D3D3', '#D3D3D3'],
-          }
-        : undefined,
-    }),
-    []
-  );
+  const getStoryPreviewItemProps = (story) => ({
+    shouldAnimate: !story.viewed,
+    gradient: story.viewed
+      ? {
+          colors: ['#D3D3D3', '#D3D3D3'],
+        }
+      : undefined,
+  });
 
   return (
     <SafeAreaView>

@@ -1,5 +1,5 @@
 import { Animated } from 'react-native';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 import { heartbeatAnimation } from '../../animations/heartbeat';
 
@@ -18,31 +18,28 @@ export const useStoryPreviewItem = ({
     y: 0,
   });
 
-  const onLayout = useCallback(
-    (event) => {
-      const { x, y, width, height } = event.nativeEvent.layout;
+  const onLayout = (event) => {
+    const { x, y, width, height } = event.nativeEvent.layout;
 
-      if (shouldAnimate) {
-        heartbeatAnimation(scale, 1 - 0.01, 1 + 0.01);
-      }
+    if (shouldAnimate) {
+      heartbeatAnimation(scale, 1 - 0.01, 1 + 0.01);
+    }
 
-      const avatarMiddleSize = width / 2;
+    const avatarMiddleSize = width / 2;
 
-      setCoords({
-        x: x + avatarMiddleSize,
-        y: y + width,
-        width,
-        height,
-      });
-    },
-    [scale, shouldAnimate]
-  );
+    setCoords({
+      x: x + avatarMiddleSize,
+      y: y + width,
+      width,
+      height,
+    });
+  };
 
-  const onItemPress = useCallback(() => {
+  const onItemPress = () => {
     onPress && onPress(story!, coords);
-  }, [story, coords, onPress]);
+  };
 
-  const getAvatarSource = useCallback((currentStory?: Story): any => {
+  const getAvatarSource = (currentStory?: Story): any => {
     if (typeof currentStory?.preview === 'string') {
       return {
         uri: currentStory?.preview,
@@ -50,7 +47,7 @@ export const useStoryPreviewItem = ({
     }
 
     return currentStory?.preview;
-  }, []);
+  };
 
   return {
     scale,

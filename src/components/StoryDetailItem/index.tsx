@@ -9,19 +9,22 @@ import { StoryDetailItemLayout } from './Layout';
 import { styles } from './styles';
 import { useStoryDetailItem } from './hook';
 
-export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
-  ({
-    story,
-    onVideoEnd,
-    onBackPress,
-    isCurrentStory,
-    onVideoTouchEnd,
-    onVideoTouchStart,
-    onTapLeft = () => {},
-    onTapRight = () => {},
-    StoryDetailItemHeader = () => null,
-    StoryDetailItemFooter = () => null,
-  }) => {
+export const StoryDetailItem = React.forwardRef<any, StoryDetailItemProps>(
+  (
+    {
+      story,
+      onVideoEnd,
+      onBackPress,
+      isCurrentStory,
+      onVideoTouchEnd,
+      onVideoTouchStart,
+      onTapLeft = () => {},
+      onTapRight = () => {},
+      StoryDetailItemHeader = () => null,
+      StoryDetailItemFooter = () => null,
+    },
+    ref: any
+  ) => {
     const {
       mute,
       muted,
@@ -39,6 +42,7 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
       onTouchEnd,
       getVideoSource,
     } = useStoryDetailItem({
+      ref,
       story,
       onVideoEnd,
       onBackPress,
@@ -47,66 +51,62 @@ export const StoryDetailItem: React.FC<StoryDetailItemProps> = React.memo(
       onVideoTouchStart,
       StoryDetailItemHeader,
       StoryDetailItemFooter,
-    });
+    } as any);
 
     return (
-      <>
-        <StoryDetailItemLayout
-          onTapLeft={onTapLeft}
-          onTapRight={onTapRight}
-          header={
-            <StoryDetailItemHeader
-              mute={mute}
-              muted={muted}
-              story={story}
-              goBack={goBack}
-              progress={progress}
-              duration={duration}
-            />
-          }
-          content={
-            <>
-              {visible && isCurrentStory && (
-                <ActivityIndicator
-                  animating
-                  color="#FFFFFF"
-                  style={styles.indicator}
-                />
-              )}
-              <TouchableWithoutFeedback
-                onPressIn={onTouchStart}
-                onPressOut={onTouchEnd}
-              >
-                <Video
-                  ref={videoRef}
-                  muted={muted}
-                  controls={false}
-                  resizeMode="cover"
-                  style={styles.container}
-                  source={getVideoSource(story)}
-                  paused={paused}
-                  onLoadStart={onLoadStart}
-                  onLoad={onLoad}
-                  onProgress={onProgress}
-                  onEnd={onEnd}
-                />
-              </TouchableWithoutFeedback>
-            </>
-          }
-          footer={
-            <StoryDetailItemFooter
-              mute={mute}
-              muted={muted}
-              story={story}
-              goBack={goBack}
-              progress={progress}
-              duration={duration}
-            />
-          }
-        />
-      </>
+      <StoryDetailItemLayout
+        onTapLeft={onTapLeft}
+        onTapRight={onTapRight}
+        header={
+          <StoryDetailItemHeader
+            mute={mute}
+            muted={muted}
+            story={story}
+            goBack={goBack}
+            progress={progress}
+            duration={duration}
+          />
+        }
+        content={
+          <>
+            {visible && isCurrentStory && (
+              <ActivityIndicator
+                animating
+                color="#FFFFFF"
+                style={styles.indicator}
+              />
+            )}
+            <TouchableWithoutFeedback
+              onPressIn={onTouchStart}
+              onPressOut={onTouchEnd}
+            >
+              <Video
+                ref={videoRef}
+                muted={muted}
+                controls={false}
+                resizeMode="cover"
+                style={styles.container}
+                source={getVideoSource(story)}
+                paused={paused}
+                onLoadStart={onLoadStart}
+                onLoad={onLoad}
+                onProgress={onProgress}
+                onEnd={onEnd}
+              />
+            </TouchableWithoutFeedback>
+          </>
+        }
+        footer={
+          <StoryDetailItemFooter
+            mute={mute}
+            muted={muted}
+            story={story}
+            goBack={goBack}
+            progress={progress}
+            duration={duration}
+          />
+        }
+      />
     );
   }
 );
-
-StoryDetailItem.displayName = 'StoryDetailItem';

@@ -9,11 +9,11 @@ import type {
 } from '../../types';
 
 import { StoryDetailExpander } from './Expander';
-import { StoryDetailItem } from '../StoryDetailItem';
 
 import * as cubeEffect from '../../animations/cube';
 
 import { styles } from './styles';
+import { useStoryDetail } from './hook';
 
 const { width } = Dimensions.get('screen');
 
@@ -36,6 +36,14 @@ export const StoryDetail = React.forwardRef<
     },
     ref
   ) => {
+    const { onBackDropPress, renderStoryDetailItem } = useStoryDetail({
+      initial,
+      stories,
+      onBackPress,
+      StoryDetailItemHeader,
+      StoryDetailItemFooter,
+    } as any);
+
     const carouselRef: any = useRef(null);
 
     return (
@@ -44,8 +52,8 @@ export const StoryDetail = React.forwardRef<
           fullScreen
           animationType="none"
           isVisible={isVisible}
+          onBackdropPress={onBackDropPress}
           overlayStyle={styles.overlayContainer}
-          onBackdropPress={() => onBackPress(initial)}
         >
           <Carousel
             data={stories}
@@ -55,44 +63,10 @@ export const StoryDetail = React.forwardRef<
             firstItem={initial}
             initialScrollIndex={initial}
             onSnapToItem={onMoveToNextStory}
+            renderItem={renderStoryDetailItem}
             onScrollToIndexFailed={noopCallback}
             scrollInterpolator={cubeEffect.scrollInterpolator}
             slideInterpolatedStyle={cubeEffect.animatedStyles as any}
-            renderItem={({ item: story, index: idx }) => (
-              <StoryDetailItem
-                story={story}
-                isCurrentStory={initial === idx}
-                StoryDetailItemHeader={StoryDetailItemHeader}
-                StoryDetailItemFooter={StoryDetailItemFooter}
-                onBackPress={() => onBackPress(idx)}
-                onTapLeft={() => {
-                  setTimeout(
-                    () =>
-                      carouselRef.current &&
-                      carouselRef.current.snapToItem(idx - 1, false, false),
-                    250
-                  );
-                }}
-                onTapRight={() => {
-                  setTimeout(
-                    () =>
-                      carouselRef.current &&
-                      carouselRef.current.snapToItem(idx + 1, false, false),
-                    250
-                  );
-                }}
-                onVideoEnd={() => {
-                  if (idx <= stories.length - 2) {
-                    requestAnimationFrame(() => {
-                      carouselRef.current &&
-                        carouselRef.current.snapToItem(idx + 1, false, false);
-                    });
-                  } else {
-                    onBackPress(idx);
-                  }
-                }}
-              />
-            )}
           />
         </Overlay>
       </StoryDetailExpander>
