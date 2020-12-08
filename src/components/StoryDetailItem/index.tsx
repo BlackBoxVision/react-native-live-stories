@@ -85,6 +85,7 @@ export const StoryDetailItem = React.forwardRef<any, StoryDetailItemProps>(
                 muted={muted}
                 controls={false}
                 resizeMode="cover"
+                playInBackground={false}
                 style={styles.container}
                 source={getVideoSource(story)}
                 paused={paused}

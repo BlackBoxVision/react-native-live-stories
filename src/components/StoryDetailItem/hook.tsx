@@ -23,9 +23,12 @@ export const useStoryDetailItem = ({
   useEffect(() => {
     if (isCurrentStory) {
       setPaused(false);
+    } else {
+      setPaused(true);
       setProgress(0);
+      videoRef.current?.seek(0);
     }
-  }, [isCurrentStory]);
+  }, [isCurrentStory, videoRef]);
 
   const mute = () => setMuted((m) => !m);
 
