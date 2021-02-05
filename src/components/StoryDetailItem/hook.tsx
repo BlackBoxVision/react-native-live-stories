@@ -26,7 +26,7 @@ export const useStoryDetailItem = ({
     } else {
       setPaused(true);
       setProgress(0);
-      videoRef.current?.seek(0);
+      setTimeout(() => videoRef.current?.seek(0), 0);
     }
   }, [isCurrentStory, videoRef]);
 
