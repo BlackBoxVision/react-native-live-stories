@@ -204,6 +204,10 @@ export type StoryDetailProps = {
    */
   animated: boolean;
   /**
+   * A ref to the carousel component
+   */
+  carouselRef: CarouselRef;
+  /**
    * A back button handler callback
    */
   onBackPress: (idx: number) => any;
@@ -266,6 +270,16 @@ export type StoryDetailExpanderRefProps = {
 };
 
 export type StoryDetailExpanderRef = MutableRefObject<StoryDetailExpanderRefProps | null>;
+
+export type CarouselRefProps = {
+  /**
+   * A callback to fire expand-on-click animation
+   */
+  current?: object;
+  snapToItem: (index: number, animated: boolean, fireCallback: boolean) => void;
+};
+
+export type CarouselRef = MutableRefObject<CarouselRefProps | null>;
 
 export type RenderStoryDetailItemProps = {
   /**
