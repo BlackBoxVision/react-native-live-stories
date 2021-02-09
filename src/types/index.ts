@@ -204,10 +204,6 @@ export type StoryDetailProps = {
    */
   animated: boolean;
   /**
-   * A ref to the carousel component
-   */
-  carouselRef: CarouselRef;
-  /**
    * A back button handler callback
    */
   onBackPress: (idx: number) => any;

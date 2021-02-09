@@ -3,7 +3,7 @@ import React from 'react';
 import { useTrackRaf } from '../../hooks/useTrackRaf';
 
 // Commented until type error is fixed
-// import type { StoryDetailProps } from '../../types';
+import type { StoryDetailProps, CarouselRef } from '../../types';
 
 import { StoryDetailItem } from '../StoryDetailItem';
 
@@ -14,7 +14,7 @@ export const useStoryDetail = ({
   onBackPress,
   StoryDetailItemHeader,
   StoryDetailItemFooter,
-}: any) => {
+}: StoryDetailProps & { carouselRef: CarouselRef }) => {
   const { trackRaf } = useTrackRaf();
 
   const onBackDropPress = () => onBackPress(initial);
