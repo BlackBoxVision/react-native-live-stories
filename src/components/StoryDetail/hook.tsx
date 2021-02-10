@@ -1,21 +1,19 @@
-import React, { MutableRefObject, useRef } from 'react';
-import type Carousel from 'react-native-snap-carousel';
+import React from 'react';
 
 import { useTrackRaf } from '../../hooks/useTrackRaf';
 
-import type { StoryDetailProps } from '../../types';
+import type { StoryDetailProps, CarouselRef } from '../../types';
 
 import { StoryDetailItem } from '../StoryDetailItem';
 
 export const useStoryDetail = ({
   initial,
   stories,
+  carouselRef,
   onBackPress,
   StoryDetailItemHeader,
   StoryDetailItemFooter,
-}: StoryDetailProps) => {
-  const carouselRef: MutableRefObject<Carousel<any> | null> = useRef(null);
-
+}: StoryDetailProps & { carouselRef: CarouselRef }) => {
   const { trackRaf } = useTrackRaf();
 
   const onBackDropPress = () => onBackPress(initial);
@@ -35,7 +33,7 @@ export const useStoryDetail = ({
   const onVideoEnd = (idx) => {
     if (idx <= stories.length - 2) {
       trackRaf(() => {
-        carouselRef.current?.snapToItem(idx + 1, false, false);
+        carouselRef.current?.snapToItem(idx + 1, false, true);
       });
     } else {
       onBackPress(idx);

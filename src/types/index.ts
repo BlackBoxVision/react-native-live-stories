@@ -267,6 +267,16 @@ export type StoryDetailExpanderRefProps = {
 
 export type StoryDetailExpanderRef = MutableRefObject<StoryDetailExpanderRefProps | null>;
 
+export type CarouselRefProps = {
+  /**
+   * A callback to fire expand-on-click animation
+   */
+  current?: object;
+  snapToItem: (index: number, animated: boolean, fireCallback: boolean) => void;
+};
+
+export type CarouselRef = MutableRefObject<CarouselRefProps | null>;
+
 export type RenderStoryDetailItemProps = {
   /**
    * The story content

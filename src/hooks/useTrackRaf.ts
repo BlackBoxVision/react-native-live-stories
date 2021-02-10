@@ -11,8 +11,6 @@ export const useTrackRaf = () => {
         cancelAnimationFrame(intervalId);
       });
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const trackRaf = (callback: (time: number) => void) => {

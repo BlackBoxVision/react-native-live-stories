@@ -36,15 +36,16 @@ export const StoryDetail = React.forwardRef<
     },
     ref
   ) => {
+    const carouselRef: any = useRef(null);
+
     const { onBackDropPress, renderStoryDetailItem } = useStoryDetail({
       initial,
       stories,
+      carouselRef,
       onBackPress,
       StoryDetailItemHeader,
       StoryDetailItemFooter,
     } as any);
-
-    const carouselRef: any = useRef(null);
 
     return (
       <StoryDetailExpander ref={ref} isVisible={animated}>
