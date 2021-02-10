@@ -2,14 +2,14 @@ import React from 'react';
 import Video from 'react-native-video';
 import { ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
 
-// import type { StoryDetailItemProps } from '../../types';
+import type { StoryDetailItemProps } from '../../types';
 
 import { StoryDetailItemLayout } from './Layout';
 
 import { styles } from './styles';
 import { useStoryDetailItem } from './hook';
 
-export const StoryDetailItem = React.forwardRef<any, any>(
+export const StoryDetailItem = React.forwardRef<any, StoryDetailItemProps>(
   (
     {
       story,
