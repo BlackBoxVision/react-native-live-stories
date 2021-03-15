@@ -33,7 +33,7 @@ export const useStoryDetail = ({
   const onVideoEnd = (idx) => {
     if (idx <= stories.length - 2) {
       trackRaf(() => {
-        carouselRef.current?.snapToItem(idx + 1, false, true);
+        carouselRef.current?.snapToItem(idx + 1, false, false);
       });
     } else {
       onBackPress(idx);
